@@ -18,10 +18,7 @@ import Button from '@/components/ui/Button.vue'
       </div>
       <div class="hero__image">
         <div class="mockup">
-          <div 
-            class="mockup__screen"
-            style="background-image: url('_nuxt/assets/images/landing/hero.jpeg')"
-          ></div>
+          <img class="mockup__screen" src="assets/images/landing/hero.jpeg"/>
           <div class="mockup__bar"></div>
         </div>
       </div>
@@ -82,9 +79,8 @@ import Button from '@/components/ui/Button.vue'
   bottom: 50px;
   border-radius: 8px;
   overflow: hidden;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+  object-fit: cover;
+  width: calc(100% - 40px);
 }
 
 .mockup__img {
