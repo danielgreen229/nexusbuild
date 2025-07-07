@@ -11,59 +11,95 @@ import Footer from '@/components/layout/Footer.vue'
   </div>
 </template>
 
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --dark: #1e293b;
+  --gray: #64748b;
+  --light-gray: #f1f5f9;
+  --white: #ffffff;
+  --danger: #ef4444;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --border: 1px solid #e2e8f0;
+  --radius: 12px;
+}
 
-<style scoped>
-.app-header {
-  position: sticky;
-  top: 0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  color: var(--dark);
+  line-height: 1.5;
   background-color: var(--white);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  z-index: 100;
-  padding: 15px 0;
 }
 
-.app-header__container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.app-header__logo {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--primary);
-}
-
-.app-nav {
-  display: flex;
-  gap: 30px;
-  list-style: none;
-}
-
-.app-nav__link {
-  text-decoration: none;
-  color: var(--gray);
+.button {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 8px;
   font-weight: 600;
-  position: relative;
-  padding: 5px 0;
-  transition: color 0.2s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 1rem;
 }
 
-.app-nav__link--active {
+.button--primary {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.button--primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.button--outline {
+  background-color: transparent;
+  border: 2px solid var(--primary);
   color: var(--primary);
 }
 
-.app-nav__link--active::after {
+.button--outline:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section--gray {
+  background-color: var(--light-gray);
+}
+
+.section__title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section__title::after {
   content: "";
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
   background: var(--primary);
-}
-
-.app-header__telegram {
-  padding: 8px 20px;
+  border-radius: 2px;
 }
 </style>

@@ -13,7 +13,7 @@ import Button from '@/components/ui/Button.vue'
         <p class="hero__subtitle">Разрабатываем продающие сайты за&nbsp;1&nbsp;дней с&nbsp;гарантией 1&nbsp;год</p>
         <div class="hero__actions">
           <Button size="lg" variant="primary">Оставить заявку</Button>
-          <Button size="lg" variant="outline">Посмотреть работы</Button>
+          <Button size="lg" variant="outline">Заказать шаблон</Button>
         </div>
       </div>
       <div class="hero__image">

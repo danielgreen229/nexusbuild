@@ -3,7 +3,7 @@
     <div class="footer__container container">
       <!-- Левый блок - Лого и описание -->
       <div class="footer__brand">
-        <div class="footer__logo">SpringWeb</div>
+        <div class="footer__logo">site.by pro</div>
         <p class="footer__tagline">Быстрые сайты для быстрых денег</p>
         
         <!-- Telegram кнопка -->
@@ -46,7 +46,7 @@
     <div class="footer__bottom">
       <div class="container">
         <div class="footer__copyright">
-          &copy; {{ currentYear }} SpringWeb. Продажа сайтов. 
+          &copy; 2022 sitebypro. Продажа сайтов. 
           <span class="footer__highlight">Быстрые сайты.</span>
         </div>
       </div>

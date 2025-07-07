@@ -19,6 +19,10 @@ interface _GlobalComponents {
     'PortfolioGrid': typeof import("../components/portfolio/PortfolioGrid.vue")['default']
     'PortfolioHero': typeof import("../components/portfolio/PortfolioHero.vue")['default']
     'PortfolioTemplateCard': typeof import("../components/portfolio/TemplateCard.vue")['default']
+    'ProfileBalance': typeof import("../components/profile/ProfileBalance.vue")['default']
+    'ProfileInfo': typeof import("../components/profile/ProfileInfo.vue")['default']
+    'ProfileOrders': typeof import("../components/profile/ProfileOrders.vue")['default']
+    'ProfileSettings': typeof import("../components/profile/ProfileSettings.vue")['default']
     'SectionsFeatures': typeof import("../components/sections/Features.vue")['default']
     'SectionsHero': typeof import("../components/sections/Hero.vue")['default']
     'SectionsLeadForm': typeof import("../components/sections/LeadForm.vue")['default']
@@ -58,6 +62,10 @@ interface _GlobalComponents {
     'LazyPortfolioGrid': LazyComponent<typeof import("../components/portfolio/PortfolioGrid.vue")['default']>
     'LazyPortfolioHero': LazyComponent<typeof import("../components/portfolio/PortfolioHero.vue")['default']>
     'LazyPortfolioTemplateCard': LazyComponent<typeof import("../components/portfolio/TemplateCard.vue")['default']>
+    'LazyProfileBalance': LazyComponent<typeof import("../components/profile/ProfileBalance.vue")['default']>
+    'LazyProfileInfo': LazyComponent<typeof import("../components/profile/ProfileInfo.vue")['default']>
+    'LazyProfileOrders': LazyComponent<typeof import("../components/profile/ProfileOrders.vue")['default']>
+    'LazyProfileSettings': LazyComponent<typeof import("../components/profile/ProfileSettings.vue")['default']>
     'LazySectionsFeatures': LazyComponent<typeof import("../components/sections/Features.vue")['default']>
     'LazySectionsHero': LazyComponent<typeof import("../components/sections/Hero.vue")['default']>
     'LazySectionsLeadForm': LazyComponent<typeof import("../components/sections/LeadForm.vue")['default']>
@@ -103,6 +111,10 @@ export const PortfolioFilters: typeof import("../components/portfolio/PortfolioF
 export const PortfolioGrid: typeof import("../components/portfolio/PortfolioGrid.vue")['default']
 export const PortfolioHero: typeof import("../components/portfolio/PortfolioHero.vue")['default']
 export const PortfolioTemplateCard: typeof import("../components/portfolio/TemplateCard.vue")['default']
+export const ProfileBalance: typeof import("../components/profile/ProfileBalance.vue")['default']
+export const ProfileInfo: typeof import("../components/profile/ProfileInfo.vue")['default']
+export const ProfileOrders: typeof import("../components/profile/ProfileOrders.vue")['default']
+export const ProfileSettings: typeof import("../components/profile/ProfileSettings.vue")['default']
 export const SectionsFeatures: typeof import("../components/sections/Features.vue")['default']
 export const SectionsHero: typeof import("../components/sections/Hero.vue")['default']
 export const SectionsLeadForm: typeof import("../components/sections/LeadForm.vue")['default']
@@ -142,6 +154,10 @@ export const LazyPortfolioFilters: LazyComponent<typeof import("../components/po
 export const LazyPortfolioGrid: LazyComponent<typeof import("../components/portfolio/PortfolioGrid.vue")['default']>
 export const LazyPortfolioHero: LazyComponent<typeof import("../components/portfolio/PortfolioHero.vue")['default']>
 export const LazyPortfolioTemplateCard: LazyComponent<typeof import("../components/portfolio/TemplateCard.vue")['default']>
+export const LazyProfileBalance: LazyComponent<typeof import("../components/profile/ProfileBalance.vue")['default']>
+export const LazyProfileInfo: LazyComponent<typeof import("../components/profile/ProfileInfo.vue")['default']>
+export const LazyProfileOrders: LazyComponent<typeof import("../components/profile/ProfileOrders.vue")['default']>
+export const LazyProfileSettings: LazyComponent<typeof import("../components/profile/ProfileSettings.vue")['default']>
 export const LazySectionsFeatures: LazyComponent<typeof import("../components/sections/Features.vue")['default']>
 export const LazySectionsHero: LazyComponent<typeof import("../components/sections/Hero.vue")['default']>
 export const LazySectionsLeadForm: LazyComponent<typeof import("../components/sections/LeadForm.vue")['default']>

@@ -43,7 +43,7 @@ const setFilter = (filterId) => {
   padding: 25px 0;
   background: white;
   position: sticky;
-  top: 79px;
+  top: 115px;
   z-index: 90;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }

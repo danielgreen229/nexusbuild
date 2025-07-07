@@ -21,6 +21,8 @@ import LeadForm from '@/components/sections/LeadForm.vue'
 <style>
 /* Глобальные стили */
 :root {
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
   --secondary: #f97316;
