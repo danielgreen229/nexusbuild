@@ -10,7 +10,7 @@ import Button from '@/components/ui/Button.vue'
           Профессиональные сайты <br>
           <span class="text-accent">15 000 рублей</span>
         </h1>
-        <p class="hero__subtitle">Разрабатываем продающие сайты за&nbsp;1&nbsp;дней с&nbsp;гарантией 1&nbsp;год</p>
+        <p class="hero__subtitle">Разрабатываем продающие сайты за&nbsp;1&nbsp;день с&nbsp;гарантией 1&nbsp;год</p>
         <div class="hero__actions">
           <Button size="lg" variant="primary">Оставить заявку</Button>
           <Button size="lg" variant="outline">Заказать шаблон</Button>
@@ -31,7 +31,7 @@ import Button from '@/components/ui/Button.vue'
 
 <style scoped>
 .hero {
-  padding: 100px 0;
+  padding: 100px 0 20px 0;
 }
 
 .hero__container {

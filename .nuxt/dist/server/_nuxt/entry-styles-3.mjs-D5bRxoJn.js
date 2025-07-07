@@ -1,5 +1,0 @@
-const Header_vue_vue_type_style_index_0_scoped_07f0d8a1_lang = '.header[data-v-07f0d8a1]{background-color:var(--white);box-shadow:var(--shadow);position:sticky;top:0;z-index:101}.header__container[data-v-07f0d8a1]{align-items:center;display:flex;height:80px;justify-content:space-between}.header__logo[data-v-07f0d8a1]{color:var(--primary);font-size:1.8rem;font-weight:800}.nav[data-v-07f0d8a1]{display:flex;gap:40px;list-style:none}.nav__link[data-v-07f0d8a1]{color:var(--gray);font-weight:600;padding:5px 0;position:relative;text-decoration:none;transition:color .3s ease}.nav__link--active[data-v-07f0d8a1],.nav__link[data-v-07f0d8a1]:hover{color:var(--primary)}.nav__link--active[data-v-07f0d8a1]:after{animation:underline-07f0d8a1 .3s ease;background:var(--primary);border-radius:2px;bottom:0;content:"";height:3px;left:0;position:absolute;transition:all .3s ease;width:100%}@keyframes underline-07f0d8a1{0%{opacity:0}to{opacity:1}}';
-export {
-  Header_vue_vue_type_style_index_0_scoped_07f0d8a1_lang as default
-};
-//# sourceMappingURL=entry-styles-3.mjs-D5bRxoJn.js.map

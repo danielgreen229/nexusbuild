@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxt/image": "^1.10.0",
     "nuxt": "^3.17.6",
+    "nuxt-svgo": "^4.2.3",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
   }

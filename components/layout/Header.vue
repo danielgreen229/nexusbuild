@@ -1,4 +1,5 @@
 <script setup>
+import IconClick from '~/assets/icons/icon-click.svg'
 import { ref } from 'vue'
 
 const isUserMenuOpen = ref(false)
@@ -61,8 +62,10 @@ const secondaryPages = [
             class="button button--outline app-header__telegram"
             target="_blank"
           >
-            <span class="app-header__telegram-icon">✈️</span>
-            <span class="app-header__telegram-text">Заказать</span>
+            <span class="app-header__telegram-icon">
+              <IconClick class="app-header__telegram-img"/>
+            </span>
+            <span class="app-header__telegram-text">Купить в клик</span>
           </a>
 
           <div class="app-header__profile" v-if="userToken">
@@ -254,12 +257,17 @@ const secondaryPages = [
 .app-header__telegram {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   padding: 8px 15px;
+  text-decoration: none
 }
 
 .app-header__telegram-icon {
-  font-size: 1.2rem;
+  height: 26px;
+}
+.app-header__telegram-img {
+  height: 26px;
+  width: 28px;
 }
 
 .app-header__telegram-text {
