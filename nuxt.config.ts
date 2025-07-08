@@ -12,5 +12,15 @@ export default defineNuxtConfig({
   target: 'static',
   nitro: {
     preset: 'netlify'
+  },
+  generate: {
+    cache: false 
+  },
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.forEach(route => {
+        route.meta = { ...route.meta, version: 2 } // Increment on updates
+      })
+    }
   }
 })
