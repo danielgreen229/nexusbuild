@@ -1,0 +1,1 @@
+import{_ as t,c as n,a as o,o as s}from"./CQXTGgzG.js";const a={},c={class:"container"};function r(l,e){return s(),n("div",c,e[0]||(e[0]=[o("h1",null,"Контакты",-1),o("p",null,"Свяжитесь с нами для заказа сайта",-1)]))}const d=t(a,[["render",r]]);export{d as default};

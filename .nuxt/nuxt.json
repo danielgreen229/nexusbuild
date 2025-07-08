@@ -1,7 +1,7 @@
 {
-  "_hash": "_ISjFphBsXVl_8_pRFlc7jZcNABGqpbdt9PBY1MDQYU",
+  "_hash": "avs_7hsrey90BnvadVNVS0fbeBu73fdCp1ynJA7L7V4",
   "project": {
-    "rootDir": "/Users/danielgreen/Documents/sprintweb/nexusbuild"
+    "rootDir": "/home/gda/Documents/test/nexusbuild"
   },
   "versions": {
     "nuxt": "3.17.6"
