@@ -1,5 +1,0 @@
-const index_vue_vue_type_style_index_0_lang = ':root{--danger:#ef4444;--danger-light:#fee2e2;--primary:#2563eb;--primary-dark:#1d4ed8;--secondary:#f97316;--dark:#1e293b;--gray:#64748b;--light-gray:#f1f5f9;--white:#fff;--shadow:0 4px 6px rgba(0,0,0,.1);--border:1px solid #e2e8f0;--radius:12px}*{box-sizing:border-box;margin:0;padding:0}body{background-color:var(--white);color:var(--dark);font-family:system-ui,-apple-system,sans-serif;line-height:1.5}.container{margin:0 auto;max-width:1200px;padding:0 20px;width:100%}.section{padding:80px 0}.section--gray{background-color:var(--light-gray)}.section__title{font-size:2.5rem;margin-bottom:60px;position:relative;text-align:center}.section__title:after{background:var(--primary);border-radius:2px;bottom:-15px;content:"";height:4px;left:50%;position:absolute;transform:translate(-50%);width:80px}.text-accent{color:var(--secondary)}';
-export {
-  index_vue_vue_type_style_index_0_lang as default
-};
-//# sourceMappingURL=index-styles-1.mjs-eSWppFb4.js.map

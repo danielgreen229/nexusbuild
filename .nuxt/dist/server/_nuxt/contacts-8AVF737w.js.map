@@ -1,1 +1,0 @@
-{"version":3,"file":"contacts-8AVF737w.js","sources":["../../../../pages/contacts.vue"],"sourcesContent":["<template>\n  <div class=\"container\">\n    <h1>Контакты</h1>\n    <p>Свяжитесь с нами для заказа сайта</p>\n  </div>\n</template>"],"names":["_ssrRenderAttrs","_mergeProps"],"mappings":";;;;;;;;;;;;;;AACO,QAAA,OAAAA,eAAAC,WAAA,EAAA,OAAM,eAAW,MAAA,CAAA,CAAA,kEAAA;;;;;;;;;"}

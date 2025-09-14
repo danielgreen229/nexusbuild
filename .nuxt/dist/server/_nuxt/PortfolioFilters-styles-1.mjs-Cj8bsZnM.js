@@ -1,5 +1,0 @@
-const PortfolioFilters_vue_vue_type_style_index_0_scoped_e9cb9013_lang = ".portfolio-filters[data-v-e9cb9013]{background:#fff;box-shadow:0 2px 10px #0000000d;padding:25px 0;position:sticky;top:115px;z-index:90}.portfolio-filters__wrapper[data-v-e9cb9013]{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}.portfolio-filters__button[data-v-e9cb9013]{background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;font-size:1rem;font-weight:500;padding:10px 20px;transition:all .2s ease}.portfolio-filters__button[data-v-e9cb9013]:hover{background:#e2e8f0}.portfolio-filters__button--active[data-v-e9cb9013]{background:#2563eb;color:#fff}@media (max-width:768px){.portfolio-filters[data-v-e9cb9013]{top:69px}.portfolio-filters__wrapper[data-v-e9cb9013]{justify-content:flex-start;overflow-x:auto;padding-bottom:10px}}";
-export {
-  PortfolioFilters_vue_vue_type_style_index_0_scoped_e9cb9013_lang as default
-};
-//# sourceMappingURL=PortfolioFilters-styles-1.mjs-Cj8bsZnM.js.map

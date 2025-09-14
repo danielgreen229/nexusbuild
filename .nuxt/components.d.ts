@@ -19,6 +19,8 @@ interface _GlobalComponents {
     'PortfolioGrid': typeof import("../components/portfolio/PortfolioGrid.vue")['default']
     'PortfolioHero': typeof import("../components/portfolio/PortfolioHero.vue")['default']
     'PortfolioTemplateCard': typeof import("../components/portfolio/TemplateCard.vue")['default']
+    'ProfileModalsLoginModal': typeof import("../components/profile/Modals/LoginModal.vue")['default']
+    'ProfileModalsRegisterModal': typeof import("../components/profile/Modals/RegisterModal.vue")['default']
     'ProfileBalance': typeof import("../components/profile/ProfileBalance.vue")['default']
     'ProfileInfo': typeof import("../components/profile/ProfileInfo.vue")['default']
     'ProfileOrders': typeof import("../components/profile/ProfileOrders.vue")['default']
@@ -65,6 +67,8 @@ interface _GlobalComponents {
     'LazyPortfolioGrid': LazyComponent<typeof import("../components/portfolio/PortfolioGrid.vue")['default']>
     'LazyPortfolioHero': LazyComponent<typeof import("../components/portfolio/PortfolioHero.vue")['default']>
     'LazyPortfolioTemplateCard': LazyComponent<typeof import("../components/portfolio/TemplateCard.vue")['default']>
+    'LazyProfileModalsLoginModal': LazyComponent<typeof import("../components/profile/Modals/LoginModal.vue")['default']>
+    'LazyProfileModalsRegisterModal': LazyComponent<typeof import("../components/profile/Modals/RegisterModal.vue")['default']>
     'LazyProfileBalance': LazyComponent<typeof import("../components/profile/ProfileBalance.vue")['default']>
     'LazyProfileInfo': LazyComponent<typeof import("../components/profile/ProfileInfo.vue")['default']>
     'LazyProfileOrders': LazyComponent<typeof import("../components/profile/ProfileOrders.vue")['default']>
@@ -117,6 +121,8 @@ export const PortfolioFilters: typeof import("../components/portfolio/PortfolioF
 export const PortfolioGrid: typeof import("../components/portfolio/PortfolioGrid.vue")['default']
 export const PortfolioHero: typeof import("../components/portfolio/PortfolioHero.vue")['default']
 export const PortfolioTemplateCard: typeof import("../components/portfolio/TemplateCard.vue")['default']
+export const ProfileModalsLoginModal: typeof import("../components/profile/Modals/LoginModal.vue")['default']
+export const ProfileModalsRegisterModal: typeof import("../components/profile/Modals/RegisterModal.vue")['default']
 export const ProfileBalance: typeof import("../components/profile/ProfileBalance.vue")['default']
 export const ProfileInfo: typeof import("../components/profile/ProfileInfo.vue")['default']
 export const ProfileOrders: typeof import("../components/profile/ProfileOrders.vue")['default']
@@ -163,6 +169,8 @@ export const LazyPortfolioFilters: LazyComponent<typeof import("../components/po
 export const LazyPortfolioGrid: LazyComponent<typeof import("../components/portfolio/PortfolioGrid.vue")['default']>
 export const LazyPortfolioHero: LazyComponent<typeof import("../components/portfolio/PortfolioHero.vue")['default']>
 export const LazyPortfolioTemplateCard: LazyComponent<typeof import("../components/portfolio/TemplateCard.vue")['default']>
+export const LazyProfileModalsLoginModal: LazyComponent<typeof import("../components/profile/Modals/LoginModal.vue")['default']>
+export const LazyProfileModalsRegisterModal: LazyComponent<typeof import("../components/profile/Modals/RegisterModal.vue")['default']>
 export const LazyProfileBalance: LazyComponent<typeof import("../components/profile/ProfileBalance.vue")['default']>
 export const LazyProfileInfo: LazyComponent<typeof import("../components/profile/ProfileInfo.vue")['default']>
 export const LazyProfileOrders: LazyComponent<typeof import("../components/profile/ProfileOrders.vue")['default']>

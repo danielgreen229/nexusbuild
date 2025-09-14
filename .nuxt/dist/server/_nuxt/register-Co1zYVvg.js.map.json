@@ -1,1 +1,0 @@
-{"file":"register-Co1zYVvg.js","mappings":";;;;;;;;;;;;;;AACO,QAAA,OAAAA,eAAAC,WAAA,EAAA,OAAM,eAAW,MAAA,CAAA,CAAA,0DAAA;;;;;;;;;","names":["_ssrRenderAttrs","_mergeProps"],"sources":["../../../../pages/register.vue"],"sourcesContent":["<template>\n  <div class=\"container\">\n    <h1>Регистрация</h1>\n    <p>Создайте новый аккаунт</p>\n  </div>\n</template>"],"version":3}

@@ -1,2 +1,0 @@
-import style_0 from './ProfileOrders-styles-1.mjs-CYd9rzfo.js';
-export default [style_0]

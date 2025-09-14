@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
-  modules: ['@nuxt/image', 'nuxt-svgo'],
+  modules: ['@nuxt/image', 'nuxt-svgo', '@pinia/nuxt',],
   svgo: {
     autoImportPath: resolve(__dirname, 'assets/icons/'),  
   },

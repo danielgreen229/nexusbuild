@@ -1,15 +1,163 @@
+<template>
+  <header class="app-header">
+    <div class="container app-header__container">
+      <!-- Верхняя часть с логотипом и основной навигацией -->
+      <div class="app-header__top">
+        <NuxtLink to="/" class="app-header__logo">
+          <span class="app-header__logo-text">SITE.BY</span>
+          <span class="app-header__logo-badge">PRO</span>
+        </NuxtLink>
+
+        <nav class="app-nav app-nav--primary">
+          <ul class="app-nav__list">
+            <li v-for="page in primaryPages" :key="page.path" class="app-nav__item">
+              <NuxtLink :to="page.path" class="app-nav__link" exact-active-class="app-nav__link--active">
+                {{ page.title }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="app-header__actions">
+          <a
+            href="https://t.me/dozer_stoun"
+            class="button button--outline app-header__telegram"
+            target="_blank"
+          >
+            <span class="app-header__telegram-icon">
+              <IconClick class="app-header__telegram-img" />
+            </span>
+            <span class="app-header__telegram-text">Купить в клик</span>
+          </a>
+
+          <!-- Если пользователь авторизован и есть имя - показываем профиль -->
+          <div v-if="userToken && userData && userData.name" class="app-header__profile">
+            <button class="app-header__profile-toggle" @click="isUserMenuOpen = !isUserMenuOpen">
+              <div class="app-header__avatar">👤</div>
+              <span class="app-header__user-name">{{ userData.name }}</span>
+            </button>
+
+            <div class="user-menu" v-if="isUserMenuOpen">
+              <div class="user-menu__header">
+                <div class="user-menu__avatar">👤</div>
+                <div class="user-menu__info">
+                  <div class="user-menu__name">{{ userData.name }}</div>
+                  <div class="user-menu__email">{{ userData.email }}</div>
+                </div>
+              </div>
+
+              <ul class="user-menu__list">
+                <li class="user-menu__item">
+                  <NuxtLink to="/profile" class="user-menu__link" @click="closeUserMenu">Мой профиль</NuxtLink>
+                </li>
+                <li class="user-menu__item">
+                  <NuxtLink to="/profile?tab=orders" class="user-menu__link" @click="closeUserMenu">Мои заказы</NuxtLink>
+                </li>
+                <li class="user-menu__item">
+                  <NuxtLink to="/profile?tab=balance" class="user-menu__link" @click="closeUserMenu">Баланс</NuxtLink>
+                </li>
+              </ul>
+
+              <div class="user-menu__footer">
+                <button class="user-menu__logout" @click="logout">Выйти из аккаунта</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Если данных пользователя нет - показываем кнопку входа -->
+          <div v-else>
+            <button class="button button--primary" @click="openLogin">Войти</button>
+          </div>
+
+          <button class="app-header__menu-toggle" @click="isMobileMenuOpen = !isMobileMenuOpen">
+            <span class="app-header__menu-icon" :class="{ 'app-header__menu-icon--active': isMobileMenuOpen }"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Нижняя часть с дополнительной навигацией -->
+      <div class="app-header__bottom">
+        <nav class="app-nav app-nav--secondary">
+          <ul class="app-nav__list">
+            <li v-for="page in secondaryPages" :key="page.path" class="app-nav__item">
+              <NuxtLink :to="page.path" class="app-nav__link" active-class="app-nav__link--active">
+                {{ page.title }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Мобильное меню (объединяет обе навигации) -->
+    <div class="app-mobile-menu" :class="{ 'app-mobile-menu--active': isMobileMenuOpen }">
+      <div class="app-mobile-menu__content">
+        <nav class="app-mobile-nav">
+          <div class="app-mobile-nav__section">
+            <h3 class="app-mobile-nav__title">Основные</h3>
+            <ul class="app-mobile-nav__list">
+              <li v-for="page in primaryPages" :key="page.path" class="app-mobile-nav__item">
+                <NuxtLink :to="page.path" class="app-mobile-nav__link" @click="closeMobileMenu" exact-active-class="app-mobile-nav__link--active">
+                  {{ page.title }}
+                </NuxtLink>
+              </li>
+            </ul>
+          </div>
+
+          <div class="app-mobile-nav__section">
+            <h3 class="app-mobile-nav__title">Дополнительные</h3>
+            <ul class="app-mobile-nav__list">
+              <li v-for="page in secondaryPages" :key="page.path" class="app-mobile-nav__item">
+                <NuxtLink :to="page.path" class="app-mobile-nav__link" @click="closeMobileMenu" active-class="app-mobile-nav__link--active">
+                  {{ page.title }}
+                </NuxtLink>
+              </li>
+            </ul>
+          </div>
+
+          <div class="app-mobile-nav__section">
+            <ul class="app-mobile-nav__list">
+              <li class="app-mobile-nav__item">
+                <button class="app-mobile-nav__link" @click="openLogin; closeMobileMenu()">Войти</button>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Модальное окно входа -->
+    <LoginModal v-model:visible="isLoginModalOpen" @login="handleLogin" />
+  </header>
+</template>
+
 <script setup>
 import IconClick from '~/assets/icons/icon-click.svg'
 import { ref } from 'vue'
+import LoginModal from '~/components/profile/Modals/LoginModal.vue'
 
 const isUserMenuOpen = ref(false)
 const isMobileMenuOpen = ref(false)
+const isLoginModalOpen = ref(false)
 
 const userToken = ref(true)
 const userData = ref({
   name: 'Иван Иванов',
   email: 'ivan@example.com'
 })
+
+function openLogin() { isLoginModalOpen.value = true }
+function handleLogin(user) {
+  userData.value = user
+  userToken.value = true
+}
+function logout() {
+  userData.value = {}
+  userToken.value = false
+  isUserMenuOpen.value = false
+}
+function closeUserMenu() { isUserMenuOpen.value = false }
+function closeMobileMenu() { isMobileMenuOpen.value = false }
 
 // Основные страницы
 const primaryPages = [
@@ -27,173 +175,6 @@ const secondaryPages = [
   { path: '/faq', title: 'FAQ' },
 ]
 </script>
-
-<template>
-  <header class="app-header">
-    <div class="container app-header__container">
-      <!-- Верхняя часть с логотипом и основной навигацией -->
-      <div class="app-header__top">
-        <NuxtLink to="/" class="app-header__logo">
-          <span class="app-header__logo-text">SITE.BY</span>
-          <span class="app-header__logo-badge">PRO</span>
-        </NuxtLink>
-        
-        <nav class="app-nav app-nav--primary">
-          <ul class="app-nav__list">
-            <li 
-              v-for="page in primaryPages" 
-              :key="page.path" 
-              class="app-nav__item"
-            >
-              <NuxtLink 
-                :to="page.path" 
-                class="app-nav__link"
-                exact-active-class="app-nav__link--active"
-              >
-                {{ page.title }}
-              </NuxtLink>
-            </li>
-          </ul>
-        </nav>
-        
-        <div class="app-header__actions">
-          <a 
-            href="https://t.me/dozer_stoun" 
-            class="button button--outline app-header__telegram"
-            target="_blank"
-          >
-            <span class="app-header__telegram-icon">
-              <IconClick class="app-header__telegram-img"/>
-            </span>
-            <span class="app-header__telegram-text">Купить в клик</span>
-          </a>
-
-          <div class="app-header__profile" v-if="userToken">
-            <button 
-              class="app-header__profile-toggle"
-              @click="isUserMenuOpen = !isUserMenuOpen"
-            >
-              <div class="app-header__avatar">
-                👤
-              </div>
-              <span class="app-header__user-name">{{ userData.name }}</span>
-            </button>
-
-            <div class="user-menu" v-if="isUserMenuOpen">
-              <div class="user-menu__header">
-                <div class="user-menu__avatar">
-                  👤
-                </div>
-                <div class="user-menu__info">
-                  <div class="user-menu__name">{{ userData.name }}</div>
-                  <div class="user-menu__email">{{ userData.email }}</div>
-                </div>
-              </div>
-              
-              <ul class="user-menu__list">
-                <li class="user-menu__item">
-                  <NuxtLink to="/profile" class="user-menu__link" @click="isUserMenuOpen = false">
-                    Мой профиль
-                  </NuxtLink>
-                </li>
-                <li class="user-menu__item">
-                  <NuxtLink to="/profile?tab=orders" class="user-menu__link" @click="isUserMenuOpen = false">
-                    Мои заказы
-                  </NuxtLink>
-                </li>
-                <li class="user-menu__item">
-                  <NuxtLink to="/profile?tab=balance" class="user-menu__link" @click="isUserMenuOpen = false">
-                    Баланс
-                  </NuxtLink>
-                </li>
-              </ul>
-              
-              <div class="user-menu__footer">
-                <button class="user-menu__logout">Выйти из аккаунта</button>
-              </div>
-            </div>
-          </div>
-
-          <button 
-            class="app-header__menu-toggle"
-            @click="isMobileMenuOpen = !isMobileMenuOpen"
-          >
-            <span class="app-header__menu-icon" :class="{ 'app-header__menu-icon--active': isMobileMenuOpen }"></span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Нижняя часть с дополнительной навигацией -->
-      <div class="app-header__bottom">
-        <nav class="app-nav app-nav--secondary">
-          <ul class="app-nav__list">
-            <li 
-              v-for="page in secondaryPages" 
-              :key="page.path" 
-              class="app-nav__item"
-            >
-              <NuxtLink 
-                :to="page.path" 
-                class="app-nav__link"
-                active-class="app-nav__link--active"
-              >
-                {{ page.title }}
-              </NuxtLink>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-    
-    <!-- Мобильное меню (объединяет обе навигации) -->
-    <div class="app-mobile-menu" :class="{ 'app-mobile-menu--active': isMobileMenuOpen }">
-      <div class="app-mobile-menu__content">
-        <nav class="app-mobile-nav">
-          <div class="app-mobile-nav__section">
-            <h3 class="app-mobile-nav__title">Основные</h3>
-            <ul class="app-mobile-nav__list">
-              <li 
-                v-for="page in primaryPages" 
-                :key="page.path" 
-                class="app-mobile-nav__item"
-              >
-                <NuxtLink 
-                  :to="page.path" 
-                  class="app-mobile-nav__link"
-                  @click="isMobileMenuOpen = false"
-                  exact-active-class="app-mobile-nav__link--active"
-                >
-                  {{ page.title }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
-          
-          <div class="app-mobile-nav__section">
-            <h3 class="app-mobile-nav__title">Дополнительные</h3>
-            <ul class="app-mobile-nav__list">
-              <li 
-                v-for="page in secondaryPages" 
-                :key="page.path" 
-                class="app-mobile-nav__item"
-              >
-                <NuxtLink 
-                  :to="page.path" 
-                  class="app-mobile-nav__link"
-                  @click="isMobileMenuOpen = false"
-                  active-class="app-mobile-nav__link--active"
-                >
-                  {{ page.title }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-    </div>
-  </header>
-</template>
-
 <style scoped>
 .app-header {
   position: sticky;

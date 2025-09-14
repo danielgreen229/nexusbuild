@@ -1,42 +1,42 @@
 import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import { tmpdir } from 'node:os';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, getQuery as getQuery$1, readBody, getResponseStatus, createError, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getRouterParam, getResponseStatusText } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/h3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, appendResponseHeader, getRequestURL, getResponseHeader, getQuery as getQuery$1, readBody, getResponseStatus, createError, lazyEventHandler, useBase, createApp, createRouter as createRouter$1, toNodeListener, getRouterParam, getResponseStatusText } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/h3/dist/index.mjs';
 import { Server } from 'node:http';
 import { resolve, dirname, join } from 'node:path';
 import nodeCrypto from 'node:crypto';
 import { parentPort, threadId } from 'node:worker_threads';
-import { escapeHtml } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/@vue/shared/dist/shared.cjs.js';
-import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/vue-bundle-renderer/dist/runtime.mjs';
-import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, joinRelativeURL } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/ufo/dist/index.mjs';
-import { renderToString } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/vue/server-renderer/index.mjs';
-import destr, { destr as destr$1 } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/destr/dist/index.mjs';
-import { createHooks } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/hookable/dist/index.mjs';
-import { createFetch, Headers as Headers$1 } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/ofetch/dist/node.mjs';
-import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/node-mock-http/dist/index.mjs';
-import { createStorage, prefixStorage } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file:///home/gda/Documents/test/nexusbuild/node_modules/unstorage/drivers/fs.mjs';
-import { digest } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/ohash/dist/index.mjs';
-import { klona } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/klona/dist/index.mjs';
-import defu, { defuFn } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/defu/dist/defu.mjs';
-import { snakeCase } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/scule/dist/index.mjs';
-import { getContext } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/unctx/dist/index.mjs';
-import { toRouteMatcher, createRouter } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/radix3/dist/index.mjs';
+import { escapeHtml } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/@vue/shared/dist/shared.cjs.js';
+import { createRenderer, getRequestDependencies, getPreloadLinks, getPrefetchLinks } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, joinRelativeURL } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/ufo/dist/index.mjs';
+import { renderToString } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/vue/server-renderer/index.mjs';
+import destr, { destr as destr$1 } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/destr/dist/index.mjs';
+import { createHooks } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/hookable/dist/index.mjs';
+import { createFetch, Headers as Headers$1 } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/ofetch/dist/node.mjs';
+import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/node-mock-http/dist/index.mjs';
+import { createStorage, prefixStorage } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/unstorage/drivers/fs.mjs';
+import { digest } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/ohash/dist/index.mjs';
+import { klona } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/klona/dist/index.mjs';
+import defu, { defuFn } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/defu/dist/defu.mjs';
+import { snakeCase } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/scule/dist/index.mjs';
+import { getContext } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/unctx/dist/index.mjs';
+import { toRouteMatcher, createRouter } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/radix3/dist/index.mjs';
 import { readFile } from 'node:fs/promises';
-import consola, { consola as consola$1 } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/consola/dist/index.mjs';
-import { ErrorParser } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/youch-core/build/index.js';
-import { Youch } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/nitropack/node_modules/youch/build/index.js';
-import { SourceMapConsumer } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/source-map/source-map.js';
+import consola, { consola as consola$1 } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/consola/dist/index.mjs';
+import { ErrorParser } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/youch-core/build/index.js';
+import { Youch } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/nitropack/node_modules/youch/build/index.js';
+import { SourceMapConsumer } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/source-map/source-map.js';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { stringify, uneval } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/devalue/index.js';
-import { captureRawStackTrace, parseRawStackTrace } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/errx/dist/index.js';
-import { isVNode, toValue, isRef } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/vue/index.mjs';
-import { createHead as createHead$1, propsToString, renderSSRHead } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/unhead/dist/server.mjs';
-import { DeprecationsPlugin, PromisesPlugin, TemplateParamsPlugin, AliasSortingPlugin } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/unhead/dist/plugins.mjs';
-import { walkResolver } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/unhead/dist/utils.mjs';
+import { stringify, uneval } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/devalue/index.js';
+import { captureRawStackTrace, parseRawStackTrace } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/errx/dist/index.js';
+import { isVNode, toValue, isRef } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/vue/index.mjs';
+import { createHead as createHead$1, propsToString, renderSSRHead } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/unhead/dist/server.mjs';
+import { DeprecationsPlugin, PromisesPlugin, TemplateParamsPlugin, AliasSortingPlugin } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/unhead/dist/plugins.mjs';
+import { walkResolver } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/unhead/dist/utils.mjs';
 import { fileURLToPath } from 'node:url';
-import { ipxFSStorage, ipxHttpStorage, createIPX, createIPXH3Handler } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/ipx/dist/index.mjs';
-import { isAbsolute } from 'file:///home/gda/Documents/test/nexusbuild/node_modules/pathe/dist/index.mjs';
+import { ipxFSStorage, ipxHttpStorage, createIPX, createIPXH3Handler } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/ipx/dist/index.mjs';
+import { isAbsolute } from 'file:///Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/pathe/dist/index.mjs';
 
-const serverAssets = [{"baseName":"server","dir":"/home/gda/Documents/test/nexusbuild/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"/Users/danielgreen/Documents/sprintweb/nexusbuild/server/assets"}];
 
 const assets = createStorage();
 
@@ -48,11 +48,11 @@ const storage = createStorage({});
 
 storage.mount('/assets', assets);
 
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/gda/Documents/test/nexusbuild","watchOptions":{"ignored":[null]}}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/home/gda/Documents/test/nexusbuild/server","watchOptions":{"ignored":[null]}}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/gda/Documents/test/nexusbuild/.nuxt"}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/home/gda/Documents/test/nexusbuild/.nuxt/cache"}));
-storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"/home/gda/Documents/test/nexusbuild/.data/kv"}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/Users/danielgreen/Documents/sprintweb/nexusbuild","watchOptions":{"ignored":[null]}}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"/Users/danielgreen/Documents/sprintweb/nexusbuild/server","watchOptions":{"ignored":[null]}}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/Users/danielgreen/Documents/sprintweb/nexusbuild/.nuxt"}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"/Users/danielgreen/Documents/sprintweb/nexusbuild/.nuxt/cache"}));
+storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"/Users/danielgreen/Documents/sprintweb/nexusbuild/.data/kv"}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -653,7 +653,7 @@ const _inlineRuntimeConfig = {
     "alias": {},
     "fs": {
       "dir": [
-        "/home/gda/Documents/test/nexusbuild/public"
+        "/Users/danielgreen/Documents/sprintweb/nexusbuild/public"
       ]
     },
     "http": {
@@ -1029,13 +1029,13 @@ if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
 window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
 `;
 
-const _gc_hgABh0ZXWI7M1SBUrNchyclZDxnoTcpSIQPJM2qE = (function(nitro) {
+const _rPmQkKo5nQ9f4GGGoETUFM3AJIIuQNPcVdDyd3i4Q = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
     htmlContext.head.push(`<script>${script}<\/script>`);
   });
 });
 
-const rootDir = "/home/gda/Documents/test/nexusbuild";
+const rootDir = "/Users/danielgreen/Documents/sprintweb/nexusbuild";
 
 const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
 
@@ -1054,7 +1054,7 @@ const devReducers = {
   URL: (data) => data instanceof URL ? data.toString() : void 0
 };
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
-const _uzsdgZAscO7ZH0jA7ZT1SGuqXQpZOzPiCyFkgEpnBsI = (nitroApp) => {
+const _7qzLOQEoYbybWu9D2SI6UmJqE7SWWnBJwG3bCDhnB3Q = (nitroApp) => {
   const handler = nitroApp.h3App.handler;
   nitroApp.h3App.handler = (event) => {
     return asyncContext.callAsync({ logs: [], event }, () => handler(event));
@@ -1124,8 +1124,8 @@ function onConsoleLog(callback) {
 }
 
 const plugins = [
-  _gc_hgABh0ZXWI7M1SBUrNchyclZDxnoTcpSIQPJM2qE,
-_uzsdgZAscO7ZH0jA7ZT1SGuqXQpZOzPiCyFkgEpnBsI
+  _rPmQkKo5nQ9f4GGGoETUFM3AJIIuQNPcVdDyd3i4Q,
+_7qzLOQEoYbybWu9D2SI6UmJqE7SWWnBJwG3bCDhnB3Q
 ];
 
 const VueResolver = (_, value) => {
@@ -1199,8 +1199,8 @@ function publicAssetsURL(...path) {
 
 const APP_ROOT_OPEN_TAG = `<${appRootTag}${propsToString(appRootAttrs)}>`;
 const APP_ROOT_CLOSE_TAG = `</${appRootTag}>`;
-const getServerEntry = () => import('file:///home/gda/Documents/test/nexusbuild/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
-const getClientManifest = () => import('file:///home/gda/Documents/test/nexusbuild/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getServerEntry = () => import('file:///Users/danielgreen/Documents/sprintweb/nexusbuild/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
+const getClientManifest = () => import('file:///Users/danielgreen/Documents/sprintweb/nexusbuild/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
 const getSSRRenderer = lazyCachedFunction(async () => {
   const manifest = await getClientManifest();
   if (!manifest) {
@@ -1522,7 +1522,7 @@ async function runTask(name, {
   }
 }
 
-const _H7c91d = lazyEventHandler(() => {
+const _86eX16 = lazyEventHandler(() => {
   const opts = useRuntimeConfig().ipx || {};
   const fsDir = opts?.fs?.dir ? (Array.isArray(opts.fs.dir) ? opts.fs.dir : [opts.fs.dir]).map((dir) => isAbsolute(dir) ? dir : fileURLToPath(new URL(dir, globalThis._importMeta_.url))) : void 0;
   const fsStorage = opts.fs?.dir ? ipxFSStorage({ ...opts.fs, dir: fsDir }) : void 0;
@@ -1540,13 +1540,13 @@ const _H7c91d = lazyEventHandler(() => {
   return useBase(opts.baseURL, ipxHandler);
 });
 
-const _lazy_p2E_xI = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_urUS2P = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_p2E_xI, lazy: true, middleware: false, method: undefined },
+  { route: '/__nuxt_error', handler: _lazy_urUS2P, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
-  { route: '/_ipx/**', handler: _H7c91d, lazy: false, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_p2E_xI, lazy: true, middleware: false, method: undefined }
+  { route: '/_ipx/**', handler: _86eX16, lazy: false, middleware: false, method: undefined },
+  { route: '/**', handler: _lazy_urUS2P, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
