@@ -1,4 +1,3 @@
-// ~/stores/user.js
 import { defineStore } from 'pinia'
 import { API } from '~/config'
 

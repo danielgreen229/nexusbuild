@@ -13,6 +13,9 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'netlify'
   },
+  server: {
+    port: 4000
+  },
   generate: {
     cache: false 
   },
