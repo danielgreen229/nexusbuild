@@ -1,34 +1,58 @@
 <script setup>
-const orders = ref([
-  {
-    id: 'ORD-001',
-    date: '15.07.2025',
-    template: 'Стартап Лендинг',
-    status: 'Завершен',
-    price: '12 000 ₽'
-  },
-  {
-    id: 'ORD-002',
-    date: '10.07.2025',
-    template: 'Корпоративный сайт',
-    status: 'В разработке',
-    price: '25 000 ₽'
-  },
-  {
-    id: 'ORD-003',
-    date: '05.07.2025',
-    template: 'Интернет-магазин',
-    status: 'Ожидает оплаты',
-    price: '35 000 ₽'
+import { useUserStore } from '~/stores/user'
+
+const userStore = useUserStore()
+const orders = ref([])
+const loading = ref(false)
+
+// Загружаем заказы при монтировании компонента
+onMounted(async () => {
+  await loadOrders()
+})
+
+const loadOrders = async () => {
+  try {
+    loading.value = true
+    const response = await fetch(`${API.fullUrl}/user/orders`, {
+      headers: {
+        'Authorization': `Bearer ${userStore.token}`
+      }
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      if (data.success) {
+        orders.value = data.data.map(order => ({
+          id: order.id,
+          date: new Date(order.createdAt).toLocaleDateString('ru-RU'),
+          template: order.templateName,
+          status: order.statusText,
+          price: `${order.price.toLocaleString()} ₽`,
+          statusCode: order.status
+        }))
+      }
+    }
+  } catch (error) {
+    console.error('Ошибка загрузки заказов:', error)
+  } finally {
+    loading.value = false
   }
-])
+}
 </script>
 
 <template>
   <div class="profile-orders">
     <h2 class="profile-orders__title">Мои заказы</h2>
     
-    <div class="profile-orders__table">
+    <div v-if="loading" class="profile-orders__loading">
+      Загрузка заказов...
+    </div>
+    
+    <div v-else-if="orders.length === 0" class="profile-orders__empty">
+      У вас пока нет заказов
+    </div>
+    
+    <div v-else class="profile-orders__table">
       <div class="profile-orders__row profile-orders__row--header">
         <div class="profile-orders__cell">ID заказа</div>
         <div class="profile-orders__cell">Дата</div>
@@ -49,7 +73,7 @@ const orders = ref([
         <div class="profile-orders__cell">
           <span :class="[
             'profile-orders__status',
-            `profile-orders__status--${order.status.toLowerCase()}`
+            `profile-orders__status--${order.statusCode}`
           ]">
             {{ order.status }}
           </span>
@@ -106,19 +130,27 @@ const orders = ref([
   font-weight: 500;
 }
 
-.profile-orders__status--завершен {
+.profile-orders__status--completed {
   background: #dcfce7;
   color: #166534;
 }
 
-.profile-orders__status--в-разработке {
+.profile-orders__status--in_progress {
   background: #fffbeb;
   color: #854d0e;
 }
 
-.profile-orders__status--ожидает-оплаты {
+.profile-orders__status--pending_payment {
   background: #fee2e2;
   color: #b91c1c;
+}
+
+.profile-orders__loading,
+.profile-orders__empty {
+  text-align: center;
+  padding: 40px;
+  color: var(--gray);
+  font-size: 1.1rem;
 }
 
 .profile-orders__action {

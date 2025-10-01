@@ -1,4 +1,7 @@
 <script setup>
+import { useUserStore } from '~/stores/user'
+
+const userStore = useUserStore()
 const user = ref({
   name: 'Иван Иванов',
   email: 'ivan@example.com',
@@ -8,10 +11,66 @@ const user = ref({
 
 const isEditing = ref(false)
 const tempUser = ref({...user.value})
+const loading = ref(false)
 
-const saveProfile = () => {
-  user.value = {...tempUser.value}
-  isEditing.value = false
+// Загружаем профиль при монтировании компонента
+onMounted(async () => {
+  await loadProfile()
+})
+
+const loadProfile = async () => {
+  try {
+    loading.value = true
+    const response = await fetch(`${API.fullUrl}/user/profile`, {
+      headers: {
+        'Authorization': `Bearer ${userStore.token}`
+      }
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      if (data.success) {
+        user.value = data.data
+        tempUser.value = {...data.data}
+      }
+    }
+  } catch (error) {
+    console.error('Ошибка загрузки профиля:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+const saveProfile = async () => {
+  try {
+    loading.value = true
+    const response = await fetch(`${API.fullUrl}/user/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userStore.token}`
+      },
+      body: JSON.stringify(tempUser.value)
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      if (data.success) {
+        user.value = {...data.data}
+        isEditing.value = false
+        // Обновляем данные в store
+        userStore.user = data.data
+      }
+    } else {
+      const errorData = await response.json()
+      alert(errorData.error || 'Ошибка обновления профиля')
+    }
+  } catch (error) {
+    console.error('Ошибка сохранения профиля:', error)
+    alert('Ошибка сохранения профиля')
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -35,9 +94,10 @@ const saveProfile = () => {
         </button>
         <button 
           class="button button--primary"
+          :disabled="loading"
           @click="saveProfile"
         >
-          Сохранить
+          {{ loading ? 'Сохранение...' : 'Сохранить' }}
         </button>
       </div>
     </div>
