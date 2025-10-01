@@ -1,15 +1,56 @@
 <script setup>
 import Button from '@/components/ui/Button.vue'
+import { useUserStore } from '~/stores/user'
 
-defineProps({
+const props = defineProps({
   template: {
     type: Object,
     required: true
   }
 })
 
-const buyTemplate = () => {
-  alert(`Вы выбрали шаблон: ${template.title}\nЦена: ${template.price} руб.\nСвяжемся с вами для оплаты!`)
+const userStore = useUserStore()
+const loading = ref(false)
+
+const buyTemplate = async () => {
+  if (!userStore.isAuthenticated) {
+    alert('Для покупки шаблона необходимо войти в систему')
+    return
+  }
+
+  if (!confirm(`Купить шаблон "${props.template.title}" за ${props.template.price.toLocaleString()} ₽?`)) {
+    return
+  }
+
+  try {
+    loading.value = true
+    const response = await fetch(`${API.fullUrl}/purchase/template`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userStore.token}`
+      },
+      body: JSON.stringify({
+        templateId: props.template.id,
+        paymentMethod: 'balance'
+      })
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      if (data.success) {
+        alert(`Заказ создан! ID: ${data.data.id}\nСтатус: ${data.data.statusText}`)
+      }
+    } else {
+      const errorData = await response.json()
+      alert(errorData.error || 'Ошибка создания заказа')
+    }
+  } catch (error) {
+    console.error('Ошибка покупки шаблона:', error)
+    alert('Ошибка покупки шаблона')
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
@@ -40,9 +81,10 @@ const buyTemplate = () => {
       
       <Button 
         class="template-card__button button button--primary"
+        :disabled="loading"
         @click="buyTemplate"
       >
-        Купить шаблон
+        {{ loading ? 'Покупка...' : 'Купить шаблон' }}
       </Button>
     </div>
   </div>

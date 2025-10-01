@@ -1,28 +1,100 @@
 <script setup>
-const balance = ref(7500)
-const transactions = ref([
-  {
-    id: 'TRX-001',
-    date: '10.07.2025',
-    description: 'Пополнение баланса',
-    amount: '+10 000 ₽',
-    type: 'income'
-  },
-  {
-    id: 'TRX-002',
-    date: '05.07.2025',
-    description: 'Оплата заказа ORD-003',
-    amount: '-2 500 ₽',
-    type: 'expense'
-  },
-  {
-    id: 'TRX-003',
-    date: '01.07.2025',
-    description: 'Бонус за отзыв',
-    amount: '+500 ₽',
-    type: 'income'
+import { useUserStore } from '~/stores/user'
+
+const userStore = useUserStore()
+const balance = ref(0)
+const transactions = ref([])
+const loading = ref(false)
+
+// Загружаем данные при монтировании компонента
+onMounted(async () => {
+  await loadBalance()
+  await loadTransactions()
+})
+
+const loadBalance = async () => {
+  try {
+    const response = await fetch(`${API.fullUrl}/user/profile`, {
+      headers: {
+        'Authorization': `Bearer ${userStore.token}`
+      }
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      if (data.success) {
+        balance.value = data.data.balance || 0
+      }
+    }
+  } catch (error) {
+    console.error('Ошибка загрузки баланса:', error)
   }
-])
+}
+
+const loadTransactions = async () => {
+  try {
+    loading.value = true
+    const response = await fetch(`${API.fullUrl}/user/transactions`, {
+      headers: {
+        'Authorization': `Bearer ${userStore.token}`
+      }
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      if (data.success) {
+        transactions.value = data.data.map(trx => ({
+          id: trx.id,
+          date: new Date(trx.createdAt).toLocaleDateString('ru-RU'),
+          description: trx.description,
+          amount: `${trx.amount > 0 ? '+' : ''}${trx.amount.toLocaleString()} ₽`,
+          type: trx.type
+        }))
+      }
+    }
+  } catch (error) {
+    console.error('Ошибка загрузки транзакций:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
+const topupBalance = async () => {
+  const amount = prompt('Введите сумму для пополнения:')
+  if (!amount || isNaN(amount) || amount <= 0) {
+    alert('Введите корректную сумму')
+    return
+  }
+
+  try {
+    loading.value = true
+    const response = await fetch(`${API.fullUrl}/user/balance/topup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userStore.token}`
+      },
+      body: JSON.stringify({ amount: parseInt(amount) })
+    })
+    
+    if (response.ok) {
+      const data = await response.json()
+      if (data.success) {
+        alert('Баланс успешно пополнен!')
+        await loadBalance()
+        await loadTransactions()
+      }
+    } else {
+      const errorData = await response.json()
+      alert(errorData.error || 'Ошибка пополнения баланса')
+    }
+  } catch (error) {
+    console.error('Ошибка пополнения баланса:', error)
+    alert('Ошибка пополнения баланса')
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <template>
@@ -34,14 +106,26 @@ const transactions = ref([
       </div>
     </div>
     
-    <button class="button button--primary profile-balance__button">
-      Пополнить баланс
+    <button 
+      class="button button--primary profile-balance__button"
+      :disabled="loading"
+      @click="topupBalance"
+    >
+      {{ loading ? 'Пополнение...' : 'Пополнить баланс' }}
     </button>
     
     <div class="profile-balance__history">
       <h3 class="profile-balance__subtitle">История операций</h3>
       
-      <div class="profile-balance__list">
+      <div v-if="loading" class="profile-balance__loading">
+        Загрузка операций...
+      </div>
+      
+      <div v-else-if="transactions.length === 0" class="profile-balance__empty">
+        У вас пока нет операций
+      </div>
+      
+      <div v-else class="profile-balance__list">
         <div 
           v-for="trx in transactions"
           :key="trx.id"
@@ -129,5 +213,13 @@ const transactions = ref([
 
 .profile-balance__sum--expense {
   color: #ef4444;
+}
+
+.profile-balance__loading,
+.profile-balance__empty {
+  text-align: center;
+  padding: 20px;
+  color: var(--gray);
+  font-size: 1rem;
 }
 </style>
