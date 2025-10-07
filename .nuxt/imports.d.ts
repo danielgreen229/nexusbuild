@@ -30,6 +30,7 @@ export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callba
 export { setInterval } from '#app/compat/interval';
 export { isNode } from '../utils/env';
 export { useLandingStore } from '../stores/landing';
+export { useTemplateStore } from '../stores/template';
 export { useUserStore } from '../stores/user';
 export { useImage } from '../node_modules/@nuxt/image/dist/runtime/composables';
 export { defineStore, acceptHMRUpdate, usePinia, storeToRefs } from '../node_modules/@pinia/nuxt/dist/runtime/composables';

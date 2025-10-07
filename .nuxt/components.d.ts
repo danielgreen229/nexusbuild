@@ -34,6 +34,7 @@ interface _GlobalComponents {
     'UiPromoCard': typeof import("../components/ui/PromoCard.vue")['default']
     'UiServiceCard': typeof import("../components/ui/ServiceCard.vue")['default']
     'SvgoIconClick': typeof import("../assets/icons/icon-click")['default']
+    'SvgoOpenNext': typeof import("../assets/icons/open-next")['default']
     'SvgoUser': typeof import("../assets/icons/user")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
     'NuxtLayout': typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
@@ -82,6 +83,7 @@ interface _GlobalComponents {
     'LazyUiPromoCard': LazyComponent<typeof import("../components/ui/PromoCard.vue")['default']>
     'LazyUiServiceCard': LazyComponent<typeof import("../components/ui/ServiceCard.vue")['default']>
     'LazySvgoIconClick': LazyComponent<typeof import("../assets/icons/icon-click")['default']>
+    'LazySvgoOpenNext': LazyComponent<typeof import("../assets/icons/open-next")['default']>
     'LazySvgoUser': LazyComponent<typeof import("../assets/icons/user")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
     'LazyNuxtLayout': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
@@ -136,6 +138,7 @@ export const UiButton: typeof import("../components/ui/Button.vue")['default']
 export const UiPromoCard: typeof import("../components/ui/PromoCard.vue")['default']
 export const UiServiceCard: typeof import("../components/ui/ServiceCard.vue")['default']
 export const SvgoIconClick: typeof import("../assets/icons/icon-click")['default']
+export const SvgoOpenNext: typeof import("../assets/icons/open-next")['default']
 export const SvgoUser: typeof import("../assets/icons/user")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
@@ -184,6 +187,7 @@ export const LazyUiButton: LazyComponent<typeof import("../components/ui/Button.
 export const LazyUiPromoCard: LazyComponent<typeof import("../components/ui/PromoCard.vue")['default']>
 export const LazyUiServiceCard: LazyComponent<typeof import("../components/ui/ServiceCard.vue")['default']>
 export const LazySvgoIconClick: LazyComponent<typeof import("../assets/icons/icon-click")['default']>
+export const LazySvgoOpenNext: LazyComponent<typeof import("../assets/icons/open-next")['default']>
 export const LazySvgoUser: LazyComponent<typeof import("../assets/icons/user")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>

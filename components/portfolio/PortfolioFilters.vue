@@ -1,4 +1,5 @@
 <script setup>
+
 defineProps({
   activeFilter: {
     type: String,
@@ -10,10 +11,6 @@ const emit = defineEmits(['update:activeFilter'])
 
 const filters = ref([
   { id: 'all', name: 'Все шаблоны' },
-  { id: 'landing', name: 'Лендинги' },
-  { id: 'corporate', name: 'Корпоративные' },
-  { id: 'shop', name: 'Магазины' },
-  { id: 'blog', name: 'Блоги' }
 ])
 
 const setFilter = (filterId) => {
@@ -43,7 +40,7 @@ const setFilter = (filterId) => {
   padding: 25px 0;
   background: white;
   position: sticky;
-  top: 115px;
+  top: 114px;
   z-index: 90;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
@@ -52,7 +49,7 @@ const setFilter = (filterId) => {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: center;
+  justify-content: left;
 }
 
 .portfolio-filters__button {

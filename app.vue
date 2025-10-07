@@ -1,9 +1,20 @@
 <script setup>
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
+
 import Header from '@/components/layout/Header.vue'
 import Footer from '@/components/layout/Footer.vue'
 const userStore = useUserStore()
 
 userStore.init()
+
+onMounted(() => {
+  document.querySelector('meta[name="viewport"]').setAttribute(
+    'content',
+    'width=device-width, initial-scale=0.8'
+  );
+  document.body.style.zoom = "80%";
+})
+
 </script>
 
 <template>
@@ -43,7 +54,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 0 20px;
 }

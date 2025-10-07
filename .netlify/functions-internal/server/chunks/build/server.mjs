@@ -429,8 +429,8 @@ const _routes = [
     component: () => import('./services-C5iCcGy0.mjs')
   },
   {
-    name: "portfolio",
-    path: "/portfolio",
+    name: "templates",
+    path: "/templates",
     component: () => import('./portfolio-B2XEkvOC.mjs')
   }
 ];

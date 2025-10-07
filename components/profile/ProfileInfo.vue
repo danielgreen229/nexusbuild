@@ -1,5 +1,6 @@
 <script setup>
 import { useUserStore } from '~/stores/user'
+import { API } from '~/config'
 
 const userStore = useUserStore()
 const user = ref({

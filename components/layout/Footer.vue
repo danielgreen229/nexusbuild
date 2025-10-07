@@ -3,7 +3,7 @@
     <div class="footer__container container">
       <!-- Левый блок - Лого и описание -->
       <div class="footer__brand">
-        <div class="footer__logo">site.by pro</div>
+        <div class="footer__logo">SiteByPro</div>
         <p class="footer__tagline">Быстрые сайты для быстрых денег</p>
         
         <!-- Telegram кнопка -->

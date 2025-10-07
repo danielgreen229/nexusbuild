@@ -162,7 +162,7 @@ function closeMobileMenu() { isMobileMenuOpen.value = false }
 // Основные страницы
 const primaryPages = [
   { path: '/', title: 'Главная' },
-  { path: '/portfolio', title: 'Шаблоны' },
+  { path: '/templates', title: 'Шаблоны' },
   { path: '/pricing', title: 'Цены' },
   { path: '/services', title: 'Услуги' },
 ]
@@ -251,7 +251,7 @@ const secondaryPages = [
   width: 28px;
 }
 
-.app-header__telegram-text {
+.app-header__telegram {
   @media (max-width: 480px) {
     display: none;
   }
