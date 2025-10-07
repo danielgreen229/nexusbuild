@@ -3,7 +3,6 @@ import { i as parseQuery, j as hasProtocol, k as isScriptProtocol, l as joinURL,
 import { defineStore, createPinia, setActivePinia, shouldHydrate } from 'pinia';
 import { RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { ssrRenderVNode, ssrRenderSuspense, ssrRenderComponent, ssrRenderAttrs, ssrRenderList, ssrInterpolate, ssrRenderClass, ssrRenderAttr, ssrIncludeBooleanAttr } from 'vue/server-renderer';
-import { VueTelInput } from 'vue3-tel-input';
 import 'node:http';
 import 'node:https';
 import 'node:events';
@@ -396,67 +395,67 @@ const _routes = [
   {
     name: "faq",
     path: "/faq",
-    component: () => import('./faq-C1Dhj0V8.mjs')
+    component: () => import('./faq-CY3Zr0_3.mjs')
   },
   {
     name: "blog",
     path: "/blog",
-    component: () => import('./blog-DeieaMF9.mjs')
+    component: () => import('./blog-Cs-11t_F.mjs')
   },
   {
     name: "about",
     path: "/about",
-    component: () => import('./about-DQ1Gl_LA.mjs')
+    component: () => import('./about-DCTiPqJT.mjs')
   },
   {
     name: "admin",
     path: "/admin",
-    component: () => import('./admin-CuZ-4mnw.mjs')
+    component: () => import('./admin-DycVp_oZ.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-BmyVNcHF.mjs')
+    component: () => import('./index-cLjX-sul.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-BlcrznSO.mjs')
+    component: () => import('./login-UxcJ1qva.mjs')
   },
   {
     name: "pricing",
     path: "/pricing",
-    component: () => import('./pricing-gBlTHZe_.mjs')
+    component: () => import('./pricing-CloIwPoc.mjs')
   },
   {
     name: "profile",
     path: "/profile",
-    component: () => import('./profile-BKnaONS2.mjs')
+    component: () => import('./profile-jfHiOu1f.mjs')
   },
   {
     name: "contacts",
     path: "/contacts",
-    component: () => import('./contacts-DqAvpGCq.mjs')
+    component: () => import('./contacts-CNNFkz_s.mjs')
   },
   {
     name: "register",
     path: "/register",
-    component: () => import('./register-CjJM_5Zp.mjs')
+    component: () => import('./register-CBFvJqlN.mjs')
   },
   {
     name: "services",
     path: "/services",
-    component: () => import('./services-BH4c3LIt.mjs')
+    component: () => import('./services-Cs_m6C7e.mjs')
   },
   {
     name: "templates",
     path: "/templates",
-    component: () => import('./templates-qDjaf48Z.mjs')
+    component: () => import('./templates-_oxWeK3x.mjs')
   },
   {
     name: "buy-template-id",
     path: "/buy-template/:id()",
-    component: () => import('./_id_-DtfSizV3.mjs')
+    component: () => import('./_id_-BISEckwS.mjs')
   },
   {
     name: "buy-template",
@@ -810,7 +809,7 @@ defineComponent({
   }
 });
 const clientOnlySymbol = Symbol.for("nuxt:client-only");
-defineComponent({
+const __nuxt_component_0$2 = defineComponent({
   name: "ClientOnly",
   inheritAttrs: false,
   props: ["fallback", "placeholder", "placeholderTag", "fallbackTag"],
@@ -1139,8 +1138,8 @@ const plugin = /* @__PURE__ */ defineNuxtPlugin({
   }
 });
 const LazySvgoIconClick = defineAsyncComponent(() => Promise.resolve().then(() => iconClick).then((r) => r["default"] || r.default || r));
-const LazySvgoOpenNext = defineAsyncComponent(() => import('./open-next-CDVRllVT.mjs').then((r) => r["default"] || r.default || r));
-const LazySvgoUser = defineAsyncComponent(() => import('./user-CXgE-UsB.mjs').then((r) => r["default"] || r.default || r));
+const LazySvgoOpenNext = defineAsyncComponent(() => import('./open-next-BTngSjB-.mjs').then((r) => r["default"] || r.default || r));
+const LazySvgoUser = defineAsyncComponent(() => import('./user-CYYBwZaE.mjs').then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["SvgoIconClick", LazySvgoIconClick],
   ["SvgoOpenNext", LazySvgoOpenNext],
@@ -1473,24 +1472,13 @@ const _sfc_main$6 = {
     useUserStore();
     const fullname = ref("");
     const city = ref("");
-    const phone = ref("");
+    ref("");
     const phoneError = ref("");
     const username = ref("");
     const email = ref("");
     const password = ref("");
     const loading = ref(false);
     const modal = ref(null);
-    function onPhoneInput(value) {
-      if (typeof value === "string") {
-        const digits = value.replace(/\D/g, "");
-        if (!digits.startsWith("7") || digits.length !== 11) {
-          phoneError.value = "Введите корректный российский номер (+7)";
-        } else {
-          phoneError.value = "";
-          phone.value = digits;
-        }
-      }
-    }
     watch(() => props.visible, async (v) => {
       if (v) {
         await nextTick();
@@ -1501,32 +1489,26 @@ const _sfc_main$6 = {
       }
     });
     return (_ctx, _push, _parent, _attrs) => {
+      const _component_client_only = __nuxt_component_0$2;
       if (__props.visible) {
         _push(`<div${ssrRenderAttrs(mergeProps({
           class: "modal-overlay",
           role: "dialog",
           "aria-modal": "true"
-        }, _attrs))} data-v-9006fbf2><div class="modal" tabindex="-1" data-v-9006fbf2><button class="modal__close" aria-label="Закрыть" data-v-9006fbf2>✕</button><h3 class="modal__title" data-v-9006fbf2>Создать пользователя</h3><form class="modal__form" data-v-9006fbf2><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>ФИО</span><input${ssrRenderAttr("value", fullname.value)} type="text" required autocomplete="name"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Город</span><input${ssrRenderAttr("value", city.value)} type="text" required autocomplete="address-level2"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Телефон</span>`);
-        _push(ssrRenderComponent(unref(VueTelInput), {
-          modelValue: phone.value,
-          "onUpdate:modelValue": ($event) => phone.value = $event,
-          "default-country": "RU",
-          disabled: loading.value,
-          placeholder: "+7 ___ ___ __ __",
-          onInput: onPhoneInput
-        }, null, _parent));
+        }, _attrs))} data-v-7e4f35b5><div class="modal" tabindex="-1" data-v-7e4f35b5><button class="modal__close" aria-label="Закрыть" data-v-7e4f35b5>✕</button><h3 class="modal__title" data-v-7e4f35b5>Создать пользователя</h3><form class="modal__form" data-v-7e4f35b5><label class="modal__field" data-v-7e4f35b5><span class="modal__label" data-v-7e4f35b5>ФИО</span><input${ssrRenderAttr("value", fullname.value)} type="text" required autocomplete="name"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-7e4f35b5></label><label class="modal__field" data-v-7e4f35b5><span class="modal__label" data-v-7e4f35b5>Город</span><input${ssrRenderAttr("value", city.value)} type="text" required autocomplete="address-level2"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-7e4f35b5></label><label class="modal__field" data-v-7e4f35b5><span class="modal__label" data-v-7e4f35b5>Телефон</span>`);
+        _push(ssrRenderComponent(_component_client_only, null, {}, _parent));
         if (phoneError.value) {
-          _push(`<div class="field-error" data-v-9006fbf2>${ssrInterpolate(phoneError.value)}</div>`);
+          _push(`<div class="field-error" data-v-7e4f35b5>${ssrInterpolate(phoneError.value)}</div>`);
         } else {
           _push(`<!---->`);
         }
-        _push(`</label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Логин</span><input${ssrRenderAttr("value", username.value)} type="text" required autocomplete="username"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Электронная почта</span><input${ssrRenderAttr("value", email.value)} type="email" required autocomplete="email"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Пароль</span><input${ssrRenderAttr("value", password.value)} type="password" required autocomplete="new-password"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><div class="modal__actions" data-v-9006fbf2><button type="submit" class="button button--primary"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2>`);
+        _push(`</label><label class="modal__field" data-v-7e4f35b5><span class="modal__label" data-v-7e4f35b5>Логин</span><input${ssrRenderAttr("value", username.value)} type="text" required autocomplete="username"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-7e4f35b5></label><label class="modal__field" data-v-7e4f35b5><span class="modal__label" data-v-7e4f35b5>Электронная почта</span><input${ssrRenderAttr("value", email.value)} type="email" required autocomplete="email"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-7e4f35b5></label><label class="modal__field" data-v-7e4f35b5><span class="modal__label" data-v-7e4f35b5>Пароль</span><input${ssrRenderAttr("value", password.value)} type="password" required autocomplete="new-password"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-7e4f35b5></label><div class="modal__actions" data-v-7e4f35b5><button type="submit" class="button button--primary"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-7e4f35b5>`);
         if (!loading.value) {
-          _push(`<span data-v-9006fbf2>Создать</span>`);
+          _push(`<span data-v-7e4f35b5>Создать</span>`);
         } else {
-          _push(`<span data-v-9006fbf2>Создание...</span>`);
+          _push(`<span data-v-7e4f35b5>Создание...</span>`);
         }
-        _push(`</button><button type="button" class="button"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2>Отмена</button></div></form></div></div>`);
+        _push(`</button><button type="button" class="button"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-7e4f35b5>Отмена</button></div></form></div></div>`);
       } else {
         _push(`<!---->`);
       }
@@ -1539,7 +1521,7 @@ _sfc_main$6.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/profile/Modals/RegisterModal.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
-const RegisterModal = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-9006fbf2"]]);
+const RegisterModal = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-7e4f35b5"]]);
 const _sfc_main$5 = {
   __name: "LoginModal",
   __ssrInlineRender: true,
@@ -1879,8 +1861,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-DgDmAJS8.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-rcu-Y2Rc.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-Ce5IC_m-.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-CB-Kfm_R.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
