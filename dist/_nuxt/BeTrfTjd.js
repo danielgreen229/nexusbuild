@@ -1,0 +1,1 @@
+import{_ as n,c as s,o as t,a as o}from"./D-6HeTC6.js";const c={},r={class:"container"};function a(l,e){return t(),s("div",r,e[0]||(e[0]=[o("h1",null,"Контакты",-1),o("p",null,"Свяжитесь с нами для заказа сайта",-1)]))}const d=n(c,[["render",a]]);export{d as default};

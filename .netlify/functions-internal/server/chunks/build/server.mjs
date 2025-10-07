@@ -1,7 +1,9 @@
-import { defineComponent, shallowRef, h, resolveComponent, hasInjectionContext, getCurrentInstance, computed, defineAsyncComponent, ref, inject, Suspense, Fragment, useSSRContext, createApp, provide, shallowReactive, createVNode, resolveDynamicComponent, mergeProps, createElementBlock, openBlock, createElementVNode, toRef, onErrorCaptured, onServerPrefetch, unref, reactive, effectScope, isReadonly, isRef, isShallow, isReactive, toRaw, getCurrentScope, withCtx, createTextVNode, toDisplayString } from 'vue';
-import { i as parseQuery, j as hasProtocol, k as joinURL, l as getContext, w as withQuery, m as withTrailingSlash, n as withoutTrailingSlash, o as isScriptProtocol, s as sanitizeStatusCode, $ as $fetch, q as baseURL, r as createHooks, t as executeAsync, e as createError$1, v as toRouteMatcher, x as createRouter$1, y as defu } from '../nitro/nitro.mjs';
+import { defineComponent, shallowRef, h, resolveComponent, hasInjectionContext, getCurrentInstance, computed, createElementBlock, provide, cloneVNode, defineAsyncComponent, ref, inject, Suspense, Fragment, useSSRContext, createApp, shallowReactive, createVNode, resolveDynamicComponent, mergeProps, openBlock, createElementVNode, toRef, onErrorCaptured, onServerPrefetch, unref, reactive, effectScope, isReadonly, isRef, isShallow, isReactive, toRaw, getCurrentScope, withCtx, createTextVNode, toDisplayString, watch, nextTick } from 'vue';
+import { i as parseQuery, j as hasProtocol, k as isScriptProtocol, l as joinURL, w as withQuery, s as sanitizeStatusCode, m as getContext, n as withTrailingSlash, o as withoutTrailingSlash, $ as $fetch, q as baseURL, r as createHooks, t as executeAsync, e as createError$1, v as toRouteMatcher, x as createRouter$1, y as defu } from '../nitro/nitro.mjs';
+import { defineStore, createPinia, setActivePinia, shouldHydrate } from 'pinia';
 import { RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
-import { ssrRenderVNode, ssrRenderSuspense, ssrRenderComponent, ssrRenderAttrs, ssrRenderList, ssrInterpolate, ssrRenderClass, ssrRenderAttr } from 'vue/server-renderer';
+import { ssrRenderVNode, ssrRenderSuspense, ssrRenderComponent, ssrRenderAttrs, ssrRenderList, ssrInterpolate, ssrRenderClass, ssrRenderAttr, ssrIncludeBooleanAttr } from 'vue/server-renderer';
+import { VueTelInput } from 'vue3-tel-input';
 import 'node:http';
 import 'node:https';
 import 'node:events';
@@ -200,6 +202,7 @@ function defineNuxtPlugin(plugin2) {
   return Object.assign(plugin2.setup || (() => {
   }), plugin2, { [NuxtPluginIndicator]: true, _name });
 }
+const definePayloadPlugin = defineNuxtPlugin;
 function callWithNuxt(nuxt, setup, args) {
   const fn = () => setup();
   const nuxtAppCtx = getNuxtAppCtx(nuxt._id);
@@ -356,6 +359,28 @@ const createError = (error) => {
   });
   return nuxtError;
 };
+async function getRouteRules(arg) {
+  const path = typeof arg === "string" ? arg : arg.path;
+  {
+    useNuxtApp().ssrContext._preloadManifest = true;
+    const _routeRulesMatcher = toRouteMatcher(
+      createRouter$1({ routes: (/* @__PURE__ */ useRuntimeConfig()).nitro.routeRules })
+    );
+    return defu({}, ..._routeRulesMatcher.matchAll(path).reverse());
+  }
+}
+function definePayloadReducer(name, reduce) {
+  {
+    useNuxtApp().ssrContext._payloadReducers[name] = reduce;
+  }
+}
+const payloadPlugin = definePayloadPlugin(() => {
+  definePayloadReducer(
+    "skipHydrate",
+    // We need to return something truthy to be treated as a match
+    (data) => !shouldHydrate(data) && 1
+  );
+});
 const unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:head",
   enforce: "pre",
@@ -367,71 +392,76 @@ const unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU = /* @__PURE__ */ defin
 function toArray(value) {
   return Array.isArray(value) ? value : [value];
 }
-async function getRouteRules(arg) {
-  const path = typeof arg === "string" ? arg : arg.path;
-  {
-    useNuxtApp().ssrContext._preloadManifest = true;
-    const _routeRulesMatcher = toRouteMatcher(
-      createRouter$1({ routes: (/* @__PURE__ */ useRuntimeConfig()).nitro.routeRules })
-    );
-    return defu({}, ..._routeRulesMatcher.matchAll(path).reverse());
-  }
-}
 const _routes = [
   {
     name: "faq",
     path: "/faq",
-    component: () => import('./faq-CamKddQC.mjs')
+    component: () => import('./faq-C1Dhj0V8.mjs')
   },
   {
     name: "blog",
     path: "/blog",
-    component: () => import('./blog-BlQPEH1a.mjs')
+    component: () => import('./blog-DeieaMF9.mjs')
   },
   {
     name: "about",
     path: "/about",
-    component: () => import('./about-CXNVGd6w.mjs')
+    component: () => import('./about-DQ1Gl_LA.mjs')
+  },
+  {
+    name: "admin",
+    path: "/admin",
+    component: () => import('./admin-CuZ-4mnw.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-DYhfNpHq.mjs')
+    component: () => import('./index-BmyVNcHF.mjs')
   },
   {
     name: "login",
     path: "/login",
-    component: () => import('./login-B5xjBDcs.mjs')
+    component: () => import('./login-BlcrznSO.mjs')
   },
   {
     name: "pricing",
     path: "/pricing",
-    component: () => import('./pricing-BB8CW7X2.mjs')
+    component: () => import('./pricing-gBlTHZe_.mjs')
   },
   {
     name: "profile",
     path: "/profile",
-    component: () => import('./profile-DT3WcqaR.mjs')
+    component: () => import('./profile-BKnaONS2.mjs')
   },
   {
     name: "contacts",
     path: "/contacts",
-    component: () => import('./contacts-8AVF737w.mjs')
+    component: () => import('./contacts-DqAvpGCq.mjs')
   },
   {
     name: "register",
     path: "/register",
-    component: () => import('./register-Co1zYVvg.mjs')
+    component: () => import('./register-CjJM_5Zp.mjs')
   },
   {
     name: "services",
     path: "/services",
-    component: () => import('./services-C5iCcGy0.mjs')
+    component: () => import('./services-BH4c3LIt.mjs')
   },
   {
     name: "templates",
     path: "/templates",
-    component: () => import('./portfolio-B2XEkvOC.mjs')
+    component: () => import('./templates-qDjaf48Z.mjs')
+  },
+  {
+    name: "buy-template-id",
+    path: "/buy-template/:id()",
+    component: () => import('./_id_-DtfSizV3.mjs')
+  },
+  {
+    name: "buy-template",
+    path: "/buy-template",
+    component: () => import('./index-C5TP2lb-.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -557,7 +587,7 @@ const globalMiddleware = [
   manifest_45route_45rule
 ];
 const namedMiddleware = {};
-const plugin = /* @__PURE__ */ defineNuxtPlugin({
+const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:router",
   enforce: "pre",
   async setup(nuxtApp) {
@@ -756,11 +786,6 @@ const plugin = /* @__PURE__ */ defineNuxtPlugin({
     return { provide: { router } };
   }
 });
-function definePayloadReducer(name, reduce) {
-  {
-    useNuxtApp().ssrContext._payloadReducers[name] = reduce;
-  }
-}
 const reducers = [
   ["NuxtError", (data) => isNuxtError(data) && data.toJSON()],
   ["EmptyShallowRef", (data) => isRef(data) && isShallow(data) && !data.value && (typeof data.value === "bigint" ? "0n" : JSON.stringify(data.value) || "_")],
@@ -778,110 +803,43 @@ const revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms = /* @__
     }
   }
 });
-const LazySvgoIconClick = defineAsyncComponent(() => Promise.resolve().then(() => iconClick).then((r) => r["default"] || r.default || r));
-const LazySvgoUser = defineAsyncComponent(() => import('./user-vl42SSO4.mjs').then((r) => r["default"] || r.default || r));
-const lazyGlobalComponents = [
-  ["SvgoIconClick", LazySvgoIconClick],
-  ["SvgoUser", LazySvgoUser]
-];
-const components_plugin_z4hgvsiddfKkfXTP6M8M4zG5Cb7sGnDhcryKVM45Di4 = /* @__PURE__ */ defineNuxtPlugin({
-  name: "nuxt:global-components",
-  setup(nuxtApp) {
-    for (const [name, component] of lazyGlobalComponents) {
-      nuxtApp.vueApp.component(name, component);
-      nuxtApp.vueApp.component("Lazy" + name, component);
-    }
+defineComponent({
+  name: "ServerPlaceholder",
+  render() {
+    return createElementBlock("div");
   }
 });
-const plugins = [
-  unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU,
-  plugin,
-  revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms,
-  components_plugin_z4hgvsiddfKkfXTP6M8M4zG5Cb7sGnDhcryKVM45Di4
-];
-const defineRouteProvider = (name = "RouteProvider") => defineComponent({
-  name,
-  props: {
-    route: {
-      type: Object,
-      required: true
-    },
-    vnode: Object,
-    vnodeRef: Object,
-    renderKey: String,
-    trackRootNodes: Boolean
-  },
-  setup(props) {
-    const previousKey = props.renderKey;
-    const previousRoute = props.route;
-    const route = {};
-    for (const key in props.route) {
-      Object.defineProperty(route, key, {
-        get: () => previousKey === props.renderKey ? props.route[key] : previousRoute[key],
-        enumerable: true
-      });
-    }
-    provide(PageRouteSymbol, shallowReactive(route));
-    return () => {
-      if (!props.vnode) {
-        return props.vnode;
-      }
-      return h(props.vnode, { ref: props.vnodeRef });
-    };
-  }
-});
-const RouteProvider = defineRouteProvider();
-const __nuxt_component_0$1 = defineComponent({
-  name: "NuxtPage",
+const clientOnlySymbol = Symbol.for("nuxt:client-only");
+defineComponent({
+  name: "ClientOnly",
   inheritAttrs: false,
-  props: {
-    name: {
-      type: String
-    },
-    transition: {
-      type: [Boolean, Object],
-      default: void 0
-    },
-    keepalive: {
-      type: [Boolean, Object],
-      default: void 0
-    },
-    route: {
-      type: Object
-    },
-    pageKey: {
-      type: [Function, String],
-      default: null
+  props: ["fallback", "placeholder", "placeholderTag", "fallbackTag"],
+  setup(props, { slots, attrs }) {
+    const mounted = shallowRef(false);
+    const vm = getCurrentInstance();
+    if (vm) {
+      vm._nuxtClientOnly = true;
     }
-  },
-  setup(props, { attrs, slots, expose }) {
-    const nuxtApp = useNuxtApp();
-    const pageRef = ref();
-    inject(PageRouteSymbol, null);
-    expose({ pageRef });
-    inject(LayoutMetaSymbol, null);
-    nuxtApp.deferHydration();
+    provide(clientOnlySymbol, true);
     return () => {
-      return h(RouterView, { name: props.name, route: props.route, ...attrs }, {
-        default: (routeProps) => {
-          return h(Suspense, { suspensible: true }, {
-            default() {
-              return h(RouteProvider, {
-                vnode: slots.default ? normalizeSlot(slots.default, routeProps) : routeProps.Component,
-                route: routeProps.route,
-                vnodeRef: pageRef
-              });
-            }
-          });
+      var _a;
+      if (mounted.value) {
+        const vnodes = (_a = slots.default) == null ? void 0 : _a.call(slots);
+        if (vnodes && vnodes.length === 1) {
+          return [cloneVNode(vnodes[0], attrs)];
         }
-      });
+        return vnodes;
+      }
+      const slot = slots.fallback || slots.placeholder;
+      if (slot) {
+        return h(slot);
+      }
+      const fallbackStr = props.fallback || props.placeholder || "";
+      const fallbackTag = props.fallbackTag || props.placeholderTag || "span";
+      return createElementBlock(fallbackTag, attrs, fallbackStr);
     };
   }
 });
-function normalizeSlot(slot, data) {
-  const slotContent = slot(data);
-  return slotContent.length === 1 ? h(slotContent[0]) : h(Fragment, void 0, slotContent);
-}
 const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
 // @__NO_SIDE_EFFECTS__
 function defineNuxtLink(options) {
@@ -1155,7 +1113,7 @@ function defineNuxtLink(options) {
     // }) as unknown as DefineComponent<NuxtLinkProps, object, object, ComputedOptions, MethodOptions, object, object, EmitsOptions, string, object, NuxtLinkProps, object, SlotsType<NuxtLinkSlots>>
   });
 }
-const __nuxt_component_0 = /* @__PURE__ */ defineNuxtLink(nuxtLinkDefaults);
+const __nuxt_component_0$1 = /* @__PURE__ */ defineNuxtLink(nuxtLinkDefaults);
 function applyTrailingSlashBehavior(to, trailingSlash) {
   const normalizeFn = trailingSlash === "append" ? withTrailingSlash : withoutTrailingSlash;
   const hasProtocolDifferentFromHttp = hasProtocol(to) && !to.startsWith("http");
@@ -1164,6 +1122,130 @@ function applyTrailingSlashBehavior(to, trailingSlash) {
   }
   return normalizeFn(to, true);
 }
+const plugin = /* @__PURE__ */ defineNuxtPlugin({
+  name: "pinia",
+  setup(nuxtApp) {
+    const pinia = createPinia();
+    nuxtApp.vueApp.use(pinia);
+    setActivePinia(pinia);
+    {
+      nuxtApp.payload.pinia = toRaw(pinia.state.value);
+    }
+    return {
+      provide: {
+        pinia
+      }
+    };
+  }
+});
+const LazySvgoIconClick = defineAsyncComponent(() => Promise.resolve().then(() => iconClick).then((r) => r["default"] || r.default || r));
+const LazySvgoOpenNext = defineAsyncComponent(() => import('./open-next-CDVRllVT.mjs').then((r) => r["default"] || r.default || r));
+const LazySvgoUser = defineAsyncComponent(() => import('./user-CXgE-UsB.mjs').then((r) => r["default"] || r.default || r));
+const lazyGlobalComponents = [
+  ["SvgoIconClick", LazySvgoIconClick],
+  ["SvgoOpenNext", LazySvgoOpenNext],
+  ["SvgoUser", LazySvgoUser]
+];
+const components_plugin_z4hgvsiddfKkfXTP6M8M4zG5Cb7sGnDhcryKVM45Di4 = /* @__PURE__ */ defineNuxtPlugin({
+  name: "nuxt:global-components",
+  setup(nuxtApp) {
+    for (const [name, component] of lazyGlobalComponents) {
+      nuxtApp.vueApp.component(name, component);
+      nuxtApp.vueApp.component("Lazy" + name, component);
+    }
+  }
+});
+const plugins = [
+  payloadPlugin,
+  unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU,
+  plugin$1,
+  revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms,
+  plugin,
+  components_plugin_z4hgvsiddfKkfXTP6M8M4zG5Cb7sGnDhcryKVM45Di4
+];
+const defineRouteProvider = (name = "RouteProvider") => defineComponent({
+  name,
+  props: {
+    route: {
+      type: Object,
+      required: true
+    },
+    vnode: Object,
+    vnodeRef: Object,
+    renderKey: String,
+    trackRootNodes: Boolean
+  },
+  setup(props) {
+    const previousKey = props.renderKey;
+    const previousRoute = props.route;
+    const route = {};
+    for (const key in props.route) {
+      Object.defineProperty(route, key, {
+        get: () => previousKey === props.renderKey ? props.route[key] : previousRoute[key],
+        enumerable: true
+      });
+    }
+    provide(PageRouteSymbol, shallowReactive(route));
+    return () => {
+      if (!props.vnode) {
+        return props.vnode;
+      }
+      return h(props.vnode, { ref: props.vnodeRef });
+    };
+  }
+});
+const RouteProvider = defineRouteProvider();
+const __nuxt_component_0 = defineComponent({
+  name: "NuxtPage",
+  inheritAttrs: false,
+  props: {
+    name: {
+      type: String
+    },
+    transition: {
+      type: [Boolean, Object],
+      default: void 0
+    },
+    keepalive: {
+      type: [Boolean, Object],
+      default: void 0
+    },
+    route: {
+      type: Object
+    },
+    pageKey: {
+      type: [Function, String],
+      default: null
+    }
+  },
+  setup(props, { attrs, slots, expose }) {
+    const nuxtApp = useNuxtApp();
+    const pageRef = ref();
+    inject(PageRouteSymbol, null);
+    expose({ pageRef });
+    inject(LayoutMetaSymbol, null);
+    nuxtApp.deferHydration();
+    return () => {
+      return h(RouterView, { name: props.name, route: props.route, ...attrs }, {
+        default: (routeProps) => {
+          return h(Suspense, { suspensible: true }, {
+            default() {
+              return h(RouteProvider, {
+                vnode: slots.default ? normalizeSlot(slots.default, routeProps) : routeProps.Component,
+                route: routeProps.route,
+                vnodeRef: pageRef
+              });
+            }
+          });
+        }
+      });
+    };
+  }
+});
+function normalizeSlot(slot, data) {
+  const slotContent = slot(data);
+  return slotContent.length === 1 ? h(slotContent[0]) : h(Fragment, void 0, slotContent);
+}
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -1171,7 +1253,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$5 = {
+const _sfc_main$7 = {
   props: {
     filled: {
       type: Boolean,
@@ -1201,13 +1283,13 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     }
   }, _attrs), null), _parent);
 }
-const _sfc_setup$5 = _sfc_main$5.setup;
-_sfc_main$5.setup = (props, ctx) => {
+const _sfc_setup$7 = _sfc_main$7.setup;
+_sfc_main$7.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("node_modules/nuxt-svgo/dist/runtime/components/nuxt-icon.vue");
-  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
+  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
-const NuxtIcon = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender]]);
+const NuxtIcon = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["ssrRender", _sfc_ssrRender]]);
 const _hoisted_1 = {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
@@ -1232,20 +1314,314 @@ const iconClick = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
   default: IconClick,
   render
 }, Symbol.toStringTag, { value: "Module" }));
+const API = {
+  currentBuild: "base",
+  // 'dev' или 'base'
+  base: {
+    protocol: "https",
+    url: "life30server.ru",
+    port: "",
+    subpage: "sitebypro"
+  },
+  dev: {
+    protocol: "http",
+    url: "localhost",
+    port: ":3000",
+    subpage: "sitebypro"
+  },
+  get fullUrl() {
+    const config = this[this.currentBuild];
+    return `${config.protocol}://${config.url}${config.port}/${config.subpage}`;
+  }
+};
+const useUserStore = defineStore("user", {
+  state: () => ({
+    loading: false,
+    error: null,
+    user: null,
+    token: null
+  }),
+  getters: {
+    isAuthenticated: (state) => !!state.user && !!state.token
+  },
+  actions: {
+    async register(payload) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await fetch(`${API.fullUrl}/user/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          this.error = data.message || "Ошибка регистрации";
+          throw new Error(this.error);
+        }
+        await this.login({
+          email: payload.email,
+          password: payload.password
+        });
+        return await res.json();
+      } catch (err) {
+        this.error = this.error || err.message;
+        throw err;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async login(payload) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await fetch(`${API.fullUrl}/user/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const data2 = await res.json().catch(() => ({}));
+          this.error = data2.message || "Ошибка авторизации";
+          throw new Error(this.error);
+        }
+        const data = await res.json();
+        this.user = data.user || null;
+        this.token = data.token || null;
+        if (this.token) {
+          localStorage.setItem("token", this.token);
+        }
+        return data;
+      } catch (err) {
+        this.error = this.error || err.message;
+        throw err;
+      } finally {
+        this.loading = false;
+      }
+    },
+    logout() {
+      this.user = null;
+      this.token = null;
+      localStorage.removeItem("token");
+    },
+    async fetchCurrentUser() {
+      if (!this.token) return;
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await fetch(`${API.fullUrl}/me`, {
+          headers: { "Authorization": `Bearer ${this.token}` }
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          this.error = data.message || "Не удалось получить данные пользователя";
+          throw new Error(this.error);
+        }
+        this.user = await res.json();
+      } catch (err) {
+        this.error = this.error || err.message;
+        this.logout();
+      } finally {
+        this.loading = false;
+      }
+    },
+    async updateUser(payload) {
+      if (!this.token) throw new Error("Не авторизован");
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await fetch(`${API.fullUrl}/update-user`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${this.token}`
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          this.error = data.message || "Ошибка обновления данных";
+          throw new Error(this.error);
+        }
+        this.user = await res.json();
+        return this.user;
+      } catch (err) {
+        this.error = this.error || err.message;
+        throw err;
+      } finally {
+        this.loading = false;
+      }
+    },
+    // Новая функция для автоматической подгрузки токена и пользователя при старте
+    async init() {
+      const token = localStorage.getItem("token");
+      console.log(token);
+      if (token) {
+        this.token = token;
+        await this.fetchCurrentUser();
+      }
+    }
+  }
+});
+const _sfc_main$6 = {
+  __name: "RegisterModal",
+  __ssrInlineRender: true,
+  props: { visible: Boolean },
+  emits: ["update:visible"],
+  setup(__props, { emit: __emit }) {
+    const props = __props;
+    useUserStore();
+    const fullname = ref("");
+    const city = ref("");
+    const phone = ref("");
+    const phoneError = ref("");
+    const username = ref("");
+    const email = ref("");
+    const password = ref("");
+    const loading = ref(false);
+    const modal = ref(null);
+    function onPhoneInput(value) {
+      if (typeof value === "string") {
+        const digits = value.replace(/\D/g, "");
+        if (!digits.startsWith("7") || digits.length !== 11) {
+          phoneError.value = "Введите корректный российский номер (+7)";
+        } else {
+          phoneError.value = "";
+          phone.value = digits;
+        }
+      }
+    }
+    watch(() => props.visible, async (v) => {
+      if (v) {
+        await nextTick();
+        setTimeout(() => {
+          var _a;
+          return (_a = modal.value) == null ? void 0 : _a.focus();
+        }, 50);
+      }
+    });
+    return (_ctx, _push, _parent, _attrs) => {
+      if (__props.visible) {
+        _push(`<div${ssrRenderAttrs(mergeProps({
+          class: "modal-overlay",
+          role: "dialog",
+          "aria-modal": "true"
+        }, _attrs))} data-v-9006fbf2><div class="modal" tabindex="-1" data-v-9006fbf2><button class="modal__close" aria-label="Закрыть" data-v-9006fbf2>✕</button><h3 class="modal__title" data-v-9006fbf2>Создать пользователя</h3><form class="modal__form" data-v-9006fbf2><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>ФИО</span><input${ssrRenderAttr("value", fullname.value)} type="text" required autocomplete="name"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Город</span><input${ssrRenderAttr("value", city.value)} type="text" required autocomplete="address-level2"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Телефон</span>`);
+        _push(ssrRenderComponent(unref(VueTelInput), {
+          modelValue: phone.value,
+          "onUpdate:modelValue": ($event) => phone.value = $event,
+          "default-country": "RU",
+          disabled: loading.value,
+          placeholder: "+7 ___ ___ __ __",
+          onInput: onPhoneInput
+        }, null, _parent));
+        if (phoneError.value) {
+          _push(`<div class="field-error" data-v-9006fbf2>${ssrInterpolate(phoneError.value)}</div>`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`</label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Логин</span><input${ssrRenderAttr("value", username.value)} type="text" required autocomplete="username"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Электронная почта</span><input${ssrRenderAttr("value", email.value)} type="email" required autocomplete="email"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><label class="modal__field" data-v-9006fbf2><span class="modal__label" data-v-9006fbf2>Пароль</span><input${ssrRenderAttr("value", password.value)} type="password" required autocomplete="new-password"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2></label><div class="modal__actions" data-v-9006fbf2><button type="submit" class="button button--primary"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2>`);
+        if (!loading.value) {
+          _push(`<span data-v-9006fbf2>Создать</span>`);
+        } else {
+          _push(`<span data-v-9006fbf2>Создание...</span>`);
+        }
+        _push(`</button><button type="button" class="button"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-9006fbf2>Отмена</button></div></form></div></div>`);
+      } else {
+        _push(`<!---->`);
+      }
+    };
+  }
+};
+const _sfc_setup$6 = _sfc_main$6.setup;
+_sfc_main$6.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/profile/Modals/RegisterModal.vue");
+  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
+};
+const RegisterModal = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-9006fbf2"]]);
+const _sfc_main$5 = {
+  __name: "LoginModal",
+  __ssrInlineRender: true,
+  props: {
+    visible: { type: Boolean, default: false }
+  },
+  emits: ["update:visible", "login", "create-user", "forgot-password", "register"],
+  setup(__props, { emit: __emit }) {
+    const props = __props;
+    const emit = __emit;
+    const email = ref("");
+    const password = ref("");
+    const loading = ref(false);
+    ref(null);
+    const emailInput = ref(null);
+    const isRegisterOpen = ref(false);
+    function onRegistered(user) {
+      emit("register", user);
+    }
+    watch(() => props.visible, async (v) => {
+      if (v) {
+        await nextTick();
+        setTimeout(() => {
+          var _a;
+          return (_a = emailInput.value) == null ? void 0 : _a.focus();
+        }, 50);
+      }
+    });
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<div${ssrRenderAttrs(_attrs)} data-v-abf6c188>`);
+      if (__props.visible) {
+        _push(`<div class="modal-overlay" role="dialog" aria-modal="true" data-v-abf6c188><div class="modal" tabindex="-1" data-v-abf6c188><button class="modal__close" aria-label="Закрыть" data-v-abf6c188>✕</button><h3 class="modal__title" data-v-abf6c188>Вход в аккаунт</h3><form class="modal__form" data-v-abf6c188><label class="modal__field" data-v-abf6c188><span class="modal__label" data-v-abf6c188>Электронная почта</span><input${ssrRenderAttr("value", email.value)} type="email" required autocomplete="email"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-abf6c188></label><label class="modal__field" data-v-abf6c188><span class="modal__label" data-v-abf6c188>Пароль</span><input${ssrRenderAttr("value", password.value)} type="password" required autocomplete="current-password"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-abf6c188></label><div class="modal__links" data-v-abf6c188><button type="button" class="button button--link"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-abf6c188> Забыли пароль? </button><button type="button" class="button button--link"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-abf6c188> Создать пользователя </button></div><div class="modal__actions" data-v-abf6c188><button type="submit" class="button button--primary"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-abf6c188>`);
+        if (!loading.value) {
+          _push(`<span data-v-abf6c188>Войти</span>`);
+        } else {
+          _push(`<span data-v-abf6c188>Вход...</span>`);
+        }
+        _push(`</button><button type="button" class="button"${ssrIncludeBooleanAttr(loading.value) ? " disabled" : ""} data-v-abf6c188>Отмена</button></div></form></div></div>`);
+      } else {
+        _push(`<!---->`);
+      }
+      _push(ssrRenderComponent(RegisterModal, {
+        visible: isRegisterOpen.value,
+        "onUpdate:visible": ($event) => isRegisterOpen.value = $event,
+        onRegister: onRegistered
+      }, null, _parent));
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$5 = _sfc_main$5.setup;
+_sfc_main$5.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/profile/Modals/LoginModal.vue");
+  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
+};
+const LoginModal = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-abf6c188"]]);
 const _sfc_main$4 = {
   __name: "Header",
   __ssrInlineRender: true,
   setup(__props) {
     const isUserMenuOpen = ref(false);
     const isMobileMenuOpen = ref(false);
+    const isLoginModalOpen = ref(false);
     const userToken = ref(true);
     const userData = ref({
       name: "Иван Иванов",
       email: "ivan@example.com"
     });
+    function handleLogin(user) {
+      userData.value = user;
+      userToken.value = true;
+    }
+    function closeUserMenu() {
+      isUserMenuOpen.value = false;
+    }
+    function closeMobileMenu() {
+      isMobileMenuOpen.value = false;
+    }
     const primaryPages = [
       { path: "/", title: "Главная" },
-      { path: "/portfolio", title: "Шаблоны" },
+      { path: "/templates", title: "Шаблоны" },
       { path: "/pricing", title: "Цены" },
       { path: "/services", title: "Услуги" }
     ];
@@ -1256,15 +1632,15 @@ const _sfc_main$4 = {
       { path: "/faq", title: "FAQ" }
     ];
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NuxtLink = __nuxt_component_0;
-      _push(`<header${ssrRenderAttrs(mergeProps({ class: "app-header" }, _attrs))} data-v-d2799132><div class="container app-header__container" data-v-d2799132><div class="app-header__top" data-v-d2799132>`);
+      const _component_NuxtLink = __nuxt_component_0$1;
+      _push(`<header${ssrRenderAttrs(mergeProps({ class: "app-header" }, _attrs))} data-v-73c34e12><div class="container app-header__container" data-v-73c34e12><div class="app-header__top" data-v-73c34e12>`);
       _push(ssrRenderComponent(_component_NuxtLink, {
         to: "/",
         class: "app-header__logo"
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(`<span class="app-header__logo-text" data-v-d2799132${_scopeId}>SITE.BY</span><span class="app-header__logo-badge" data-v-d2799132${_scopeId}>PRO</span>`);
+            _push2(`<span class="app-header__logo-text" data-v-73c34e12${_scopeId}>SITE.BY</span><span class="app-header__logo-badge" data-v-73c34e12${_scopeId}>PRO</span>`);
           } else {
             return [
               createVNode("span", { class: "app-header__logo-text" }, "SITE.BY"),
@@ -1274,9 +1650,9 @@ const _sfc_main$4 = {
         }),
         _: 1
       }, _parent));
-      _push(`<nav class="app-nav app-nav--primary" data-v-d2799132><ul class="app-nav__list" data-v-d2799132><!--[-->`);
+      _push(`<nav class="app-nav app-nav--primary" data-v-73c34e12><ul class="app-nav__list" data-v-73c34e12><!--[-->`);
       ssrRenderList(primaryPages, (page) => {
-        _push(`<li class="app-nav__item" data-v-d2799132>`);
+        _push(`<li class="app-nav__item" data-v-73c34e12>`);
         _push(ssrRenderComponent(_component_NuxtLink, {
           to: page.path,
           class: "app-nav__link",
@@ -1295,74 +1671,74 @@ const _sfc_main$4 = {
         }, _parent));
         _push(`</li>`);
       });
-      _push(`<!--]--></ul></nav><div class="app-header__actions" data-v-d2799132><a href="https://t.me/dozer_stoun" class="button button--outline app-header__telegram" target="_blank" data-v-d2799132><span class="app-header__telegram-icon" data-v-d2799132>`);
+      _push(`<!--]--></ul></nav><div class="app-header__actions" data-v-73c34e12><a href="https://t.me/dozer_stoun" class="button button--outline app-header__telegram" target="_blank" data-v-73c34e12><span class="app-header__telegram-icon" data-v-73c34e12>`);
       _push(ssrRenderComponent(unref(IconClick), { class: "app-header__telegram-img" }, null, _parent));
-      _push(`</span><span class="app-header__telegram-text" data-v-d2799132>Купить в клик</span></a>`);
-      if (userToken.value) {
-        _push(`<div class="app-header__profile" data-v-d2799132><button class="app-header__profile-toggle" data-v-d2799132><div class="app-header__avatar" data-v-d2799132> 👤 </div><span class="app-header__user-name" data-v-d2799132>${ssrInterpolate(userData.value.name)}</span></button>`);
+      _push(`</span><span class="app-header__telegram-text" data-v-73c34e12>Купить в клик</span></a>`);
+      if (userToken.value && userData.value && userData.value.name) {
+        _push(`<div class="app-header__profile" data-v-73c34e12><button class="app-header__profile-toggle" data-v-73c34e12><div class="app-header__avatar" data-v-73c34e12>👤</div><span class="app-header__user-name" data-v-73c34e12>${ssrInterpolate(userData.value.name)}</span></button>`);
         if (isUserMenuOpen.value) {
-          _push(`<div class="user-menu" data-v-d2799132><div class="user-menu__header" data-v-d2799132><div class="user-menu__avatar" data-v-d2799132> 👤 </div><div class="user-menu__info" data-v-d2799132><div class="user-menu__name" data-v-d2799132>${ssrInterpolate(userData.value.name)}</div><div class="user-menu__email" data-v-d2799132>${ssrInterpolate(userData.value.email)}</div></div></div><ul class="user-menu__list" data-v-d2799132><li class="user-menu__item" data-v-d2799132>`);
+          _push(`<div class="user-menu" data-v-73c34e12><div class="user-menu__header" data-v-73c34e12><div class="user-menu__avatar" data-v-73c34e12>👤</div><div class="user-menu__info" data-v-73c34e12><div class="user-menu__name" data-v-73c34e12>${ssrInterpolate(userData.value.name)}</div><div class="user-menu__email" data-v-73c34e12>${ssrInterpolate(userData.value.email)}</div></div></div><ul class="user-menu__list" data-v-73c34e12><li class="user-menu__item" data-v-73c34e12>`);
           _push(ssrRenderComponent(_component_NuxtLink, {
             to: "/profile",
             class: "user-menu__link",
-            onClick: ($event) => isUserMenuOpen.value = false
+            onClick: closeUserMenu
           }, {
             default: withCtx((_, _push2, _parent2, _scopeId) => {
               if (_push2) {
-                _push2(` Мой профиль `);
+                _push2(`Мой профиль`);
               } else {
                 return [
-                  createTextVNode(" Мой профиль ")
+                  createTextVNode("Мой профиль")
                 ];
               }
             }),
             _: 1
           }, _parent));
-          _push(`</li><li class="user-menu__item" data-v-d2799132>`);
+          _push(`</li><li class="user-menu__item" data-v-73c34e12>`);
           _push(ssrRenderComponent(_component_NuxtLink, {
             to: "/profile?tab=orders",
             class: "user-menu__link",
-            onClick: ($event) => isUserMenuOpen.value = false
+            onClick: closeUserMenu
           }, {
             default: withCtx((_, _push2, _parent2, _scopeId) => {
               if (_push2) {
-                _push2(` Мои заказы `);
+                _push2(`Мои заказы`);
               } else {
                 return [
-                  createTextVNode(" Мои заказы ")
+                  createTextVNode("Мои заказы")
                 ];
               }
             }),
             _: 1
           }, _parent));
-          _push(`</li><li class="user-menu__item" data-v-d2799132>`);
+          _push(`</li><li class="user-menu__item" data-v-73c34e12>`);
           _push(ssrRenderComponent(_component_NuxtLink, {
             to: "/profile?tab=balance",
             class: "user-menu__link",
-            onClick: ($event) => isUserMenuOpen.value = false
+            onClick: closeUserMenu
           }, {
             default: withCtx((_, _push2, _parent2, _scopeId) => {
               if (_push2) {
-                _push2(` Баланс `);
+                _push2(`Баланс`);
               } else {
                 return [
-                  createTextVNode(" Баланс ")
+                  createTextVNode("Баланс")
                 ];
               }
             }),
             _: 1
           }, _parent));
-          _push(`</li></ul><div class="user-menu__footer" data-v-d2799132><button class="user-menu__logout" data-v-d2799132>Выйти из аккаунта</button></div></div>`);
+          _push(`</li></ul><div class="user-menu__footer" data-v-73c34e12><button class="user-menu__logout" data-v-73c34e12>Выйти из аккаунта</button></div></div>`);
         } else {
           _push(`<!---->`);
         }
         _push(`</div>`);
       } else {
-        _push(`<!---->`);
+        _push(`<div data-v-73c34e12><button class="button button--primary" data-v-73c34e12>Войти</button></div>`);
       }
-      _push(`<button class="app-header__menu-toggle" data-v-d2799132><span class="${ssrRenderClass([{ "app-header__menu-icon--active": isMobileMenuOpen.value }, "app-header__menu-icon"])}" data-v-d2799132></span></button></div></div><div class="app-header__bottom" data-v-d2799132><nav class="app-nav app-nav--secondary" data-v-d2799132><ul class="app-nav__list" data-v-d2799132><!--[-->`);
+      _push(`<button class="app-header__menu-toggle" data-v-73c34e12><span class="${ssrRenderClass([{ "app-header__menu-icon--active": isMobileMenuOpen.value }, "app-header__menu-icon"])}" data-v-73c34e12></span></button></div></div><div class="app-header__bottom" data-v-73c34e12><nav class="app-nav app-nav--secondary" data-v-73c34e12><ul class="app-nav__list" data-v-73c34e12><!--[-->`);
       ssrRenderList(secondaryPages, (page) => {
-        _push(`<li class="app-nav__item" data-v-d2799132>`);
+        _push(`<li class="app-nav__item" data-v-73c34e12>`);
         _push(ssrRenderComponent(_component_NuxtLink, {
           to: page.path,
           class: "app-nav__link",
@@ -1381,13 +1757,13 @@ const _sfc_main$4 = {
         }, _parent));
         _push(`</li>`);
       });
-      _push(`<!--]--></ul></nav></div></div><div class="${ssrRenderClass([{ "app-mobile-menu--active": isMobileMenuOpen.value }, "app-mobile-menu"])}" data-v-d2799132><div class="app-mobile-menu__content" data-v-d2799132><nav class="app-mobile-nav" data-v-d2799132><div class="app-mobile-nav__section" data-v-d2799132><h3 class="app-mobile-nav__title" data-v-d2799132>Основные</h3><ul class="app-mobile-nav__list" data-v-d2799132><!--[-->`);
+      _push(`<!--]--></ul></nav></div></div><div class="${ssrRenderClass([{ "app-mobile-menu--active": isMobileMenuOpen.value }, "app-mobile-menu"])}" data-v-73c34e12><div class="app-mobile-menu__content" data-v-73c34e12><nav class="app-mobile-nav" data-v-73c34e12><div class="app-mobile-nav__section" data-v-73c34e12><h3 class="app-mobile-nav__title" data-v-73c34e12>Основные</h3><ul class="app-mobile-nav__list" data-v-73c34e12><!--[-->`);
       ssrRenderList(primaryPages, (page) => {
-        _push(`<li class="app-mobile-nav__item" data-v-d2799132>`);
+        _push(`<li class="app-mobile-nav__item" data-v-73c34e12>`);
         _push(ssrRenderComponent(_component_NuxtLink, {
           to: page.path,
           class: "app-mobile-nav__link",
-          onClick: ($event) => isMobileMenuOpen.value = false,
+          onClick: closeMobileMenu,
           "exact-active-class": "app-mobile-nav__link--active"
         }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -1403,13 +1779,13 @@ const _sfc_main$4 = {
         }, _parent));
         _push(`</li>`);
       });
-      _push(`<!--]--></ul></div><div class="app-mobile-nav__section" data-v-d2799132><h3 class="app-mobile-nav__title" data-v-d2799132>Дополнительные</h3><ul class="app-mobile-nav__list" data-v-d2799132><!--[-->`);
+      _push(`<!--]--></ul></div><div class="app-mobile-nav__section" data-v-73c34e12><h3 class="app-mobile-nav__title" data-v-73c34e12>Дополнительные</h3><ul class="app-mobile-nav__list" data-v-73c34e12><!--[-->`);
       ssrRenderList(secondaryPages, (page) => {
-        _push(`<li class="app-mobile-nav__item" data-v-d2799132>`);
+        _push(`<li class="app-mobile-nav__item" data-v-73c34e12>`);
         _push(ssrRenderComponent(_component_NuxtLink, {
           to: page.path,
           class: "app-mobile-nav__link",
-          onClick: ($event) => isMobileMenuOpen.value = false,
+          onClick: closeMobileMenu,
           "active-class": "app-mobile-nav__link--active"
         }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -1425,7 +1801,13 @@ const _sfc_main$4 = {
         }, _parent));
         _push(`</li>`);
       });
-      _push(`<!--]--></ul></div></nav></div></div></header>`);
+      _push(`<!--]--></ul></div><div class="app-mobile-nav__section" data-v-73c34e12><ul class="app-mobile-nav__list" data-v-73c34e12><li class="app-mobile-nav__item" data-v-73c34e12><button class="app-mobile-nav__link" data-v-73c34e12>Войти</button></li></ul></div></nav></div></div>`);
+      _push(ssrRenderComponent(LoginModal, {
+        visible: isLoginModalOpen.value,
+        "onUpdate:visible": ($event) => isLoginModalOpen.value = $event,
+        onLogin: handleLogin
+      }, null, _parent));
+      _push(`</header>`);
     };
   }
 };
@@ -1435,7 +1817,7 @@ _sfc_main$4.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/layout/Header.vue");
   return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
 };
-const Header = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-d2799132"]]);
+const Header = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-73c34e12"]]);
 const _sfc_main$3 = {
   __name: "Footer",
   __ssrInlineRender: true,
@@ -1443,7 +1825,7 @@ const _sfc_main$3 = {
     const telegramLink = ref("https://t.me/dozer_stoun");
     ref((/* @__PURE__ */ new Date()).getFullYear());
     return (_ctx, _push, _parent, _attrs) => {
-      _push(`<footer${ssrRenderAttrs(mergeProps({ class: "footer" }, _attrs))} data-v-64cb09d7><div class="footer__container container" data-v-64cb09d7><div class="footer__brand" data-v-64cb09d7><div class="footer__logo" data-v-64cb09d7>site.by pro</div><p class="footer__tagline" data-v-64cb09d7>Быстрые сайты для быстрых денег</p><a${ssrRenderAttr("href", telegramLink.value)} class="footer__telegram" target="_blank" rel="noopener" aria-label="Наш Telegram" data-v-64cb09d7><span class="footer__telegram-icon" data-v-64cb09d7>✈️</span><span class="footer__telegram-text" data-v-64cb09d7>Пишите в Telegram</span></a></div><div class="footer__nav" data-v-64cb09d7><h4 class="footer__title" data-v-64cb09d7>Навигация</h4><ul class="footer__list" data-v-64cb09d7><li data-v-64cb09d7><a href="#" class="footer__link" data-v-64cb09d7>Главная</a></li><li data-v-64cb09d7><a href="#" class="footer__link" data-v-64cb09d7>Портфолио</a></li><li data-v-64cb09d7><a href="#" class="footer__link" data-v-64cb09d7>Тарифы</a></li><li data-v-64cb09d7><a href="#" class="footer__link" data-v-64cb09d7>Блог</a></li></ul></div><div class="footer__services" data-v-64cb09d7><h4 class="footer__title" data-v-64cb09d7>Услуги</h4><ul class="footer__list" data-v-64cb09d7><li data-v-64cb09d7><a href="#" class="footer__link" data-v-64cb09d7>Лендинги</a></li><li data-v-64cb09d7><a href="#" class="footer__link" data-v-64cb09d7>Корпоративные сайты</a></li><li data-v-64cb09d7><a href="#" class="footer__link" data-v-64cb09d7>Интернет-магазины</a></li><li data-v-64cb09d7><a href="#" class="footer__link" data-v-64cb09d7>SEO-оптимизация</a></li></ul></div></div><div class="footer__bottom" data-v-64cb09d7><div class="container" data-v-64cb09d7><div class="footer__copyright" data-v-64cb09d7> © 2022 sitebypro. Продажа сайтов. <span class="footer__highlight" data-v-64cb09d7>Быстрые сайты.</span></div></div></div></footer>`);
+      _push(`<footer${ssrRenderAttrs(mergeProps({ class: "footer" }, _attrs))} data-v-3ae4bd54><div class="footer__container container" data-v-3ae4bd54><div class="footer__brand" data-v-3ae4bd54><div class="footer__logo" data-v-3ae4bd54>SiteByPro</div><p class="footer__tagline" data-v-3ae4bd54>Быстрые сайты для быстрых денег</p><a${ssrRenderAttr("href", telegramLink.value)} class="footer__telegram" target="_blank" rel="noopener" aria-label="Наш Telegram" data-v-3ae4bd54><span class="footer__telegram-icon" data-v-3ae4bd54>✈️</span><span class="footer__telegram-text" data-v-3ae4bd54>Пишите в Telegram</span></a></div><div class="footer__nav" data-v-3ae4bd54><h4 class="footer__title" data-v-3ae4bd54>Навигация</h4><ul class="footer__list" data-v-3ae4bd54><li data-v-3ae4bd54><a href="#" class="footer__link" data-v-3ae4bd54>Главная</a></li><li data-v-3ae4bd54><a href="#" class="footer__link" data-v-3ae4bd54>Портфолио</a></li><li data-v-3ae4bd54><a href="#" class="footer__link" data-v-3ae4bd54>Тарифы</a></li><li data-v-3ae4bd54><a href="#" class="footer__link" data-v-3ae4bd54>Блог</a></li></ul></div><div class="footer__services" data-v-3ae4bd54><h4 class="footer__title" data-v-3ae4bd54>Услуги</h4><ul class="footer__list" data-v-3ae4bd54><li data-v-3ae4bd54><a href="#" class="footer__link" data-v-3ae4bd54>Лендинги</a></li><li data-v-3ae4bd54><a href="#" class="footer__link" data-v-3ae4bd54>Корпоративные сайты</a></li><li data-v-3ae4bd54><a href="#" class="footer__link" data-v-3ae4bd54>Интернет-магазины</a></li><li data-v-3ae4bd54><a href="#" class="footer__link" data-v-3ae4bd54>SEO-оптимизация</a></li></ul></div></div><div class="footer__bottom" data-v-3ae4bd54><div class="container" data-v-3ae4bd54><div class="footer__copyright" data-v-3ae4bd54> © 2022 sitebypro. Продажа сайтов. <span class="footer__highlight" data-v-3ae4bd54>Быстрые сайты.</span></div></div></div></footer>`);
     };
   }
 };
@@ -1453,13 +1835,15 @@ _sfc_main$3.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/layout/Footer.vue");
   return _sfc_setup$3 ? _sfc_setup$3(props, ctx) : void 0;
 };
-const Footer = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-64cb09d7"]]);
+const Footer = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-3ae4bd54"]]);
 const _sfc_main$2 = {
   __name: "app",
   __ssrInlineRender: true,
   setup(__props) {
+    const userStore = useUserStore();
+    userStore.init();
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_NuxtPage = __nuxt_component_0$1;
+      const _component_NuxtPage = __nuxt_component_0;
       _push(`<div${ssrRenderAttrs(_attrs)}>`);
       _push(ssrRenderComponent(Header, null, null, _parent));
       _push(ssrRenderComponent(_component_NuxtPage, null, null, _parent));
@@ -1495,8 +1879,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-CbggMTdg.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-Dkau74HC.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-DgDmAJS8.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-rcu-Y2Rc.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -1578,5 +1962,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { NuxtIcon as N, _export_sfc as _, __nuxt_component_0 as a, entry$1 as default, tryUseNuxtApp as t };
+export { API as A, NuxtIcon as N, _export_sfc as _, __nuxt_component_0$1 as a, entry$1 as default, navigateTo as n, tryUseNuxtApp as t, useUserStore as u };
 //# sourceMappingURL=server.mjs.map

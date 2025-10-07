@@ -4001,7 +4001,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "9a4f34cb-ae40-47b4-82e5-e93857e2cfd0",
+    "buildId": "a310ad08-7c32-4422-807d-b37e34ed5d37",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -4502,7 +4502,7 @@ function publicAssetsURL(...path) {
   return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
 }
 
-const _H7c91d = lazyEventHandler(() => {
+const _86eX16 = lazyEventHandler(() => {
   const opts = useRuntimeConfig().ipx || {};
   const fsDir = opts?.fs?.dir ? (Array.isArray(opts.fs.dir) ? opts.fs.dir : [opts.fs.dir]).map((dir) => isAbsolute(dir) ? dir : fileURLToPath(new URL(dir, globalThis._importMeta_.url))) : void 0;
   const fsStorage = opts.fs?.dir ? ipxFSStorage({ ...opts.fs, dir: fsDir }) : void 0;
@@ -4520,13 +4520,13 @@ const _H7c91d = lazyEventHandler(() => {
   return useBase(opts.baseURL, ipxHandler);
 });
 
-const _lazy_p2E_xI = () => import('../routes/renderer.mjs').then(function (n) { return n.r; });
+const _lazy_urUS2P = () => import('../routes/renderer.mjs').then(function (n) { return n.r; });
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_p2E_xI, lazy: true, middleware: false, method: undefined },
+  { route: '/__nuxt_error', handler: _lazy_urUS2P, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
-  { route: '/_ipx/**', handler: _H7c91d, lazy: false, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_p2E_xI, lazy: true, middleware: false, method: undefined }
+  { route: '/_ipx/**', handler: _86eX16, lazy: false, middleware: false, method: undefined },
+  { route: '/**', handler: _lazy_urUS2P, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -4713,5 +4713,5 @@ function getCacheHeaders(url) {
   return {};
 }
 
-export { $fetch as $, getResponseStatus as a, buildAssetsURL as b, getQuery as c, defineRenderHandler as d, createError$1 as e, getRouteRules as f, getResponseStatusText as g, useNitroApp as h, parseQuery as i, hasProtocol as j, joinURL as k, getContext as l, withTrailingSlash as m, withoutTrailingSlash as n, isScriptProtocol as o, publicAssetsURL as p, baseURL as q, createHooks as r, sanitizeStatusCode as s, executeAsync as t, useRuntimeConfig as u, toRouteMatcher as v, withQuery as w, createRouter$1 as x, defu as y, handler as z };
+export { $fetch as $, getResponseStatus as a, buildAssetsURL as b, getQuery as c, defineRenderHandler as d, createError$1 as e, getRouteRules as f, getResponseStatusText as g, useNitroApp as h, parseQuery as i, hasProtocol as j, isScriptProtocol as k, joinURL as l, getContext as m, withTrailingSlash as n, withoutTrailingSlash as o, publicAssetsURL as p, baseURL as q, createHooks as r, sanitizeStatusCode as s, executeAsync as t, useRuntimeConfig as u, toRouteMatcher as v, withQuery as w, createRouter$1 as x, defu as y, handler as z };
 //# sourceMappingURL=nitro.mjs.map

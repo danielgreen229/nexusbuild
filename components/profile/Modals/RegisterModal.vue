@@ -28,13 +28,15 @@
           <!-- Телефон -->
           <label class="modal__field">
             <span class="modal__label">Телефон</span>
-            <VueTelInput
-              v-model="phone"
-              :default-country="'RU'"
-              :disabled="loading"
-              placeholder="+7 ___ ___ __ __"
-              @input="onPhoneInput"
-            />
+            <client-only>
+              <VueTelInput
+                v-model="phone"
+                :default-country="'RU'"
+                :disabled="loading"
+                placeholder="+7 ___ ___ __ __"
+                @input="onPhoneInput"
+              />
+            </client-only>
             <div v-if="phoneError" class="field-error">{{ phoneError }}</div>
           </label>
 

@@ -1,0 +1,5 @@
+const ProfileInfo_vue_vue_type_style_index_0_scoped_9f526a4a_lang = ".profile-info__header[data-v-9f526a4a]{align-items:center;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;margin-bottom:30px;padding-bottom:15px}.profile-info__title[data-v-9f526a4a]{color:var(--dark);font-size:1.8rem}.profile-info__actions[data-v-9f526a4a]{display:flex;gap:10px}.profile-info__item[data-v-9f526a4a]{border-bottom:1px solid #f1f5f9;display:flex;margin-bottom:20px;padding-bottom:20px}.profile-info__label[data-v-9f526a4a]{color:var(--dark);font-weight:600;width:150px}.profile-info__value[data-v-9f526a4a]{color:var(--gray);flex:1}.profile-info__form-group[data-v-9f526a4a]{margin-bottom:20px}.profile-info__form-label[data-v-9f526a4a]{color:var(--dark);display:block;font-weight:600;margin-bottom:8px}.profile-info__form-input[data-v-9f526a4a]{border:1px solid #e2e8f0;border-radius:8px;font-size:1rem;padding:12px 15px;width:100%}";
+export {
+  ProfileInfo_vue_vue_type_style_index_0_scoped_9f526a4a_lang as default
+};
+//# sourceMappingURL=ProfileInfo-styles-1.mjs-hccSof5K.js.map

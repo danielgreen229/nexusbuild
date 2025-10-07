@@ -1,0 +1,1 @@
+{"file":"login-UxcJ1qva.js","mappings":";;;;;;;;;;;;;;;;AACO,QAAA,OAAAA,eAAAC,WAAA,EAAA,OAAM,eAAW,MAAA,CAAA,CAAA,qDAAA;;;;;;;;;","names":["_ssrRenderAttrs","_mergeProps"],"sources":["../../../../pages/login.vue"],"sourcesContent":["<template>\n  <div class=\"container\">\n    <h1>Вход в аккаунт</h1>\n    <p>Страница входа</p>\n  </div>\n</template>"],"version":3}

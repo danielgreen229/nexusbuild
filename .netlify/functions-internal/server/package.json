@@ -10,12 +10,15 @@
     "@vue/compiler-core": "3.5.17",
     "@vue/compiler-dom": "3.5.17",
     "@vue/compiler-ssr": "3.5.17",
-    "@vue/devtools-api": "6.6.4",
+    "@vue/devtools-api": "7.7.7",
+    "@vue/devtools-kit": "7.7.7",
+    "@vue/devtools-shared": "7.7.7",
     "@vue/reactivity": "3.5.17",
     "@vue/runtime-core": "3.5.17",
     "@vue/runtime-dom": "3.5.17",
     "@vue/server-renderer": "3.5.17",
     "@vue/shared": "3.5.17",
+    "birpc": "2.4.0",
     "boolbase": "1.0.0",
     "color": "4.2.3",
     "color-convert": "2.0.1",
@@ -49,6 +52,8 @@
     "nth-check": "2.1.1",
     "ofetch": "1.4.1",
     "pathe": "1.1.2",
+    "perfect-debounce": "1.0.0",
+    "pinia": "3.0.3",
     "radix3": "1.1.2",
     "semver": "7.7.2",
     "sharp": "0.32.6",
@@ -60,6 +65,7 @@
     "unhead": "2.0.11",
     "vue": "3.5.17",
     "vue-bundle-renderer": "2.1.1",
-    "vue-router": "4.5.1"
+    "vue-router": "4.5.1",
+    "vue3-tel-input": "1.0.4"
   }
 }
