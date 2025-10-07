@@ -1,0 +1,1 @@
+import{_ as o,c as s,o as t,a as n}from"./yK3Y99Sc.js";const c={},r={class:"container"};function a(l,e){return t(),s("div",r,e[0]||(e[0]=[n("h1",null,"Вход в аккаунт",-1),n("p",null,"Страница входа",-1)]))}const i=o(c,[["render",a]]);export{i as default};

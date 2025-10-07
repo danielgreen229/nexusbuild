@@ -65,9 +65,15 @@ export const useUserStore = defineStore('user', {
         this.user = data.user || null
         this.token = data.token || null
 
-        if (this.token) {
-          localStorage.setItem('token', this.token)
-          // Авто-подгрузка текущего пользователя не нужна, т.к. уже есть user
+        // localStorage доступен только в браузере
+        if (this.token && typeof window !== 'undefined') {
+          try {
+            localStorage.setItem('token', this.token)
+          } catch (e) {
+            // безопасно игнорируем ошибки записи (например, режим инкогнито)
+            // можно логировать при необходимости
+            console.warn('localStorage setItem failed', e)
+          }
         }
 
         return data
@@ -82,7 +88,13 @@ export const useUserStore = defineStore('user', {
     logout() {
       this.user = null
       this.token = null
-      localStorage.removeItem('token')
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.removeItem('token')
+        } catch (e) {
+          console.warn('localStorage removeItem failed', e)
+        }
+      }
     },
 
     async fetchCurrentUser() {
@@ -141,13 +153,20 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    // Новая функция для автоматической подгрузки токена и пользователя при старте
+    // init() теперь выполняется только в клиенте (плагин вызывает его)
     async init() {
-      const token = localStorage.getItem('token')
-      console.log(token)
-      if (token) {
-        this.token = token
-        await this.fetchCurrentUser()
+      if (typeof window === 'undefined') return // safety: не выполнять на сервере
+      try {
+        const token = localStorage.getItem('token')
+        if (token) {
+          this.token = token
+          // попытка подгрузить текущего пользователя
+          await this.fetchCurrentUser()
+        }
+      } catch (e) {
+        // в случае ошибок localStorage или fetch — просто очищаем состояние
+        console.warn('user.init error', e)
+        this.logout()
       }
     }
   }
