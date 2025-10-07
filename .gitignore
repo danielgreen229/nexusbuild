@@ -1,2 +1,10 @@
-*node_modules/*
-*dist/*
+# Base
+node_modules/
+dist/
+.nuxt/
+.output/
+.cache/
+.env
+.DS_Store
+.idea/
+.vscode/
