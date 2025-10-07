@@ -1,6 +1,5 @@
 # Base
 node_modules/
-dist/
 .nuxt/
 .cache/
 .env
