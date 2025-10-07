@@ -1,9 +1,7 @@
 [build]
-  command = "npm run build"
-  publish = ".output/public"
-  functions = ".output/server/functions"
+  command = "npm ci && npm run generate"
+  publish = "dist"
+  environment = { NODE_VERSION = "20" }
 
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/server"
-  status = 200
+[context.production.environment]
+  NUXT_TELEMETRY_DISABLED = "1"
