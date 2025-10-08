@@ -3,18 +3,39 @@ import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 
 import Header from '@/components/layout/Header.vue'
 import Footer from '@/components/layout/Footer.vue'
+import { useUserStore } from '~/stores/user' // оставил твой alias - подгони, если нужно
+
 const userStore = useUserStore()
 
-userStore.init()
+// Если нужно где-то локально использовать данные пользователя:
+const isAuthenticated = computed(() => !!userStore.isAuthenticated)
+const currentUser = computed(() => userStore.user || null)
 
-onMounted(() => {
-  document.querySelector('meta[name="viewport"]').setAttribute(
+onMounted(async () => {
+  // viewport / zoom
+  /*document.querySelector('meta[name="viewport"]')?.setAttribute(
     'content',
     'width=device-width, initial-scale=0.8'
-  );
-  document.body.style.zoom = "80%";
-})
+  )
+  document.body.style.zoom = '80%'
+  */
 
+  try {
+    // Инициализация: прочитать токен/uid из localStorage в стор
+    userStore.initFromStorage()
+
+    // Если токен/uid есть — подгружаем данные пользователя с сервера
+    if (userStore.token && userStore.uid) {
+      await userStore.fetchCurrentUser()
+      console.log('User initialized from token:', userStore.user)
+    } else {
+      console.log('No token/uid in storage — user not authenticated')
+    }
+  } catch (err) {
+    // Логируем ошибку. Стор сам выставит userStore.error
+    console.error('Error initializing user:', err)
+  }
+})
 </script>
 
 <template>

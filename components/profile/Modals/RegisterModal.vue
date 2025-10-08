@@ -13,6 +13,8 @@
         <h3 class="modal__title">Создать пользователя</h3>
 
         <form class="modal__form" @submit.prevent="submit">
+          <div v-if="error" class="modal__error" role="alert">{{ error }}</div>
+
           <!-- ФИО -->
           <label class="modal__field">
             <span class="modal__label">ФИО</span>
@@ -30,7 +32,7 @@
             <span class="modal__label">Телефон</span>
             <client-only>
               <VueTelInput
-                v-model="phone"
+                v-model="telInput"
                 :default-country="'RU'"
                 :disabled="loading"
                 placeholder="+7 ___ ___ __ __"
@@ -73,34 +75,42 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, nextTick, onMounted, onBeforeUnmount, computed } from 'vue'
 import 'vue3-tel-input/dist/vue3-tel-input.css'
 import { VueTelInput } from 'vue3-tel-input'
-import { useUserStore } from '~/stores/user'
+import { useUserStore } from '~/stores/user' // оставил ваш alias; подгоните при необходимости
 
 const props = defineProps({ visible: Boolean })
-const emit = defineEmits(['update:visible'])
+const emit = defineEmits(['update:visible', 'register'])
 
 const store = useUserStore()
 
 const fullname = ref('')
 const city = ref('')
+const telInput = ref('') // привязка к компоненту tel-input
 const phone = ref('')
 const phoneError = ref('')
 const username = ref('')
 const email = ref('')
 const password = ref('')
-const loading = ref(false)
 const modal = ref(null)
 
+// используем загрузку/ошибку из стора
+const loading = computed(() => !!store.loading)
+const error = computed(() => store.error || '')
+
 function onPhoneInput(value) {
+  // value может быть строкой с плюс-символом или уже в формате
   if (typeof value === 'string') {
     const digits = value.replace(/\D/g, '')
-    if (!digits.startsWith('7') || digits.length !== 11) {
+    // нормализуем российский формат: допускаем +7 или 8
+    let norm = digits
+    if (norm.startsWith('8')) norm = '7' + norm.slice(1)
+    if (!norm.startsWith('7') || norm.length !== 11) {
       phoneError.value = 'Введите корректный российский номер (+7)'
     } else {
       phoneError.value = ''
-      phone.value = digits
+      phone.value = norm
     }
   }
 }
@@ -113,6 +123,7 @@ function close() {
 function resetForm() {
   fullname.value = ''
   city.value = ''
+  telInput.value = ''
   phone.value = ''
   phoneError.value = ''
   username.value = ''
@@ -127,22 +138,26 @@ async function submit() {
     return
   }
 
-  loading.value = true
   try {
-    await store.register({
+    // payload соответствует тому, что ваш сервер ожидает
+    const payload = {
       fullname: fullname.value,
       city: city.value,
       phone: phone.value,
       username: username.value,
       email: email.value,
       password: password.value
-    })
+    }
+
+    const created = await store.register(payload)
+    // store.register возвращает data (созданного пользователя)
+    emit('register', created)
     close()
     resetForm()
   } catch (err) {
-    console.log(store.error || 'Ошибка при регистрации')
-  } finally {
-    loading.value = false
+    // Ошибка лежит в store.error — мы её показываем в блоке error
+    // можно также логировать
+    console.error('register failed', err)
   }
 }
 
@@ -156,22 +171,18 @@ onMounted(() => document.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 </script>
 
-
-
-
-
 <style scoped>
 .vue-tel-input:focus-within {
-	box-shadow: none;	
-	border-radius: 0.5rem;
-	border: 0.12rem solid var(--primary);
+  box-shadow: none; 
+  border-radius: 0.5rem;
+  border: 0.12rem solid var(--primary);
 }
 .vti__input {
-	border-radius: 0.5rem;
+  border-radius: 0.5rem;
 }
 .vue-tel-input {
-	border: 0.12rem solid #e6eef5;
-	border-radius: 0.5rem;
+  border: 0.12rem solid #e6eef5;
+  border-radius: 0.5rem;
 }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1200; }
 .modal { width: 26.25rem; max-width: calc(100% - 2.5rem); background: #fff; border-radius: 0.5rem; padding: 1rem; box-shadow: 0 1.25rem 3.125rem rgba(2,6,23,0.25); outline: none; position: relative; }
@@ -183,6 +194,16 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 .modal__field input { padding: 0.625rem 0.75rem; border-radius: 0.5rem; border: 0.0625rem solid #e6eef5; }
 .field-error { color: #ef4444; font-size: 0.8rem; margin-top: 0.375rem; }
 .modal__actions { display: flex; gap: 0.625rem; justify-content: flex-end; margin-top: 0.375rem; }
+
+.modal__error {
+  background: #fff5f5;
+  color: #a00;
+  border: 1px solid rgba(170,0,0,0.08);
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+}
+
 .modal-fade-enter-active, .modal-fade-leave-active { transition: opacity 0.18s ease; }
 .modal-fade-enter-from, .modal-fade-leave-to { opacity: 0; }
 </style>

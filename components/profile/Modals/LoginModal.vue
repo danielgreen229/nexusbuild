@@ -15,6 +15,8 @@
           <h3 class="modal__title">Вход в аккаунт</h3>
 
           <form class="modal__form" @submit.prevent="submit">
+            <div v-if="error" class="modal__error" role="alert">{{ error }}</div>
+
             <label class="modal__field">
               <span class="modal__label">Электронная почта</span>
               <input
@@ -80,20 +82,27 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue'
-import RegisterModal from './RegisterModal.vue' // предположим тот же каталог
+import { ref, watch, nextTick, onMounted, onBeforeUnmount, computed } from 'vue'
+import RegisterModal from './RegisterModal.vue'
+import { useUserStore } from '@/stores/user' // путь к стору — при необходимости поправь
 
 const props = defineProps({
-  visible: { type: Boolean, default: false }
+  visible: { type: Boolean, default: false },
+  startWithRegister: { type: Boolean, default: false } // новый проп
 })
 const emit = defineEmits(['update:visible', 'login', 'create-user', 'forgot-password', 'register'])
 
+const userStore = useUserStore()
+
 const email = ref('')
 const password = ref('')
-const loading = ref(false)
 const modal = ref(null)
 const emailInput = ref(null)
-const isRegisterOpen = ref(false) // внутренний флаг для открытия регистрационной модалки
+const isRegisterOpen = ref(false)
+
+// Используем состояние и ошибки из стора
+const loading = computed(() => !!userStore.loading)
+const error = computed(() => userStore.error)
 
 function close() {
   if (loading.value) return
@@ -102,29 +111,43 @@ function close() {
 
 async function submit() {
   if (loading.value) return
-  loading.value = true
 
-  // Заглушка для реального запроса
-  await new Promise((r) => setTimeout(r, 600))
+  // Подготовим полезную полезную нагрузку, которую ожидает ваш API
+  const payload = {
+    email: (email.value || '').trim(),
+    password: password.value
+  }
 
-  const name = email.value ? email.value.split('@')[0] : 'Пользователь'
-  const user = { name, email: email.value }
-  emit('login', user)
-  loading.value = false
-  close()
-  email.value = ''
-  password.value = ''
+  try {
+    // Вызов action'а login стора
+    await userStore.login(payload)
+
+    // После успешного логина: пробросим событие и закроем модалку
+    emit('login', userStore.user)
+    emit('update:visible', false)
+
+    // Сброс полей
+    email.value = ''
+    password.value = ''
+  } catch (err) {
+    // Ошибка уже лежит в userStore.error — форма показывает её через computed
+    // Можно дополнительно логировать или показывать нативный toast
+    // console.error(err)
+  }
+}
+
+function openRegisterFromLogin() {
+  // Повторяем поведение onCreateUser: закрываем логин и открываем встроенную регистрацию
+  if (loading.value) return
+  emit('create-user')
+  emit('update:visible', false)
+  // Небольшая задержка, чтобы анимации не наслаивались
+  setTimeout(() => { isRegisterOpen.value = true }, 60)
 }
 
 function onCreateUser() {
   if (loading.value) return
-
-  emit('create-user')
-
-  // Закрываем текущий логин и открываем встроенную регистрацию
-  emit('update:visible', false)
-  // Открываем регистрацию чуть позже, чтобы избежать конфликтов фокусов/анимаций
-  setTimeout(() => { isRegisterOpen.value = true }, 60)
+  openRegisterFromLogin()
 }
 
 function onForgotPassword() {
@@ -135,29 +158,40 @@ function onForgotPassword() {
 
 function onEsc() { close() }
 
-// Обработчик когда регистрация внутри завершилась
 function onRegistered(user) {
-  // Пробрасываем наверх и, при желании, сразу логиним пользователя
   emit('register', user)
-  // Также можно автоматически логинить — раскомментируй при необходимости
-  // emit('login', user)
+  // при желании автоматически логинить — оставлено комментом
+  // userStore.login({ email: user.email, password: user.password })
 }
 
-// Фокус при открытии
+// Фокус при открытии — используем nextTick как раньше.
+// Если пришёл флаг startWithRegister и модалка открывается — сразу переключаем на регистрацию
 watch(() => props.visible, async (v) => {
   if (v) {
     await nextTick()
-    setTimeout(() => emailInput.value?.focus(), 50)
+    if (props.startWithRegister) {
+      // сразу открываем регистрацию вместо показа логина
+      openRegisterFromLogin()
+    } else {
+      setTimeout(() => emailInput.value?.focus(), 50)
+    }
   }
 })
+
+// Если компонент уже открыт на маунте и проп startWithRegister true — тоже откроем регистрацию
+onMounted(() => {
+  if (props.visible && props.startWithRegister) {
+    // небольшой nextTick и таймаут для согласованности с анимацией
+    nextTick(() => setTimeout(() => openRegisterFromLogin(), 20))
+  }
+  document.addEventListener('keydown', onKeydown)
+})
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 
 // Доп. обработка клавиш
 function onKeydown(e) {
   if (e.key === 'Escape') onEsc()
 }
-
-onMounted(() => document.addEventListener('keydown', onKeydown))
-onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 </script>
 
 <style scoped>
@@ -219,6 +253,15 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
   font-size: 0.875rem;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.modal__error {
+  background: #fff5f5;
+  color: #a00;
+  border: 1px solid rgba(170,0,0,0.08);
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
 }
 
 .modal-fade-enter-active, .modal-fade-leave-active { transition: opacity 0.18s ease; }

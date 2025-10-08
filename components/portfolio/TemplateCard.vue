@@ -18,11 +18,11 @@ const loading = ref(false)
 const round2 = (v) => { const n = Number(v) || 0; return Math.round((n + Number.EPSILON) * 100) / 100 }
 const fmt = (v) => { const n = Number(v) || 0; return n.toLocaleString('ru-RU', { minimumFractionDigits: n % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 }) }
 
-// NEW: inline_build detection
-const inlineBuild = computed(() => {
-  const t = props.template?.inline_build ?? props.template?.inlineBuild
+// NEW: have_html detection
+const haveHtml = computed(() => {
+  const t = props.template?.have_html ?? props.template?.haveHtml
   if (typeof t !== 'undefined') return Boolean(t)
-  if (typeof window !== 'undefined') return Boolean(window?.inline_build)
+  if (typeof window !== 'undefined') return Boolean(window?.have_html)
   return false
 })
 
@@ -274,11 +274,11 @@ onBeforeUnmount(() => {
 <template>
   <div class="template-card" role="group" tabindex="0">
     <div class="template-card__image" ref="imageWrapperRef">
-      <img ref="imageRef" :src="template.image" :alt="template.title" loading="lazy" draggable="false" />
+      <img ref="imageRef" :src="template.preview" :alt="template.title" loading="lazy" draggable="false" />
 
       <!-- Бейджи: "Заказной" слева от "Популярный" -->
       <div class="template-card__badges">
-        <div v-if="!inlineBuild" class="template-card__badge template-card__badge--custom">Заказной</div>
+        <div v-if="!haveHtml" class="template-card__badge template-card__badge--custom">Заказной</div>
         <div v-if="template.popular" class="template-card__badge template-card__badge--popular">Популярный</div>
       </div>
 
