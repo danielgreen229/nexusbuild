@@ -78,7 +78,7 @@
 import { ref, watch, nextTick, onMounted, onBeforeUnmount, computed } from 'vue'
 import 'vue3-tel-input/dist/vue3-tel-input.css'
 import { VueTelInput } from 'vue3-tel-input'
-import { useUserStore } from '~/stores/user' // оставил ваш alias; подгоните при необходимости
+import { useUserStore } from '~/stores/user' // подгоните alias при необходимости
 
 const props = defineProps({ visible: Boolean })
 const emit = defineEmits(['update:visible', 'register'])
@@ -87,7 +87,7 @@ const store = useUserStore()
 
 const fullname = ref('')
 const city = ref('')
-const telInput = ref('') // привязка к компоненту tel-input
+const telInput = ref('')
 const phone = ref('')
 const phoneError = ref('')
 const username = ref('')
@@ -95,15 +95,17 @@ const email = ref('')
 const password = ref('')
 const modal = ref(null)
 
-// используем загрузку/ошибку из стора
 const loading = computed(() => !!store.loading)
 const error = computed(() => store.error || '')
 
+// helper: очистить ошибку стора
+function clearError() {
+  store.error = null
+}
+
 function onPhoneInput(value) {
-  // value может быть строкой с плюс-символом или уже в формате
   if (typeof value === 'string') {
     const digits = value.replace(/\D/g, '')
-    // нормализуем российский формат: допускаем +7 или 8
     let norm = digits
     if (norm.startsWith('8')) norm = '7' + norm.slice(1)
     if (!norm.startsWith('7') || norm.length !== 11) {
@@ -117,6 +119,7 @@ function onPhoneInput(value) {
 
 function close() {
   if (loading.value) return
+  clearError()
   emit('update:visible', false)
 }
 
@@ -139,7 +142,7 @@ async function submit() {
   }
 
   try {
-    // payload соответствует тому, что ваш сервер ожидает
+    clearError()
     const payload = {
       fullname: fullname.value,
       city: city.value,
@@ -149,14 +152,13 @@ async function submit() {
       password: password.value
     }
 
-    const created = await store.register(payload)
-    // store.register возвращает data (созданного пользователя)
+    const created = await store.register(payload, {autologin: true})
     emit('register', created)
+    await navigateTo({ path: '/submit/' })
     close()
     resetForm()
   } catch (err) {
-    // Ошибка лежит в store.error — мы её показываем в блоке error
-    // можно также логировать
+    // ошибка в store.error
     console.error('register failed', err)
   }
 }
@@ -164,12 +166,17 @@ async function submit() {
 // Escape / focus
 function onEsc() { close() }
 watch(() => props.visible, async (v) => {
-  if (v) { await nextTick(); setTimeout(() => modal.value?.focus(), 50) }
+  if (v) {
+    clearError() // очищаем при открытии
+    await nextTick()
+    setTimeout(() => modal.value?.focus(), 50)
+  }
 })
 function onKeydown(e) { if (e.key === 'Escape') onEsc() }
 onMounted(() => document.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 </script>
+
 
 <style scoped>
 .vue-tel-input:focus-within {

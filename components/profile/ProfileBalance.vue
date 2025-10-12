@@ -8,28 +8,9 @@ const loading = ref(false)
 
 // Загружаем данные при монтировании компонента
 onMounted(async () => {
-  await loadBalance()
   await loadTransactions()
 })
 
-const loadBalance = async () => {
-  try {
-    const response = await fetch(`${API.fullUrl}/user/profile`, {
-      headers: {
-        'Authorization': `Bearer ${userStore.token}`
-      }
-    })
-    
-    if (response.ok) {
-      const data = await response.json()
-      if (data.success) {
-        balance.value = data.data.balance || 0
-      }
-    }
-  } catch (error) {
-    console.error('Ошибка загрузки баланса:', error)
-  }
-}
 
 const loadTransactions = async () => {
   try {

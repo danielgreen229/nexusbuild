@@ -1,5 +1,5 @@
 <template>
-  <header class="app-header">
+  <header ref="headerRef" class="app-header">
     <div class="container app-header__container">
       <!-- Верхняя часть с логотипом и основной навигацией -->
       <div class="app-header__top">
@@ -158,7 +158,7 @@
 
 <script setup>
 import IconClick from '~/assets/icons/icon-click.svg'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useUserStore } from '~/stores/user'
 import LoginModal from '~/components/profile/Modals/LoginModal.vue'
 import { useRouter } from 'vue-router'
@@ -166,6 +166,8 @@ import { useRouter } from 'vue-router'
 const userStore = useUserStore()
 const router = useRouter()
 
+// refs / state
+const headerRef = ref(null)
 const isUserMenuOpen = ref(false)
 const isMobileMenuOpen = ref(false)
 const isLoginModalOpen = ref(false)
@@ -187,8 +189,6 @@ const initials = computed(() => {
 })
 
 const avatarUrl = computed(() => {
-  // если сервер возвращает avatar как объект с параметрами генератора — у нас нет прямого URL
-  // если avatar — строка с URL, вернём её
   const av = user.value && user.value.avatar
   if (!av) return null
   if (typeof av === 'string') return av
@@ -228,7 +228,6 @@ function closeMobileMenu() {
 function logout() {
   userStore.logout()
   isUserMenuOpen.value = false
-  // После логаута можно перенаправить на главную или профиль
   //router.push('/')
 }
 
@@ -236,7 +235,6 @@ function logout() {
 const primaryPages = [
   { path: '/', title: 'Главная' },
   { path: '/templates', title: 'Шаблоны' },
-  { path: '/pricing', title: 'Цены' },
   { path: '/services', title: 'Услуги' }
 ]
 
@@ -246,6 +244,41 @@ const secondaryPages = [
   { path: '/about', title: 'О нас' },
   { path: '/faq', title: 'FAQ' }
 ]
+
+/*
+  Логика: при клике вне элемента header — закрываем открытые меню.
+  Также закрываем по Escape.
+  Используем capture (true), чтобы отлавливать клик до внутренних обработчиков (надёжнее).
+*/
+function onDocumentClick(e) {
+  const el = headerRef.value
+  if (!el) return
+  // если клик снаружи header — закрыть меню(ы)
+  if (!el.contains(e.target)) {
+    if (isUserMenuOpen.value) isUserMenuOpen.value = false
+    if (isMobileMenuOpen.value) isMobileMenuOpen.value = false
+  }
+}
+
+function onKeyDown(e) {
+  if (e.key === 'Escape' || e.key === 'Esc') {
+    if (isUserMenuOpen.value || isMobileMenuOpen.value || isLoginModalOpen.value) {
+      isUserMenuOpen.value = false
+      isMobileMenuOpen.value = false
+      isLoginModalOpen.value = false
+    }
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', onDocumentClick, true)
+  document.addEventListener('keydown', onKeyDown, true)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onDocumentClick, true)
+  document.removeEventListener('keydown', onKeyDown, true)
+})
 </script>
 
 <style scoped>

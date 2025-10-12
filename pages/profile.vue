@@ -8,7 +8,6 @@ const activeTab = ref('info')
 const tabs = [
   { id: 'info', title: 'Профиль' },
   { id: 'orders', title: 'Мои заказы' },
-  { id: 'balance', title: 'Баланс' },
   { id: 'settings', title: 'Настройки' }
 ]
 </script>
@@ -42,7 +41,9 @@ const tabs = [
 
 <style scoped>
 .profile {
-  padding: 40px 0 80px;
+  padding: 40px 20px 80px;
+  max-width: 1800px;
+  margin: auto;
 }
 
 .profile__header {

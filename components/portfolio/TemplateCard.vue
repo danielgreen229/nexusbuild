@@ -276,9 +276,8 @@ onBeforeUnmount(() => {
     <div class="template-card__image" ref="imageWrapperRef">
       <img ref="imageRef" :src="template.preview" :alt="template.title" loading="lazy" draggable="false" />
 
-      <!-- Бейджи: "Заказной" слева от "Популярный" -->
       <div class="template-card__badges">
-        <div v-if="!haveHtml" class="template-card__badge template-card__badge--custom">Заказной</div>
+        <div v-if="haveHtml" class="template-card__badge template-card__badge--custom">Заказной</div>
         <div v-if="template.popular" class="template-card__badge template-card__badge--popular">Популярный</div>
       </div>
 
@@ -339,10 +338,10 @@ onBeforeUnmount(() => {
 .template-card__header { display:flex; justify-content: space-between; align-items:flex-start; margin-bottom:15px }
 .template-card__title { font-size: 1.25rem; font-weight:600; color:#1e293b; margin-right:10px }
 .template-card__price { font-size:1.2rem; font-weight:700; color:#2563eb; white-space:nowrap }
-.template-card__description { color:#64748b; margin-bottom:15px; line-height:1.5; flex-grow:1 }
+.template-card__description { color:#64748b; margin-bottom:15px; line-height:1.5;  }
 .template-card__features { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px }
 .template-card__feature { background:#f1f5f9; padding:6px 12px; border-radius:6px; font-size:0.85rem; color:#475569 }
-.template-card__button { width:100%; padding:12px; font-weight:600; border-radius:8px }
+.template-card__button { width:100%; padding:12px; font-weight:600; border-radius:8px; margin-top: auto }
 .template-card__view-button { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); padding:10px 18px; border-radius:8px; border:none; background:rgba(0,0,0,0.55); color:#fff; font-weight:600; font-size:1rem; cursor:pointer; z-index:4; opacity:0; visibility:hidden; transition: opacity .25s ease, transform .25s ease, visibility .25s; pointer-events:auto }
 .template-card:hover .template-card__view-button, .template-card:focus-within .template-card__view-button { opacity:1; visibility:visible; transform:translate(-50%,-50%) }
 @media (max-width:576px) { .template-card__view-button { transform:translate(-50%,0); opacity:1; visibility:visible; background:rgba(0,0,0,0.45); pointer-events:auto } .template-card__header { flex-direction:column; align-items:flex-start; gap:5px } .template-card__price { font-size:1.1rem } }

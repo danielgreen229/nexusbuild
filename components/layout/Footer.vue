@@ -69,10 +69,11 @@ const currentYear = ref(new Date().getFullYear())
 }
 
 .footer__container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 40px;
   padding-bottom: 40px;
+  display: flex;
+  gap: 13rem;
+  margin: auto;
+  width: fit-content;
 }
 
 .footer__brand {

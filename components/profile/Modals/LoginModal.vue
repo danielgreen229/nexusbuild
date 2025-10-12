@@ -7,14 +7,14 @@
         @click.self="close"
         role="dialog"
         aria-modal="true"
-        @keydown.esc.prevent="onEsc"
       >
         <div class="modal" ref="modal" tabindex="-1">
           <button class="modal__close" @click="close" aria-label="Закрыть">✕</button>
 
           <h3 class="modal__title">Вход в аккаунт</h3>
 
-          <form class="modal__form" @submit.prevent="submit">
+          <!-- Логика — все по кнопке. Enter не сабмитит форму. -->
+          <div class="modal__form">
             <div v-if="error" class="modal__error" role="alert">{{ error }}</div>
 
             <label class="modal__field">
@@ -26,6 +26,7 @@
                 required
                 autocomplete="email"
                 :disabled="loading"
+                @keydown.enter.prevent
               />
             </label>
 
@@ -37,6 +38,7 @@
                 required
                 autocomplete="current-password"
                 :disabled="loading"
+                @keydown.enter.prevent
               />
             </label>
 
@@ -61,34 +63,46 @@
             </div>
 
             <div class="modal__actions">
-              <button type="submit" class="button button--primary" :disabled="loading">
+              <button
+                type="button"
+                class="button button--primary"
+                @click="onLoginClick"
+                :disabled="loading"
+              >
                 <span v-if="!loading">Войти</span>
                 <span v-else>Вход...</span>
               </button>
 
               <button type="button" class="button" @click="close" :disabled="loading">Отмена</button>
             </div>
-          </form>
+          </div>
+
+          <!-- Встроенные модалки: RegisterModal и ForgotPasswordModal — остаются внутри компоненты -->
+          <RegisterModal
+            v-model:visible="isRegisterOpen"
+            @register="onRegistered"
+          />
+
+          <ForgotPasswordModal
+            v-model:visible="isForgotOpen"
+            @back-to-login="onForgotBackToLogin"
+            @password-reset-requested="onPasswordResetRequested"
+          />
         </div>
       </div>
     </transition>
-
-    <!-- Встроенная регистрация: если родитель не подключил RegisterModal — она откроется отсюда -->
-    <RegisterModal
-      v-model:visible="isRegisterOpen"
-      @register="onRegistered"
-    />
   </div>
 </template>
 
 <script setup>
 import { ref, watch, nextTick, onMounted, onBeforeUnmount, computed } from 'vue'
 import RegisterModal from './RegisterModal.vue'
+import ForgotPasswordModal from './ForgotPasswordModal.vue'
 import { useUserStore } from '@/stores/user' // путь к стору — при необходимости поправь
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
-  startWithRegister: { type: Boolean, default: false } // новый проп
+  startWithRegister: { type: Boolean, default: false }
 })
 const emit = defineEmits(['update:visible', 'login', 'create-user', 'forgot-password', 'register'])
 
@@ -98,97 +112,127 @@ const email = ref('')
 const password = ref('')
 const modal = ref(null)
 const emailInput = ref(null)
-const isRegisterOpen = ref(false)
 
-// Используем состояние и ошибки из стора
+// ОБЯЗАТЕЛЬНО объявляем флаги для вложенных модалей
+const isRegisterOpen = ref(false)
+const isForgotOpen = ref(false)
+
+// Состояние берём из стора
 const loading = computed(() => !!userStore.loading)
 const error = computed(() => userStore.error)
 
+function clearError() {
+  userStore.error = null
+}
+
 function close() {
   if (loading.value) return
+  clearError()
+  // если какие-то дочерние модалки открыты — закроем их
+  isRegisterOpen.value = false
+  isForgotOpen.value = false
   emit('update:visible', false)
 }
 
-async function submit() {
+async function onLoginClick() {
   if (loading.value) return
+  clearError()
 
-  // Подготовим полезную полезную нагрузку, которую ожидает ваш API
   const payload = {
     email: (email.value || '').trim(),
     password: password.value
   }
 
+  if (!payload.email || !payload.password) {
+    userStore.error = 'Пожалуйста, заполните email и пароль.'
+    return
+  }
+
   try {
-    // Вызов action'а login стора
     await userStore.login(payload)
-
-    // После успешного логина: пробросим событие и закроем модалку
     emit('login', userStore.user)
+    // Закрываем и очищаем поля
     emit('update:visible', false)
-
-    // Сброс полей
     email.value = ''
     password.value = ''
   } catch (err) {
-    // Ошибка уже лежит в userStore.error — форма показывает её через computed
-    // Можно дополнительно логировать или показывать нативный toast
-    // console.error(err)
+    console.error('login error:', err)
+    // Ошибка уже выставлена в userStore.error в большинстве реализаций
   }
 }
 
-function openRegisterFromLogin() {
-  // Повторяем поведение onCreateUser: закрываем логин и открываем встроенную регистрацию
+// Для вложенного режима: НЕ закрываем основную модалку, просто открываем RegisterModal
+async function openRegisterFromLogin() {
   if (loading.value) return
-  emit('create-user')
-  emit('update:visible', false)
-  // Небольшая задержка, чтобы анимации не наслаивались
-  setTimeout(() => { isRegisterOpen.value = true }, 60)
+  clearError()
+  emit('create-user') // аналитика/логирование — можно оставить
+  await nextTick()
+  isRegisterOpen.value = true
 }
 
-function onCreateUser() {
-  if (loading.value) return
-  openRegisterFromLogin()
-}
+function onCreateUser() { openRegisterFromLogin() }
 
 function onForgotPassword() {
   if (loading.value) return
+  clearError()
+  // Открываем встроенную модалку восстановления пароля
+  isRegisterOpen.value = false
+  isForgotOpen.value = true
   emit('forgot-password')
-  emit('update:visible', false)
+}
+
+
+// Когда ForgotPasswordModal просит вернуться — откроем login
+async function onForgotBackToLogin() {
+  if (loading.value) return
+  clearError()
+  // Закрываем встроенную модалку восстановления и возвращаем фокус в логин
+  isForgotOpen.value = false
+  // Убедимся, что основная модалка открыта — это важно, если родитель её закрыл раньше
+  emit('update:visible', true)
+  await nextTick()
+  emailInput.value?.focus()
+}
+
+
+// Если ForgotModal сообщил, что письмо отправлено — пробросим событие вверх
+function onPasswordResetRequested(emailSentTo) {
+  // можно показать уведомление, но пока просто пробросим событие
+  emit('forgot-password', emailSentTo)
 }
 
 function onEsc() { close() }
 
-function onRegistered(user) {
+async function onRegistered (user) {
+  clearError()
   emit('register', user)
-  // при желании автоматически логинить — оставлено комментом
-  // userStore.login({ email: user.email, password: user.password })
 }
 
-// Фокус при открытии — используем nextTick как раньше.
-// Если пришёл флаг startWithRegister и модалка открывается — сразу переключаем на регистрацию
 watch(() => props.visible, async (v) => {
   if (v) {
+    clearError()
+    // при открытии основной модалки закрываем дочерние
+    isForgotOpen.value = false
+    isRegisterOpen.value = false
     await nextTick()
     if (props.startWithRegister) {
-      // сразу открываем регистрацию вместо показа логина
       openRegisterFromLogin()
     } else {
-      setTimeout(() => emailInput.value?.focus(), 50)
+      // фокус через nextTick более надежен
+      await nextTick()
+      emailInput.value?.focus()
     }
   }
 })
 
-// Если компонент уже открыт на маунте и проп startWithRegister true — тоже откроем регистрацию
-onMounted(() => {
-  if (props.visible && props.startWithRegister) {
-    // небольшой nextTick и таймаут для согласованности с анимацией
-    nextTick(() => setTimeout(() => openRegisterFromLogin(), 20))
-  }
-  document.addEventListener('keydown', onKeydown)
+watch([isRegisterOpen, isForgotOpen], (vals) => {
+  // при открытии любой дочерней — очищаем ошибку
+  if (vals[0] || vals[1]) clearError()
 })
+
+onMounted(() => document.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown))
 
-// Доп. обработка клавиш
 function onKeydown(e) {
   if (e.key === 'Escape') onEsc()
 }
