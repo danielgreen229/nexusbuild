@@ -1,4 +1,6 @@
 <script setup>
+import NextCircle from '~/assets/icons/next-circle.svg'
+
 import { useUserStore } from '~/stores/user'
 
 const userStore = useUserStore()
@@ -9,6 +11,8 @@ const loading = ref(false)
 onMounted(async () => {
   await loadOrders()
 })
+
+async function goTo(path) { await navigateTo({ path: path }) }
 
 const loadOrders = async () => {
   /*try {
@@ -50,6 +54,10 @@ const loadOrders = async () => {
     
     <div v-else-if="orders.length === 0" class="profile-orders__empty">
       У вас пока нет заказов
+      <button class="primary__button" @click="goTo('/templates')">
+        Купить сайт
+        <NextCircle class="next-cirlce__svg"/>
+      </button>
     </div>
     
     <div v-else class="profile-orders__table">
@@ -151,6 +159,12 @@ const loadOrders = async () => {
   padding: 40px;
   color: var(--gray);
   font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 1rem;
 }
 
 .profile-orders__action {
@@ -159,6 +173,23 @@ const loadOrders = async () => {
   color: var(--primary);
   cursor: pointer;
   font-weight: 500;
+}
+
+.primary__button {
+  background-color: var(--primary);
+  color: var(--white);
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 1rem;
+}
+
+.next-cirlce__svg {
+  margin-bottom: 0.1rem;
 }
 
 @media (max-width: 1200px) {

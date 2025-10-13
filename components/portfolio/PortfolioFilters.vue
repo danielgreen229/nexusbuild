@@ -39,9 +39,9 @@ const setFilter = (filterId) => {
 .portfolio-filters {
   padding: 25px 0;
   background: white;
-  position: sticky;
+  /*position: sticky;
   top: 110px;
-  z-index: 90;
+  z-index: 90;*/
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 

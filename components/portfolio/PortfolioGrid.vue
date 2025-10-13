@@ -2,7 +2,7 @@
   <section class="portfolio-grid" :aria-busy="isInitialLoad ? 'true' : 'false'">
     <div class="portfolio-grid__container container">
       <div class="portfolio-grid__header">
-        <h2 class="portfolio-grid__title">
+        <!--<h2 class="portfolio-grid__title">
           <template v-if="isInitialLoad">… шаблонов</template>
           <template v-else>{{ displayCount }} {{ pluralTemplates(displayCount) }}</template>
           <span v-if="!isInitialLoad && activeFilter !== 'all'">
@@ -11,7 +11,7 @@
           <span v-else-if="isInitialLoad && activeFilter !== 'all'">
             <small class="portfolio-grid__loading-hint">в категории «{{ filters.find(f => f.id === activeFilter)?.name || activeFilter }}»</small>
           </span>
-        </h2>
+        </h2>-->
       </div>
 
       <!-- initial skeletons -->
@@ -277,7 +277,7 @@ watch(() => templateStore.loading, (isLoading, prev) => {
 
 <style scoped>
 /* стили оставил без изменений, как в вашем исходнике */
-.portfolio-grid { padding: 50px 0; }
+.portfolio-grid { padding: 0; }
 .portfolio-grid__header { margin-bottom: 30px; }
 .portfolio-grid__title { font-size: 1.8rem; color: var(--dark); font-weight:700; display:flex; align-items:baseline; gap:10px; }
 .portfolio-grid__title span { color: var(--primary); }

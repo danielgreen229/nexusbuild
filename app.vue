@@ -39,9 +39,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <div class="main__container">
     <Header />
-    <NuxtPage />
+    <NuxtPage class="main__body"/>
     <Footer />
   </div>
 </template>
@@ -136,5 +136,17 @@ body {
   height: 4px;
   background: var(--primary);
   border-radius: 2px;
+}
+.main__container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 100%;
+}
+.main__body {
+  width: 100%;
+}
+html, body, #__nuxt {
+  height: 100%;
 }
 </style>

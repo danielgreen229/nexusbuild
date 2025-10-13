@@ -36,6 +36,7 @@ interface _GlobalComponents {
     'UiServiceCard': typeof import("../components/ui/ServiceCard.vue")['default']
     'SvgoBigEmail': typeof import("../assets/icons/big-email")['default']
     'SvgoIconClick': typeof import("../assets/icons/icon-click")['default']
+    'SvgoNextCircle': typeof import("../assets/icons/next-circle")['default']
     'SvgoOpenNext': typeof import("../assets/icons/open-next")['default']
     'SvgoUser': typeof import("../assets/icons/user")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -87,6 +88,7 @@ interface _GlobalComponents {
     'LazyUiServiceCard': LazyComponent<typeof import("../components/ui/ServiceCard.vue")['default']>
     'LazySvgoBigEmail': LazyComponent<typeof import("../assets/icons/big-email")['default']>
     'LazySvgoIconClick': LazyComponent<typeof import("../assets/icons/icon-click")['default']>
+    'LazySvgoNextCircle': LazyComponent<typeof import("../assets/icons/next-circle")['default']>
     'LazySvgoOpenNext': LazyComponent<typeof import("../assets/icons/open-next")['default']>
     'LazySvgoUser': LazyComponent<typeof import("../assets/icons/user")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
@@ -144,6 +146,7 @@ export const UiPromoCard: typeof import("../components/ui/PromoCard.vue")['defau
 export const UiServiceCard: typeof import("../components/ui/ServiceCard.vue")['default']
 export const SvgoBigEmail: typeof import("../assets/icons/big-email")['default']
 export const SvgoIconClick: typeof import("../assets/icons/icon-click")['default']
+export const SvgoNextCircle: typeof import("../assets/icons/next-circle")['default']
 export const SvgoOpenNext: typeof import("../assets/icons/open-next")['default']
 export const SvgoUser: typeof import("../assets/icons/user")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -195,6 +198,7 @@ export const LazyUiPromoCard: LazyComponent<typeof import("../components/ui/Prom
 export const LazyUiServiceCard: LazyComponent<typeof import("../components/ui/ServiceCard.vue")['default']>
 export const LazySvgoBigEmail: LazyComponent<typeof import("../assets/icons/big-email")['default']>
 export const LazySvgoIconClick: LazyComponent<typeof import("../assets/icons/icon-click")['default']>
+export const LazySvgoNextCircle: LazyComponent<typeof import("../assets/icons/next-circle")['default']>
 export const LazySvgoOpenNext: LazyComponent<typeof import("../assets/icons/open-next")['default']>
 export const LazySvgoUser: LazyComponent<typeof import("../assets/icons/user")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>

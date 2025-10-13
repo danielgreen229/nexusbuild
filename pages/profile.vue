@@ -6,8 +6,8 @@ import ProfileSettings from '@/components/profile/ProfileSettings.vue'
 
 const activeTab = ref('info')
 const tabs = [
-  { id: 'info', title: 'Профиль' },
   { id: 'orders', title: 'Мои заказы' },
+  { id: 'info', title: 'Профиль' },
   { id: 'settings', title: 'Настройки' }
 ]
 </script>
@@ -41,25 +41,30 @@ const tabs = [
 
 <style scoped>
 .profile {
-  padding: 40px 20px 80px;
+  /*padding: 40px 20px 80px;
   max-width: 1800px;
+  */
+  padding: 0;
   margin: auto;
+  margin-top: 0;
 }
 
 .profile__header {
   text-align: center;
-  margin-bottom: 40px;
+  padding: 80px 0;
+  background: linear-gradient(135deg, #2563eb 0%, #7da5e6 68%, #2563eb 85%);
 }
 
 .profile__title {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  color: var(--dark);
+  color: var(--white);
 }
 
 .profile__subtitle {
   font-size: 1.2rem;
-  color: var(--gray);
+  color: var(--white);
+  opacity: 0.7
 }
 
 .profile__tabs {
@@ -67,6 +72,9 @@ const tabs = [
   border-bottom: 1px solid #e2e8f0;
   margin-bottom: 30px;
   overflow-x: auto;
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .profile__tab {
@@ -93,5 +101,14 @@ const tabs = [
   width: 100%;
   height: 3px;
   background: var(--primary);
+}
+
+.profile__content {
+  padding: 0rem 2rem;
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 5rem;
+  min-height: 28rem;
 }
 </style>
