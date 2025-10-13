@@ -60,13 +60,13 @@
 
               <ul class="user-menu__list">
                 <li class="user-menu__item">
-                  <NuxtLink to="/profile" class="user-menu__link" @click="closeUserMenu">Мой профиль</NuxtLink>
-                </li>
-                <li class="user-menu__item">
                   <NuxtLink to="/profile?tab=orders" class="user-menu__link" @click="closeUserMenu">Мои заказы</NuxtLink>
                 </li>
                 <li class="user-menu__item">
-                  <NuxtLink to="/profile?tab=balance" class="user-menu__link" @click="closeUserMenu">Баланс</NuxtLink>
+                  <NuxtLink to="/profile" class="user-menu__link" @click="closeUserMenu">Мой профиль</NuxtLink>
+                </li>
+                <li class="user-menu__item">
+                  <NuxtLink to="/profile?tab=settings" class="user-menu__link" @click="closeUserMenu">Настройки</NuxtLink>
                 </li>
               </ul>
 

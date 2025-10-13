@@ -1,15 +1,73 @@
 <script setup>
+import { ref, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
 import ProfileInfo from '@/components/profile/ProfileInfo.vue'
 import ProfileOrders from '@/components/profile/ProfileOrders.vue'
-import ProfileBalance from '@/components/profile/ProfileBalance.vue'
 import ProfileSettings from '@/components/profile/ProfileSettings.vue'
 
-const activeTab = ref('info')
+// список вкладок (источник правды)
 const tabs = [
   { id: 'orders', title: 'Мои заказы' },
   { id: 'info', title: 'Профиль' },
   { id: 'settings', title: 'Настройки' }
 ]
+const tabIds = tabs.map(t => t.id)
+
+// vue-router
+const route = useRoute()
+const router = useRouter()
+
+// helper: безопасно получить tab из query (может быть массив или undefined)
+const getQueryTab = (r) => {
+  const raw = r?.query?.tab
+  const tab = Array.isArray(raw) ? raw[0] : raw
+  return tab
+}
+
+// начальная активная вкладка — из query (если валидна) или 'info'
+const initial = getQueryTab(route)
+const activeTab = ref(tabIds.includes(initial) ? initial : 'info')
+
+// при клике — переключаем активную вкладку и обновляем query (replace, чтобы не засорять историю)
+function selectTab(id) {
+  if (!tabIds.includes(id)) return
+  activeTab.value = id
+  // сохраняем другие query-параметры, обновляем только tab
+  router.replace({
+    query: {
+      ...route.query,
+      tab: id
+    }
+  }).catch(() => {}) // подавляем NavigationDuplicated / прочие обещания
+}
+
+// следим за изменением route (например, пользователь перешёл по внешней ссылке /profile?tab=settings)
+watch(
+  () => route.fullPath, // срабатывает на любое изменение route; можно более узко — route.query.tab
+  () => {
+    const q = getQueryTab(route)
+    if (q && tabIds.includes(q) && q !== activeTab.value) {
+      activeTab.value = q
+    } else if (!q && activeTab.value !== 'info') {
+      // если query убрали — вернуть дефолт
+      activeTab.value = 'info'
+    }
+  }
+)
+
+// на первом монтировании — синхронизируем URL, если в нём нет валидного tab (чтобы ссылка всегда отражала состояние)
+onMounted(() => {
+  const q = getQueryTab(route)
+  if (!q || !tabIds.includes(q)) {
+    router.replace({
+      query: {
+        ...route.query,
+        tab: activeTab.value
+      }
+    }).catch(() => {})
+  }
+})
 </script>
 
 <template>
@@ -24,7 +82,8 @@ const tabs = [
         v-for="tab in tabs"
         :key="tab.id"
         :class="['profile__tab', { 'profile__tab--active': activeTab === tab.id }]"
-        @click="activeTab = tab.id"
+        @click="selectTab(tab.id)"
+        :aria-pressed="activeTab === tab.id"
       >
         {{ tab.title }}
       </button>
@@ -33,8 +92,8 @@ const tabs = [
     <div class="profile__content">
       <ProfileInfo v-if="activeTab === 'info'" />
       <ProfileOrders v-else-if="activeTab === 'orders'" />
-      <ProfileBalance v-else-if="activeTab === 'balance'" />
-      <ProfileSettings v-else />
+      <ProfileSettings v-else-if="activeTab === 'settings'" />
+      <!-- при необходимости сюда можно добавить дополнительные вкладки -->
     </div>
   </div>
 </template>
