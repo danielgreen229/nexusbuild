@@ -5,7 +5,7 @@
 
       <div v-if="error" class="auth-error" role="alert">{{ error }}</div>
       <div v-if="missingToken" class="auth-error" role="alert">
-        Невозможно выполнить сброс: отсутствует token или uid в параметрах запроса.
+        Невозможно выполнить сброс
       </div>
 
       <form class="auth-form" @submit.prevent="onSubmit" v-if="!success && !missingToken" novalidate>

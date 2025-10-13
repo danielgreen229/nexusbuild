@@ -11,7 +11,7 @@ onMounted(async () => {
 })
 
 const loadOrders = async () => {
-  try {
+  /*try {
     loading.value = true
     const response = await fetch(`${API.fullUrl}/user/orders`, {
       headers: {
@@ -36,7 +36,7 @@ const loadOrders = async () => {
     console.error('Ошибка загрузки заказов:', error)
   } finally {
     loading.value = false
-  }
+  }*/
 }
 </script>
 

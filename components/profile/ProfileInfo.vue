@@ -1,80 +1,3 @@
-<script setup>
-import { useUserStore } from '~/stores/user'
-import { API } from '~/config'
-
-const userStore = useUserStore()
-const user = ref({
-  name: 'Иван Иванов',
-  email: 'ivan@example.com',
-  phone: '+7 (999) 123-45-67',
-  telegram: '@ivanov'
-})
-
-const isEditing = ref(false)
-const tempUser = ref({...user.value})
-const loading = ref(false)
-
-// Загружаем профиль при монтировании компонента
-onMounted(async () => {
-  await loadProfile()
-})
-
-const loadProfile = async () => {
-  try {
-    loading.value = true
-    const response = await fetch(`${API.fullUrl}/user/profile`, {
-      headers: {
-        'Authorization': `Bearer ${userStore.token}`
-      }
-    })
-    
-    if (response.ok) {
-      const data = await response.json()
-      if (data.success) {
-        user.value = data.data
-        tempUser.value = {...data.data}
-      }
-    }
-  } catch (error) {
-    console.error('Ошибка загрузки профиля:', error)
-  } finally {
-    loading.value = false
-  }
-}
-
-const saveProfile = async () => {
-  try {
-    loading.value = true
-    const response = await fetch(`${API.fullUrl}/user/profile`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userStore.token}`
-      },
-      body: JSON.stringify(tempUser.value)
-    })
-    
-    if (response.ok) {
-      const data = await response.json()
-      if (data.success) {
-        user.value = {...data.data}
-        isEditing.value = false
-        // Обновляем данные в store
-        userStore.user = data.data
-      }
-    } else {
-      const errorData = await response.json()
-      alert(errorData.error || 'Ошибка обновления профиля')
-    }
-  } catch (error) {
-    console.error('Ошибка сохранения профиля:', error)
-    alert('Ошибка сохранения профиля')
-  } finally {
-    loading.value = false
-  }
-}
-</script>
-
 <template>
   <div class="profile-info">
     <div class="profile-info__header">
@@ -89,7 +12,7 @@ const saveProfile = async () => {
       <div v-else class="profile-info__actions">
         <button 
           class="button button--outline"
-          @click="isEditing = false"
+          @click="cancelEdit"
         >
           Отмена
         </button>
@@ -120,9 +43,13 @@ const saveProfile = async () => {
         <span class="profile-info__label">Telegram:</span>
         <span class="profile-info__value">{{ user.telegram }}</span>
       </div>
+      <div v-if="user.city" class="profile-info__item">
+        <span class="profile-info__label">Город:</span>
+        <span class="profile-info__value">{{ user.city }}</span>
+      </div>
     </div>
     
-    <form v-else class="profile-info__form">
+    <form v-else class="profile-info__form" @submit.prevent="saveProfile">
       <div class="profile-info__form-group">
         <label class="profile-info__form-label">Имя</label>
         <input 
@@ -155,9 +82,127 @@ const saveProfile = async () => {
           class="profile-info__form-input"
         >
       </div>
+      <div class="profile-info__form-group">
+        <label class="profile-info__form-label">Город</label>
+        <input 
+          v-model="tempUser.city"
+          type="text" 
+          class="profile-info__form-input"
+        >
+      </div>
     </form>
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useUserStore } from '~/stores/user'
+
+const userStore = useUserStore()
+
+const isEditing = ref(false)
+const loading = ref(false)
+
+const user = ref({
+  uid: null,
+  name: '',
+  username: '',
+  email: '',
+  phone: '',
+  telegram: '',
+  city: '',
+  avatar: null
+})
+const tempUser = ref({ ...user.value })
+
+// Маппер: нормализует ответ /user/me в поля, используемые компонентом
+function mapUserFromApi(api = {}) {
+  const digits = (api.phone || '').replace(/\D/g, '')
+  const phone = (digits.length === 11 && digits.startsWith('7'))
+    ? `+7 (${digits.slice(1,4)}) ${digits.slice(4,7)}-${digits.slice(7,9)}-${digits.slice(9,11)}`
+    : (api.phone || '')
+
+  return {
+    uid: api.uid || api.id || null,
+    username: api.username || '',
+    name: api.fullname || api.username || '',
+    email: api.email || '',
+    phone,
+    telegram: api.tg || api.telegram || '',
+    city: api.city || '',
+    avatar: api.avatar || null,
+    raw: api
+  }
+}
+
+function cancelEdit() {
+  tempUser.value = { ...user.value }
+  isEditing.value = false
+}
+
+onMounted(async () => {
+  loading.value = true
+  try {
+    // опционально инициализируем токен/uid из localStorage (если нужен)
+    if (typeof userStore.initFromStorage === 'function') {
+      try { userStore.initFromStorage() } catch (e) { /* ignore */ }
+    }
+
+    // получаем профиль из стора
+    const fetched = await userStore.fetchCurrentUser()
+    const apiData = fetched || userStore.user || null
+    if (apiData) {
+      const normalized = mapUserFromApi(apiData)
+      user.value = normalized
+      tempUser.value = { ...normalized }
+    }
+  } catch (err) {
+    console.error('Ошибка получения профиля:', err)
+  } finally {
+    loading.value = false
+  }
+})
+
+async function saveProfile() {
+  try {
+    loading.value = true
+
+    const payload = {
+      fullname: tempUser.value.name,           // Важно: fullname, а не name
+      email: tempUser.value.email,
+      phone: (tempUser.value.phone || '').replace(/\D/g, ''), // сервер хранит цифры
+      tg: tempUser.value.telegram,
+      city: tempUser.value.city
+      // при необходимости username/password и т.д.
+    }
+
+    // Обращаемся к action в стое (вставьте его, как выше)
+    const updated = await userStore.updateProfile(payload)
+
+    // Обновляем локальные данные
+    const apiData = updated || userStore.user
+    if (apiData) {
+      // нормализуйте как вам нужно; пример простым присваиванием:
+      user.value = {
+        uid: apiData.uid,
+        name: apiData.fullname || apiData.username || '',
+        email: apiData.email || '',
+        phone: apiData.phone || '',
+        telegram: apiData.tg || '',
+        city: apiData.city || ''
+      }
+      tempUser.value = { ...user.value }
+      isEditing.value = false
+    }
+  } catch (err) {
+    console.error('Ошибка сохранения профиля:', err)
+    //alert(err.message || 'Ошибка сохранения профиля')
+  } finally {
+    loading.value = false
+  }
+}
+
+</script>
 
 <style scoped>
 .profile-info__header {

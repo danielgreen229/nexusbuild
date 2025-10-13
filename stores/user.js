@@ -287,6 +287,61 @@ export const useUserStore = defineStore('user', {
       }
     },
 
+    // Вставьте в actions вашего существующего defineStore('user', ...)
+    async updateProfile(payload = {}) {
+      // payload: { fullname, email, phone, tg, city, username, password, ... }
+      this.loading = true
+      this.error = null
+      try {
+        // Формируем URL: /user/update-user (через ваш _buildUrl helper)
+        const url = _buildUrl('/user/update-user')
+
+        // Заголовки: JSON + Authorization если token есть
+        const headers = { 'Content-Type': 'application/json' }
+        if (this.token) headers['Authorization'] = `Bearer ${this.token}`
+
+        // Обязательно передаём uid (сервер требует)
+        const body = Object.assign({}, payload, { uid: this.uid })
+
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers,
+          body: JSON.stringify(body)
+        })
+
+        const parsed = await _parseJsonSafe(res)
+
+        if (!res.ok) {
+          const msg = _extractMessageFromBody(parsed) || `Ошибка ${res.status}`
+          this.error = msg
+          if (res.status === 401) this.logout()
+          throw new Error(msg)
+        }
+
+        const data = parsed.data || parsed || null
+        if (data && typeof data === 'object') {
+          // Обновляем стор: если бэк вернул token/uid — _syncFromUserObject это обработает
+          if (typeof this._syncFromUserObject === 'function') {
+            this._syncFromUserObject(data)
+          } else {
+            if (data.token) this.token = data.token
+            if (data.uid || data.id) this.uid = data.uid || data.id
+            this.isAuthenticated = !!(this.token && this.uid)
+            this._saveAuthToStorage(this.token, this.uid)
+          }
+          this.user = data
+          return data
+        }
+
+        return parsed
+      } catch (err) {
+        this.error = err.message || 'Неизвестная ошибка при обновлении профиля'
+        throw err
+      } finally {
+        this.loading = false
+      }
+    },
+
     async resetPassword({ uid, token, newPassword } = {}) {
       this.loading = true
       this.error = null
@@ -328,5 +383,7 @@ export const useUserStore = defineStore('user', {
         this.loading = false
       }
     }
+
+
   }
 })
