@@ -66,6 +66,7 @@ const currentYear = ref(new Date().getFullYear())
   background: var(--dark);
   color: var(--light-gray);
   padding-top: 50px;
+  margin-top: auto;
 }
 
 .footer__container {

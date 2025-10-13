@@ -31,6 +31,7 @@ interface _GlobalComponents {
     'SectionsLeadForm': typeof import("../components/sections/LeadForm.vue")['default']
     'SectionsPromo': typeof import("../components/sections/Promo.vue")['default']
     'SectionsServices': typeof import("../components/sections/Services.vue")['default']
+    'UiBlockHeader': typeof import("../components/ui/BlockHeader.vue")['default']
     'UiButton': typeof import("../components/ui/Button.vue")['default']
     'UiPromoCard': typeof import("../components/ui/PromoCard.vue")['default']
     'UiServiceCard': typeof import("../components/ui/ServiceCard.vue")['default']
@@ -83,6 +84,7 @@ interface _GlobalComponents {
     'LazySectionsLeadForm': LazyComponent<typeof import("../components/sections/LeadForm.vue")['default']>
     'LazySectionsPromo': LazyComponent<typeof import("../components/sections/Promo.vue")['default']>
     'LazySectionsServices': LazyComponent<typeof import("../components/sections/Services.vue")['default']>
+    'LazyUiBlockHeader': LazyComponent<typeof import("../components/ui/BlockHeader.vue")['default']>
     'LazyUiButton': LazyComponent<typeof import("../components/ui/Button.vue")['default']>
     'LazyUiPromoCard': LazyComponent<typeof import("../components/ui/PromoCard.vue")['default']>
     'LazyUiServiceCard': LazyComponent<typeof import("../components/ui/ServiceCard.vue")['default']>
@@ -141,6 +143,7 @@ export const SectionsHero: typeof import("../components/sections/Hero.vue")['def
 export const SectionsLeadForm: typeof import("../components/sections/LeadForm.vue")['default']
 export const SectionsPromo: typeof import("../components/sections/Promo.vue")['default']
 export const SectionsServices: typeof import("../components/sections/Services.vue")['default']
+export const UiBlockHeader: typeof import("../components/ui/BlockHeader.vue")['default']
 export const UiButton: typeof import("../components/ui/Button.vue")['default']
 export const UiPromoCard: typeof import("../components/ui/PromoCard.vue")['default']
 export const UiServiceCard: typeof import("../components/ui/ServiceCard.vue")['default']
@@ -193,6 +196,7 @@ export const LazySectionsHero: LazyComponent<typeof import("../components/sectio
 export const LazySectionsLeadForm: LazyComponent<typeof import("../components/sections/LeadForm.vue")['default']>
 export const LazySectionsPromo: LazyComponent<typeof import("../components/sections/Promo.vue")['default']>
 export const LazySectionsServices: LazyComponent<typeof import("../components/sections/Services.vue")['default']>
+export const LazyUiBlockHeader: LazyComponent<typeof import("../components/ui/BlockHeader.vue")['default']>
 export const LazyUiButton: LazyComponent<typeof import("../components/ui/Button.vue")['default']>
 export const LazyUiPromoCard: LazyComponent<typeof import("../components/ui/PromoCard.vue")['default']>
 export const LazyUiServiceCard: LazyComponent<typeof import("../components/ui/ServiceCard.vue")['default']>

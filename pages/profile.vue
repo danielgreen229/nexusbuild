@@ -1,10 +1,13 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-
+import BlockHeader from '@/components/ui/BlockHeader.vue'
 import ProfileInfo from '@/components/profile/ProfileInfo.vue'
 import ProfileOrders from '@/components/profile/ProfileOrders.vue'
 import ProfileSettings from '@/components/profile/ProfileSettings.vue'
+
+// импорт Pinia-стора пользователя — проверьте путь к файлу стора в вашем проекте
+import { useUserStore } from '@/stores/user'
 
 // список вкладок (источник правды)
 const tabs = [
@@ -18,6 +21,9 @@ const tabIds = tabs.map(t => t.id)
 const route = useRoute()
 const router = useRouter()
 
+// user store
+const userStore = useUserStore()
+
 // helper: безопасно получить tab из query (может быть массив или undefined)
 const getQueryTab = (r) => {
   const raw = r?.query?.tab
@@ -28,6 +34,9 @@ const getQueryTab = (r) => {
 // начальная активная вкладка — из query (если валидна) или 'info'
 const initial = getQueryTab(route)
 const activeTab = ref(tabIds.includes(initial) ? initial : 'info')
+
+// флаг — готовы ли мы показывать UI (после проверки авторизации)
+const authReady = ref(false)
 
 // при клике — переключаем активную вкладку и обновляем query (replace, чтобы не засорять историю)
 function selectTab(id) {
@@ -56,8 +65,22 @@ watch(
   }
 )
 
-// на первом монтировании — синхронизируем URL, если в нём нет валидного tab (чтобы ссылка всегда отражала состояние)
+// следим за сменой статуса авторизации в рантайме — если разлогинился, уходим на /
+watch(
+  () => userStore.isAuthenticated,
+  (isAuth) => {
+    if (!isAuth) {
+      // если уже не на / — перейдём
+      if (router.currentRoute.value.path !== '/') {
+        router.replace({ path: '/' }).catch(() => {})
+      }
+    }
+  }
+)
+
+// на первом монтировании — проверяем авторизацию и синхронизируем URL/tab
 onMounted(() => {
+  // сначала синхронизируем URL, если в нём нет валидного tab (чтобы ссылка всегда отражала состояние)
   const q = getQueryTab(route)
   if (!q || !tabIds.includes(q)) {
     router.replace({
@@ -67,15 +90,52 @@ onMounted(() => {
       }
     }).catch(() => {})
   }
+
+  // Инициализация стора из localStorage (безопасно в любых окружениях)
+  userStore.initFromStorage()
+
+  // Если нет данных об авторизации — сразу редиректим на /
+  if (!userStore.isAuthenticated) {
+    // защита от мерцания UI
+    authReady.value = false
+    if (router.currentRoute.value.path !== '/') {
+      router.replace({ path: '/' }).catch(() => {})
+    }
+    return
+  }
+
+  // Если есть токен/uid — попробуем подгрузить актуальный профиль с сервера.
+  ;(async () => {
+    try {
+      await userStore.fetchCurrentUser()
+      // если после fetch стало не авторизован — уйдём на /
+      if (!userStore.isAuthenticated) {
+        if (router.currentRoute.value.path !== '/') {
+          router.replace({ path: '/' }).catch(() => {})
+        }
+        authReady.value = false
+        return
+      }
+      // всё ок — показываем UI
+      authReady.value = true
+    } catch (e) {
+      // при ошибке (напр. 401) — редирект
+      if (router.currentRoute.value.path !== '/') {
+        router.replace({ path: '/' }).catch(() => {})
+      }
+      authReady.value = false
+    }
+  })()
 })
 </script>
 
 <template>
-  <div class="profile">
-    <div class="profile__header">
+  <!-- покa authReady === false — ничего не рендерим (избегаем флешинг-UI) -->
+  <div v-if="authReady" class="profile">
+    <BlockHeader>
       <h1 class="profile__title">Личный кабинет</h1>
       <p class="profile__subtitle">Управляйте своими заказами и настройками</p>
-    </div>
+    </BlockHeader>
     
     <div class="profile__tabs">
       <button
