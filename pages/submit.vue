@@ -25,16 +25,14 @@
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
-  <PortfolioCTA />
 </template>
 
 <script>
-import PortfolioCTA from '@/components/portfolio/PortfolioCTA.vue'
 import BigEmail from '~/assets/icons/big-email.svg'
 import { useUserStore } from '~/stores/user'
 
 export default {
-  components: { PortfolioCTA, BigEmail },
+  components: { BigEmail },
   data() {
     return {
       loading: false,

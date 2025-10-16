@@ -1,5 +1,8 @@
 <template>
   <footer class="footer">
+    <!-- Показываем CTA только если showCTA = true -->
+    <PortfolioCTA v-if="showCTA" />
+
     <div class="footer__container container">
       <!-- Левый блок - Лого и описание -->
       <div class="footer__brand">
@@ -46,7 +49,7 @@
     <div class="footer__bottom">
       <div class="container">
         <div class="footer__copyright">
-          &copy; 2022 sitebypro. Продажа сайтов. 
+          &copy; {{ currentYear }} sitebypro. Продажа сайтов. 
           <span class="footer__highlight">Быстрые сайты.</span>
         </div>
       </div>
@@ -55,7 +58,53 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import PortfolioCTA from '@/components/portfolio/PortfolioCTA.vue'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+// ------------------------------------------------------------------
+// Настройка: перечисли страницы, на которых НЕ должно быть PortfolioCTA
+// Поддерживаемые форматы:
+//   - Точный путь:           '/login'
+//   - Префикс (startsWith):  '/portfolio/*'   (звёздочка в конце)
+//   - По имени маршрута:     'name:Home'       (сравнивается с route.name)
+// Примеры ниже — изменяй как нужно.
+// ------------------------------------------------------------------
+const excludedPages = [
+  '/login',
+  '/thank-you',
+  '/private/*',     // все пути, начинающиеся с /private/
+]
+
+// функция проверки, совпадает ли текущий маршрут с исключением
+const isExcluded = (r) => {
+  const path = r.path || ''
+  const name = r.name != null ? String(r.name) : ''
+
+  return excludedPages.some((pattern) => {
+    if (!pattern) return false
+
+    // совпадение по имени: 'name:SomeName'
+    if (pattern.startsWith('name:')) {
+      const expectedName = pattern.slice(5)
+      return expectedName === name
+    }
+
+    // префикс с wildcard: '/some/path/*'
+    if (pattern.endsWith('*')) {
+      const prefix = pattern.slice(0, -1) // убираем последний символ '*'
+      return path.startsWith(prefix)
+    }
+
+    // точное совпадение пути
+    return path === pattern
+  })
+}
+
+// showCTA = true если текущая страница НЕ в списке исключений
+const showCTA = computed(() => !isExcluded(route))
 
 const telegramLink = ref('https://t.me/dozer_stoun')
 const currentYear = ref(new Date().getFullYear())
@@ -65,7 +114,6 @@ const currentYear = ref(new Date().getFullYear())
 .footer {
   background: var(--dark);
   color: var(--light-gray);
-  padding-top: 50px;
   margin-top: auto;
 }
 
@@ -73,6 +121,7 @@ const currentYear = ref(new Date().getFullYear())
   padding-bottom: 40px;
   display: flex;
   gap: 13rem;
+  padding-top: 50px;
   margin: auto;
   width: fit-content;
 }

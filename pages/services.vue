@@ -1,8 +1,9 @@
 <template>
   <div>
-    <BlockHeader>
+    <!--<BlockHeader>
       <h1 class="block__title">Услуги</h1>
-    </BlockHeader>
+      <p class="header__subtitle">Наши услуги — ваш путь к результату</p>
+    </BlockHeader>-->
 
     <div class="services-container" ref="root">
       <div
@@ -23,9 +24,13 @@
           @keydown.arrow-up.prevent="focusLastItem(idx)"
         >
           <div class="img__container">
-            <img src="@/assets/images/service/grey-landing.png"/>
+            <div class="img__block">
+              <video autoplay muted loop class="img__video" playsinline>
+                <source :src="getVideoUrl(child.video)" type="video/mp4" />
+              </video>
+            </div>
           </div>
-          <div class="about_container">
+          <div class="about__container" :class="'about__container-' + child.id">
             <component
               :is="sectionTitleTag(child)"
               class="section-title"
@@ -34,7 +39,6 @@
               {{ child.title }}
             </component>
 
-            <!-- Иконка + / − — две буквы, между которыми переключается видимость -->
             <span class="services-toggle-icon" aria-hidden="true">
               <span class="icon-plus">+</span>
               <span class="icon-minus">−</span>
@@ -43,7 +47,7 @@
         </button>
 
         <transition name="dropdown">
-          <ul
+          <div
             v-if="isOpen(idx)"
             :id="listId(idx)"
             class="services-list"
@@ -53,18 +57,102 @@
             @keydown.up.prevent="focusPrevItem(idx)"
             @keydown.esc.prevent="closeSection(idx)"
           >
-            <li v-for="(item, j) in child.items" :key="j" role="none">
-              <a
-                :href="item.href || '#'"
-                role="menuitem"
-                tabindex="0"
-                @click.prevent="onSelect(idx, item)"
-                @keydown.enter.prevent="onSelect(idx, item)"
-              >
-                {{ item.title }}
-              </a>
-            </li>
-          </ul>
+            <!-- РЕНДЕР КОНТЕНТА ДЛЯ КАЖДОЙ УСЛУГИ -->
+            <template v-if="child.id === 'web' || child.title?.toLowerCase().includes('веб')">
+              <div class="service-content">
+                <p class="service-lead">
+                  Полный пакет для запуска вашего сайта — от выбора шаблона до настройки CRM.
+                  Мы разбили процесс на простые шаги, чтобы вы точно знали, что происходит.
+                </p>
+
+                <ol class="service-steps">
+                  <li>
+                    <strong>Выбрать шаблон</strong>
+                    <div class="step-desc">Выбираете готовый шаблон, который подходит по стилю и функционалу.</div>
+                    <button class="service-btn" @click="goTo('/template')">Выбрать шаблон <NextCircle class="next-cirlce__svg"/></button>
+                  </li>
+
+                  <li>
+                    <strong>Выбор доменного имени</strong>
+                    <div class="step-desc">Подбираем и регистрируем домен — оптимальное имя для вашего бренда.</div>
+                    <button class="service-btn" @click="goTo('/templates')">Подобрать домен <NextCircle class="next-cirlce__svg"/></button>
+                  </li>
+
+                  <li>
+                    <strong>Сайт готов — настройка CRM</strong>
+                    <div class="step-desc">После публикации сайта мы подключаем и настроиваем вашу систему и административную панель.</div>
+                    <button class="service-btn" @click="goTo('/templates')">Обзор Админ. панели<NextCircle class="next-cirlce__svg"/></button>
+                  </li>
+                </ol>
+
+                <div class="service-extra">
+                  <p>Если у вас уже есть пожелания по структуре — выберите соответствующие пункты в карточке услуги или оставьте комментарий при оформлении.</p>
+                </div>
+              </div>
+            </template>
+
+            <template v-else-if="child.id === 'design' || child.title?.toLowerCase().includes('дизайн')">
+              <div class="service-content">
+                <p class="service-lead">
+                  Уникальный дизайн под ваш бизнес: визуал, интерфейс и админка, готовые к использованию.
+                </p>
+
+                <ol class="service-steps">
+                  <li>
+                    <strong>Оставить заявку</strong>
+                    <div class="step-desc">Опишите задачу — наши менеджеры свяжутся для уточнения деталей.</div>
+                    <button class="service-btn" @click="goTo('/templates')">Оставить заявку<NextCircle class="next-cirlce__svg"/></button>
+                  </li>
+
+                  <li>
+                    <strong>Настроить админку</strong>
+                    <div class="step-desc">Проектируем и настраиваем админ-панель под ваши бизнес-процессы.</div>
+                    <button class="service-btn" @click="goTo('/templates')">Обзор Админ. панели<NextCircle class="next-cirlce__svg"/></button>
+                  </li>
+
+                  <li>
+                    <strong>Интеграция и запуск</strong>
+                    <div class="step-desc">Внедряем дизайн на сайт, проводим тесты и передаём готовый продукт.</div>
+                  </li>
+                </ol>
+
+                <div class="service-extra">
+                  <p>Если нужно — подготовим прототипы и интерактивные макеты перед финальной версткой.</p>
+                </div>
+              </div>
+            </template>
+
+            <template v-else-if="child.id === 'design-3d' || child.title?.toLowerCase().includes('3d')">
+              <div class="service-content">
+                <p class="service-lead">
+                  3D-макеты и визуализация: от опроса до готового результата.
+                </p>
+
+                <ol class="service-steps">
+                  <li>
+                    <strong>Пройти опрос</strong>
+                    <div class="step-desc">Короткий опрос поможет нам понять задачу и техническое задание.</div>
+                    <button class="service-btn" @click="goTo('/templates')">Пройти опрос<NextCircle class="next-cirlce__svg"/></button>
+                  </li>
+
+                  <li>
+                    <strong>Отправить заявку</strong>
+                    <div class="step-desc">После опроса вы отправляете заявку — мы оцениваем сроки и стоимость.</div>
+                    <button class="service-btn" @click="goTo('/templates')">Отправить заявку<NextCircle class="next-cirlce__svg"/></button>
+                  </li>
+
+                  <li>
+                    <strong>Ожидание и выполнение</strong>
+                    <div class="step-desc">Мы выполняем заказ в согласованные сроки и присылаем предварительные версии для правок.</div>
+                  </li>
+                </ol>
+
+                <div class="service-extra">
+                  <p>По итогам работы вы получаете финальные файлы и инструкции по использованию/встраиванию.</p>
+                </div>
+              </div>
+            </template>
+          </div>
         </transition>
       </div>
     </div>
@@ -72,8 +160,20 @@
 </template>
 
 <script setup lang="ts">
+import NextCircle from '~/assets/icons/next-circle.svg'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import BlockHeader from '@/components/ui/BlockHeader.vue'
+// статические импорты видео
+import landing from '@/assets/images/service/landing.mp4'
+import order from '@/assets/images/service/order.mp4'
+import video3D from '@/assets/images/service/3D.mp4' // имя переменной не может начинаться с цифры
+
+// карта статических видео по именам файлов
+const videos: Record<string, string> = {
+  'landing.mp4': landing,
+  'order.mp4': order,
+  '3D.mp4': video3D,
+}
 
 /**
  * Описание node (как ранее)
@@ -89,6 +189,7 @@ const props = defineProps({
       buttonLabel: 'Показать',
       mode: 'multiple',
       closeOnOutside: true,
+      video: 'landing.mp4',
       settings: {
         container: { class: 'services-container' },
         section: { class: 'services-section' },
@@ -97,13 +198,46 @@ const props = defineProps({
         list: { class: 'services-list' },
       },
       children: [
-        { 
-          id: 'web', 
-          title: 'Веб-разработка', 
-          preview: '',
-          titleProps: { tag: 'h3' }, 
-          items: [{ title: 'Frontend', href: '/web/frontend' }, { title: 'Backend', href: '/web/backend' }] },
-        { id: 'design', title: 'Дизайн', items: [{ title: 'UI/UX', href: '/design/uiux' }] },
+        {
+          "id": "web",
+          "title": "Веб-разработка",
+          video: 'landing.mp4',
+          "titleProps": {
+            "tag": "h3"
+          },
+          "items": [
+            {
+              "title": "Frontend",
+              "href": "/web/frontend"
+            },
+            {
+              "title": "Backend",
+              "href": "/web/backend"
+            }
+          ]
+        },
+        {
+          "id": "design",
+          "title": "Уникальный дизайн",
+          video: 'order.mp4',
+          "items": [
+            {
+              "title": "UI/UX",
+              "href": "/design/uiux"
+            }
+          ]
+        },
+        {
+          "id": "design-3d",
+          "title": "3D-макеты",
+          video: '3D.mp4',
+          "items": [
+            {
+              "title": "UI/UX",
+              "href": "/design/uiux"
+            }
+          ]
+        }
       ],
     }),
   },
@@ -162,6 +296,14 @@ const root = ref<HTMLElement | null>(null)
 // Open state (support single / multiple)
 const openSingle = ref<number | null>(null)
 const openSet = ref(new Set<number>())
+
+// helper to return статический импорт по имени файла
+function getVideoUrl(fileName?: string) {
+  if (!fileName) return ''
+  return videos[fileName] ?? ''
+}
+
+async function goTo(path) { await navigateTo({ path: '/templates' }) }
 
 function isOpen(idx: number) {
   return merged.value.mode === 'single' ? openSingle.value === idx : openSet.value.has(idx)
@@ -227,17 +369,17 @@ function buttonId(idx: number) {
 // keyboard navigation helpers per section
 function focusFirstItem(sectionIdx: number) {
   const menu = menuRefs.value[sectionIdx]
-  const items = menu?.querySelectorAll<HTMLElement>('a[role="menuitem"]') ?? []
+  const items = menu?.querySelectorAll<HTMLElement>('a[role="menuitem"], button[role="menuitem"]') ?? []
   if (items.length) items[0].focus()
 }
 function focusLastItem(sectionIdx: number) {
   const menu = menuRefs.value[sectionIdx]
-  const items = menu?.querySelectorAll<HTMLElement>('a[role="menuitem"]') ?? []
+  const items = menu?.querySelectorAll<HTMLElement>('a[role="menuitem"], button[role="menuitem"]') ?? []
   if (items.length) items[items.length - 1].focus()
 }
 function focusNextItem(sectionIdx: number) {
   const menu = menuRefs.value[sectionIdx]
-  const items = menu?.querySelectorAll<HTMLElement>('a[role="menuitem"]') ?? []
+  const items = menu?.querySelectorAll<HTMLElement>('a[role="menuitem"], button[role="menuitem"]') ?? []
   if (!items.length) return
   const idx = Array.from(items).indexOf(document.activeElement as HTMLElement)
   const next = (idx + 1 + items.length) % items.length
@@ -245,7 +387,7 @@ function focusNextItem(sectionIdx: number) {
 }
 function focusPrevItem(sectionIdx: number) {
   const menu = menuRefs.value[sectionIdx]
-  const items = menu?.querySelectorAll<HTMLElement>('a[role="menuitem"]') ?? []
+  const items = menu?.querySelectorAll<HTMLElement>('a[role="menuitem"], button[role="menuitem"]') ?? []
   if (!items.length) return
   const idx = Array.from(items).indexOf(document.activeElement as HTMLElement)
   const prev = (idx - 1 + items.length) % items.length
@@ -289,6 +431,8 @@ function sectionTitleTag(child: any) {
   max-width: 1800px;
   margin: 0 auto;
   padding: 1rem;
+  padding-bottom: 5rem;
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -300,37 +444,31 @@ function sectionTitleTag(child: any) {
   font-size: 1.25rem;
 }
 
-/* alignment helpers (если захотите применять через titleProps — сейчас не используются в шаблоне) */
-.title--align-left { text-align: left; }
-.title--align-center { text-align: center; }
-.title--align-right { text-align: right; }
-
 /* section wrapper */
 .services-section {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
 }
 
 /* section title (теперь используется внутри кнопки) */
 .section-title {
   margin: 0;
   font-size: 1rem;
-  font-weight: 100;
-  /* чтобы заголовок выглядел как текст внутри кнопки */
+  font-weight: 600;
   display: inline-block;
   line-height: 1;
+  color: white;
 }
 
 /* toggle button */
 .services-toggle {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   justify-content: space-between;
-  gap: 0.6rem;
+  gap: 0rem;
   overflow: hidden;
-  padding: 0rem 0rem 1rem 0rem;
+  padding: 0rem;
   border: 1px solid #e6e6e6;
   background: white;
   cursor: pointer;
@@ -385,15 +523,54 @@ function sectionTitleTag(child: any) {
 /* list */
 .services-list {
   margin: 0;
-  padding: 0.5rem;
+  padding: 1rem;
   list-style: none;
   border: 1px solid #f0f0f0;
-  border-radius: 8px;
+  border-top: 0;
   box-shadow: 0 8px 22px rgba(0,0,0,0.05);
   overflow: hidden;
+  background: #fff;
 }
 
-/* items */
+/* content inside service */
+.service-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.service-lead {
+  margin: 0 0 0.25rem 0;
+  font-weight: 500;
+}
+.service-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.service-steps li {
+  margin: 0.6rem 0;
+}
+.step-desc {
+  margin: 0.35rem 0;
+  color: #444;
+}
+
+/* buttons */
+.service-btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  background: #2663eb;
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+
+}
+
 .services-list li { margin: 0; padding: 0; }
 .services-list a {
   display: block;
@@ -423,17 +600,117 @@ function sectionTitleTag(child: any) {
 .dropdown-leave-active {
   transition: max-height 260ms cubic-bezier(.2,.9,.2,1), opacity 200ms ease, transform 200ms ease;
 }
+
 .block__title {
   color: var(--white)
 }
 .img__container {
   width: 100%;
-  height: 20rem;
+  height: 22rem;
   overflow: hidden;
 }
 .img__container img {
   width: inherit;
   height: inherit;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: #ebeaef;
+}
+.about__container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  background-color: #2663eb;
+  color: white;
+}
+.img__block {
+  height: 100%;
+  width: 100%;
+  background-color: #ebebf0;
+  padding: 1rem;
+}
+.img__video {
+  height: 100%;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .img__container {
+    height: fit-content;
+  }
+  .about__container {
+  }
+}
+
+@media (min-width: 768px) {
+  .services-toggle-icon {
+    display: none
+  }
+  .services-toggle {
+    flex-direction: row;
+    height: 100%;
+  }
+  .about__container {
+    height: -webkit-fill-available;
+    background-color: white;
+    color: #2663eb;
+  }
+  .section-title {
+    color: #2663eb;
+    font-weight: bold;
+    font-size: inherit;
+    line-height: 8.5rem;
+    letter-spacing: -0.5rem;
+  }
+  .about__container-web {
+    width: 114%;
+    word-break: break-word;
+    font-size: 11rem;
+    text-align: left;
+    color: #f97315;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .about__container-design {
+    width: 142%;
+    word-break: break-word;
+    font-size: 11rem;
+    text-align: left;
+    color: #f97315;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .about__container-design-3d {
+    width: 55%;
+    word-break: break-word;
+    font-size: 11rem;
+    text-align: left;
+    color: #f97315;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  #button-block-design-1 {
+    flex-direction: row-reverse;
+    .section-title {color: #313237}
+  }
+}
+
+.header__subtitle {
+  font-size: 1.2rem;
+  color: var(--white);
+  opacity: 0.9;
+}
+.next-cirlce__svg {
+  margin-left: 0.5rem;
 }
 </style>

@@ -282,7 +282,7 @@ watch(() => templateStore.loading, (isLoading, prev) => {
 .portfolio-grid__title { font-size: 1.8rem; color: var(--dark); font-weight:700; display:flex; align-items:baseline; gap:10px; }
 .portfolio-grid__title span { color: var(--primary); }
 .portfolio-grid__content { }
-.portfolio-grid__content-inner { display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:30px; }
+.portfolio-grid__content-inner { padding-bottom: 5rem; display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:30px; }
 .grid-item { will-change: transform, opacity; display:block; }
 .skeleton-card { background:var(--card-bg,#fff); border-radius:12px; padding:16px; box-shadow:0 6px 18px rgba(30,30,30,0.04); display:flex; flex-direction:column; gap:12px; overflow:hidden; }
 .skeleton-card__thumb { width:100%; height:140px; border-radius:8px; background:linear-gradient(90deg, rgba(200,200,200,0.12), rgba(200,200,200,0.08)); position:relative; }
