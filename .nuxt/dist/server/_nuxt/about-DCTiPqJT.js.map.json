@@ -1,1 +1,0 @@
-{"file":"about-DCTiPqJT.js","mappings":";;;;;;;;;;;;;;;;AACO,QAAA,OAAAA,eAAAC,WAAA,EAAA,OAAM,eAAW,MAAA,CAAA,CAAA,kEAAA;;;;;;;;;","names":["_ssrRenderAttrs","_mergeProps"],"sources":["../../../../pages/about.vue"],"sourcesContent":["<template>\n  <div class=\"container\">\n    <h1>Контакты</h1>\n    <p>Свяжитесь с нами для заказа сайта</p>\n  </div>\n</template>"],"version":3}

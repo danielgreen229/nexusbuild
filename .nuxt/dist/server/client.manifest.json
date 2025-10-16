@@ -7,12 +7,12 @@
     "module": true,
     "resourceType": "script"
   },
-  "/Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/nuxt/dist/app/entry.js": {
+  "/Users/danielgreen/Documents/sitebypro/frontend/nexusbuild/node_modules/nuxt/dist/app/entry.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
     "isEntry": true,
-    "file": "/Users/danielgreen/Documents/sprintweb/nexusbuild/node_modules/nuxt/dist/app/entry.js"
+    "file": "/Users/danielgreen/Documents/sitebypro/frontend/nexusbuild/node_modules/nuxt/dist/app/entry.js"
   }
 }

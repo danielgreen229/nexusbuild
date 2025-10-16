@@ -1,5 +1,5 @@
-/// <reference types="@nuxt/image" />
 /// <reference types="nuxt-svgo" />
+/// <reference types="@nuxt/image" />
 /// <reference types="@pinia/nuxt" />
 /// <reference types="@nuxt/devtools" />
 /// <reference types="@nuxt/telemetry" />
