@@ -36,7 +36,7 @@
               class="section-title"
               aria-hidden="true"
             >
-              {{ child.title }}
+              <span v-html="child.title"></span>
             </component>
 
             <span class="services-toggle-icon" aria-hidden="true">
@@ -200,7 +200,7 @@ const props = defineProps({
       children: [
         {
           "id": "web",
-          "title": "Веб-разработка",
+          "title": "Веб-<br>разработка",
           video: 'landing.mp4',
           "titleProps": {
             "tag": "h3"
@@ -218,7 +218,7 @@ const props = defineProps({
         },
         {
           "id": "design",
-          "title": "Уникальный дизайн",
+          "title": "Уникальный<br>дизайн",
           video: 'order.mp4',
           "items": [
             {
@@ -229,7 +229,7 @@ const props = defineProps({
         },
         {
           "id": "design-3d",
-          "title": "3D-макеты",
+          "title": "3D-<br>макеты",
           video: '3D.mp4',
           "items": [
             {
@@ -458,6 +458,8 @@ function sectionTitleTag(child: any) {
   display: inline-block;
   line-height: 1;
   color: white;
+  text-wrap: nowrap;
+  text-align: left;
 }
 
 /* toggle button */
@@ -675,6 +677,7 @@ function sectionTitleTag(child: any) {
     align-items: center;
     flex-direction: row;
     flex-wrap: nowrap;
+
   }
   .about__container-design {
     width: 142%;
@@ -702,6 +705,63 @@ function sectionTitleTag(child: any) {
   #button-block-design-1 {
     flex-direction: row-reverse;
     .section-title {color: #313237}
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .section-title {
+    line-height: 4.5rem;
+    letter-spacing: -0.3rem;
+  }
+  .about__container-web {
+    width: 50%;
+    font-size: 5rem;
+  }
+  .about__container-design {
+    width: 50%;
+    font-size: 5rem;
+  }
+  .about__container-design-3d {
+    width: 30%;
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 1245px) and (min-width: 1024px) {
+  .section-title {
+    line-height: 4.5rem;
+    letter-spacing: -0.3rem;
+  }
+  .about__container-web {
+    width: 50%;
+    font-size: 5rem;
+  }
+  .about__container-design {
+    width: 50%;
+    font-size: 5rem;
+  }
+  .about__container-design-3d {
+    width: 30%;
+    font-size: 5rem;
+  }
+}
+
+@media (min-width: 1245px) and (max-width: 1800px) {
+  .section-title {
+    line-height: 5.5rem;
+    letter-spacing: -0.5rem;
+  }
+  .about__container-web {
+    width: 50%;
+    font-size: 9rem;
+  }
+  .about__container-design {
+    width: 60%;
+    font-size: 9rem;
+  }
+  .about__container-design-3d {
+    width: 30%;
+    font-size: 9rem;
   }
 }
 

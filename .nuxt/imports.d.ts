@@ -29,6 +29,7 @@ export { withCtx, withDirectives, withKeys, withMemo, withModifiers, withScopeId
 export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callback';
 export { setInterval } from '#app/compat/interval';
 export { isNode } from '../utils/env';
+export { useDomainStore } from '../stores/deploy';
 export { useLandingStore } from '../stores/landing';
 export { useCodesStore } from '../stores/promocodes';
 export { useTemplateStore } from '../stores/template';

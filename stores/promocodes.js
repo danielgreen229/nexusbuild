@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 import { API } from '@/config/index.js'
 
-const base = `${API.fullUrl}/promocode` // поменяйте если нужно
+const base = `${API.fullUrl}`
 
 export const useCodesStore = defineStore('promocodes', {
   state: () => ({

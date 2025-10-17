@@ -140,13 +140,13 @@
             </ul>
           </div>
 
-          <div class="app-mobile-nav__section">
+          <!--<div class="app-mobile-nav__section">
             <ul class="app-mobile-nav__list">
               <li class="app-mobile-nav__item">
                 <button class="app-mobile-nav__link" @click="onMobileLogin">Войти</button>
               </li>
             </ul>
-          </div>
+          </div>-->
         </nav>
       </div>
     </div>

@@ -12,7 +12,8 @@ type HydrationStrategies = {
 }
 type LazyComponent<T> = (T & DefineComponent<HydrationStrategies, {}, {}, {}, {}, {}, {}, { hydrated: () => void }>)
 interface _GlobalComponents {
-      'LayoutFooter': typeof import("../components/layout/Footer.vue")['default']
+      'DomainFinder': typeof import("../components/domain/domain-finder.vue")['default']
+    'LayoutFooter': typeof import("../components/layout/Footer.vue")['default']
     'LayoutHeader': typeof import("../components/layout/Header.vue")['default']
     'PortfolioCTA': typeof import("../components/portfolio/PortfolioCTA.vue")['default']
     'PortfolioFilters': typeof import("../components/portfolio/PortfolioFilters.vue")['default']
@@ -65,7 +66,8 @@ interface _GlobalComponents {
     'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
     'NuxtIsland': typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
     'NuxtRouteAnnouncer': IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
-      'LazyLayoutFooter': LazyComponent<typeof import("../components/layout/Footer.vue")['default']>
+      'LazyDomainFinder': LazyComponent<typeof import("../components/domain/domain-finder.vue")['default']>
+    'LazyLayoutFooter': LazyComponent<typeof import("../components/layout/Footer.vue")['default']>
     'LazyLayoutHeader': LazyComponent<typeof import("../components/layout/Header.vue")['default']>
     'LazyPortfolioCTA': LazyComponent<typeof import("../components/portfolio/PortfolioCTA.vue")['default']>
     'LazyPortfolioFilters': LazyComponent<typeof import("../components/portfolio/PortfolioFilters.vue")['default']>
@@ -124,6 +126,7 @@ declare module 'vue' {
   export interface GlobalComponents extends _GlobalComponents { }
 }
 
+export const DomainFinder: typeof import("../components/domain/domain-finder.vue")['default']
 export const LayoutFooter: typeof import("../components/layout/Footer.vue")['default']
 export const LayoutHeader: typeof import("../components/layout/Header.vue")['default']
 export const PortfolioCTA: typeof import("../components/portfolio/PortfolioCTA.vue")['default']
@@ -177,6 +180,7 @@ export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
 export const NuxtRouteAnnouncer: IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+export const LazyDomainFinder: LazyComponent<typeof import("../components/domain/domain-finder.vue")['default']>
 export const LazyLayoutFooter: LazyComponent<typeof import("../components/layout/Footer.vue")['default']>
 export const LazyLayoutHeader: LazyComponent<typeof import("../components/layout/Header.vue")['default']>
 export const LazyPortfolioCTA: LazyComponent<typeof import("../components/portfolio/PortfolioCTA.vue")['default']>
