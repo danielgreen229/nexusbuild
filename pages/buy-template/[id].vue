@@ -14,20 +14,15 @@
               </span>
               <span class="label-text">Приоритетная доработка — {{ formatCurrency(addons.priority.price) }}</span>
             </label>
-
-            <!--<label class="addon custom-switch">
-              <input type="checkbox" v-model="addons.hosting.enabled" />
-              <span class="switch-track" aria-hidden>
-                <span class="switch-thumb" />
-              </span>
-              <span class="label-text">Подключение и хостинг — {{ formatCurrency(addons.hosting.price) }}</span>
-            </label>
-            -->
           </div>
 
-          <!--<div class="preview-link" v-if="template.preview">
-            <a :href="template.preview" target="_blank" rel="noopener">Открыть демо (preview)</a>
-          </div>-->
+          <h3 class="card__h3 domain__h3">Выберите домен</h3>
+          <div class="domain__container">
+            <div class="domain-scroll__container">
+              <!-- DomainFinder эмитит 'select-domain' -->
+              <DomainFinder @select-domain="onDomainSelected" />
+            </div>
+          </div>
         </div>
         <div class="card__right">
           <div class="meta">
@@ -90,7 +85,6 @@
               {{ promoError }}
             </div>
 
-          
             <!-- Информация об успешном применении -->
             <div v-if="promoAppliedExists" class="note" style="color: #064e3b; margin-top:0.25rem;">
               Промокод «{{ appliedPromoCode }}» успешно применён — скидка {{ formatCurrency(appliedPromoDiscount) }}.
@@ -113,6 +107,21 @@
           <div class="line discount" v-if="templateDiscountAmount > 0">
             <span>Скидка шаблона {{ discountLabel }}</span>
             <span>-{{ formatCurrency(templateDiscountAmount) }}</span>
+          </div>
+
+          <!-- Выбранный домен -->
+          <div class="line" v-if="selectedDomain">
+            <span>Выбран домен</span>
+            <span style="display:flex; gap:0.5rem; align-items:center;">
+              <strong>{{ selectedDomain }}</strong>
+              <button class="btn ghost" @click="clearSelectedDomain" title="Сбросить выбор домена">Сбросить</button>
+            </span>
+          </div>
+
+          <!-- Подсказка если домен не выбран -->
+          <div class="line" v-if="!selectedDomain" style="color:#6b7280;">
+            <span>Домен не выбран</span>
+            <span>Пожалуйста, выберите домен в левом блоке</span>
           </div>
 
           <div class="line total">
@@ -146,7 +155,8 @@
             </div>
           </template>
 
-          <button class="btn primary" :disabled="placing || !isAuthenticated" @click="placeOrder">
+          <!-- Кнопка доступна только если пользователь авторизован и выбран домен -->
+          <button class="btn primary" :disabled="placing || !canPlaceOrder" @click="placeOrder">
             {{ placing ? 'Оформление…' : 'Оформить заказ' }}
           </button>
 
@@ -177,6 +187,7 @@ import { useTemplateStore } from '~/stores/template'
 import { useUserStore } from '~/stores/user'
 import { useCodesStore } from '~/stores/promocodes'
 import LoginModal from '~/components/profile/Modals/LoginModal.vue'
+import DomainFinder from '@/components/domain/domain-finder.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -202,6 +213,21 @@ function openLogin () { startWithRegister.value = false; isLoginModalOpen.value 
 function openRegister () { startWithRegister.value = true; isLoginModalOpen.value = true }
 function onLoginEvent(userData) { isLoginModalOpen.value = false }
 
+/* New: выбранный домен */
+const selectedDomain = ref(null)
+
+function onDomainSelected(domain) {
+  // Сохраняем выбранный домен, можно логировать
+  selectedDomain.value = domain
+  console.log('Selected domain:', domain)
+}
+
+/* Позволяет отозвать выбор домена */
+function clearSelectedDomain() {
+  selectedDomain.value = null
+}
+
+/* Сохранил остальную логику как в оригинале */
 const template = computed(() => store.current || {
   id: null, title: '', price: 0, image: '', description: '', pages: [], preview: '', discount_percent: 0, discount_amount: 0
 })
@@ -336,9 +362,41 @@ async function onApplyPromo() {
 /* ---------------------------
    ОФОРМЛЕНИЕ ЗАКАЗА
    --------------------------- */
+const isAuthenticated = computed(() => !!userStore.isAuthenticated)
+const userName = computed(() => {
+  const u = userStore.user || {}
+  if (u.name) return u.name
+  const first = u.firstName || u.first_name || ''
+  const last = u.lastName || u.last_name || ''
+  const full = `${first} ${last}`.trim()
+  return full || ''
+})
+const userContact = computed(() => {
+  const u = userStore.user || {}
+  return u.email || u.email_address || u.phone || ''
+})
+const userInfo = computed(() => userStore.user || {})
+
+/* Новое: разрешение на оформление — пользователь авторизован И выбран домен */
+const canPlaceOrder = computed(() => {
+  return isAuthenticated.value && !!selectedDomain.value
+})
+
+watch(isAuthenticated, (val) => {
+  if (val) {
+    if (userName.value) buyer.value.name = userName.value
+    if (userContact.value) buyer.value.contact = userContact.value
+  }
+})
+
 async function placeOrder() {
   if (!isAuthenticated.value) {
     router.push({ path: '/login' })
+    return
+  }
+
+  if (!selectedDomain.value) {
+    alert('Пожалуйста, выберите домен перед оформлением заказа.')
     return
   }
 
@@ -356,6 +414,7 @@ async function placeOrder() {
         priority: addons.value.priority.enabled ? { price: addons.value.priority.price } : null,
         hosting: addons.value.hosting.enabled ? { price: addons.value.hosting.price } : null
       },
+      domain: selectedDomain.value || null, // добавлено поле домена
       subtotal: subtotal.value,
       discount: totalDiscount.value,
       total: finalTotal.value,
@@ -379,28 +438,6 @@ async function placeOrder() {
 /* ---------------------------
    Автозаполнение покупателя / пользователь
    --------------------------- */
-const isAuthenticated = computed(() => !!userStore.isAuthenticated)
-const userName = computed(() => {
-  const u = userStore.user || {}
-  if (u.name) return u.name
-  const first = u.firstName || u.first_name || ''
-  const last = u.lastName || u.last_name || ''
-  const full = `${first} ${last}`.trim()
-  return full || ''
-})
-const userContact = computed(() => {
-  const u = userStore.user || {}
-  return u.email || u.email_address || u.phone || ''
-})
-const userInfo = computed(() => userStore.user || {})
-
-watch(isAuthenticated, (val) => {
-  if (val) {
-    if (userName.value) buyer.value.name = userName.value
-    if (userContact.value) buyer.value.contact = userContact.value
-  }
-})
-
 function resetSelections() {
   addons.value.extraPage.enabled = false
   addons.value.extraPage.count = 0
@@ -410,8 +447,10 @@ function resetSelections() {
   addons.value.hosting.enabled = false
   selectedPages.value = template.value.pages ? [...template.value.pages] : []
   buyer.value = { name: '', contact: '' }
+  selectedDomain.value = null
 }
 </script>
+
 
 <style scoped>
 .buy__container {
@@ -666,6 +705,9 @@ function resetSelections() {
 .card__h3 {
   margin-top: 1rem;
 }
+.domain__h3 {
+  margin-bottom: 1rem;
+}
 
 .btn.primary {
   background: #0070f3;
@@ -740,6 +782,17 @@ a:focus {
   .readonly-field {
     padding: 0.625rem 0.75rem;
   }
+}
+.domain-scroll__container {
+  overflow-y: scroll;
+  height: 35rem;
+}
+.domain__container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: 100%;
+  overflow: hidden;
 }
 
 @media (max-width: 32rem) {

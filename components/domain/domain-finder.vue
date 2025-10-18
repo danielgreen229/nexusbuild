@@ -1,12 +1,5 @@
 <template>
   <div class="df-root">
-    <header class="df-header">
-      <div class="df-brand">
-        <div class="df-logo">Reg<span>.ru</span></div>
-        <div class="df-title">Поиск доменов — подбор и регистрация</div>
-      </div>
-    </header>
-
     <main class="df-container">
       <section class="df-search-card">
         <form @submit.prevent="onSearch" class="df-form">
@@ -16,22 +9,11 @@
           </div>
 
           <div class="df-row df-row--inline">
-            <div class="df-col">
-              <label class="df-label">TLDs (через запятую)</label>
-              <input v-model="tldsInput" class="df-input" placeholder="ru,com,net,org,рф" />
-            </div>
-
-            <div class="df-col df-col--sm">
-              <label class="df-label">Макс результатов</label>
-              <input v-model.number="maxResults" type="number" min="10" class="df-input" />
-            </div>
-
             <div class="df-actions">
               <button :disabled="loading" class="btn btn-primary" type="submit">
                 <span v-if="!loading">Поиск</span>
                 <span v-else>Идёт поиск...</span>
               </button>
-              <button type="button" class="btn" @click="resetSearch">Сброс</button>
             </div>
           </div>
         </form>
@@ -42,9 +24,6 @@
       <section v-if="searchResults && searchResults.length" class="df-results">
         <div class="df-results-header">
           <div>Результаты подбора для «<strong>{{ lastKeyword }}</strong>» — {{ searchResults.length }}</div>
-          <div class="df-results-actions">
-            <button class="btn" @click="copyAvailableList">Копировать список доступных</button>
-          </div>
         </div>
 
         <table class="df-table">
@@ -73,7 +52,7 @@
               <td>{{ item.tld || extractTld(item.fqdn) }}</td>
               <td class="td-actions">
                 <button class="btn small" @click="openWhois(item.fqdn)">Whois</button>
-                <button class="btn primary small" :disabled="!isAvailable(item.available)" @click="openDeployModal(item.fqdn)">Зарегистрировать</button>
+                <button class="btn primary small" :disabled="!isAvailable(item.available)" @click="chooseDomain(item.fqdn)">Выбрать</button>
               </td>
             </tr>
           </tbody>
@@ -82,8 +61,7 @@
 
       <section v-else class="df-empty" v-if="!loading">
         <div class="empty-illustration">🔎</div>
-        <div class="empty-title">Ничего не найдено</div>
-        <div class="empty-sub">Введите ключевое слово и нажмите «Поиск», чтобы подобрать похожие домены</div>
+        <div class="empty-sub">Введите ключевое слово и нажмите «Поиск», чтобы подобрать домен</div>
       </section>
 
       <section v-if="lastDeploy" class="df-deploy-result">
@@ -96,36 +74,6 @@
         </div>
       </section>
     </main>
-
-    <!-- Deploy modal -->
-    <div class="modal" v-if="showDeploy">
-      <div class="modal-backdrop" @click="closeDeploy"></div>
-      <div class="modal-body">
-        <h4>Регистрация и деплой домена</h4>
-        <div class="modal-row">
-          <label>Домен</label>
-          <input class="df-input" v-model="deployForm.domain" disabled />
-        </div>
-        <div class="modal-row">
-          <label>Template ID</label>
-          <input class="df-input" v-model="deployForm.templateId" placeholder="Введите templateId" />
-        </div>
-        <div class="modal-row inline">
-          <label>Период (лет)</label>
-          <input type="number" min="1" class="df-input" v-model.number="deployForm.period" />
-          <label style="margin-left:8px">Проверять DNS</label>
-          <input type="checkbox" v-model="deployForm.waitForDns" />
-        </div>
-        <div class="modal-actions">
-          <button class="btn" @click="closeDeploy">Отмена</button>
-          <button class="btn btn-primary" :disabled="deploying" @click="performDeploy">
-            <span v-if="!deploying">Запустить</span>
-            <span v-else>Идет...</span>
-          </button>
-        </div>
-        <div v-if="deployError" class="df-error">{{ deployError }}</div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -135,9 +83,12 @@ import { useDomainStore } from '~/stores/deploy'
 
 const store = useDomainStore()
 
+// Эмит события: 'select-domain'
+const emit = defineEmits(['select-domain'])
+
 const keyword = ref('')
 const tldsInput = ref('')
-const maxResults = ref(50)
+const maxResults = ref(20)
 const loading = computed(() => store.loading)
 const error = computed(() => store.error)
 const searchResults = computed(() => store.searchResults)
@@ -211,6 +162,17 @@ function openDeployModal(fqdn){
 
 function closeDeploy(){ showDeploy.value = false }
 
+/**
+ * chooseDomain — эмитит выбранный домен и открывает модал деплоя.
+ * Если хотите только эмит — удалите вызов openDeployModal(fqdn).
+ */
+function chooseDomain(fqdn){
+  // эмитируем домен наружу
+  emit('select-domain', fqdn)
+  // оставляем стандартное поведение: открываем модал деплоя
+  openDeployModal(fqdn)
+}
+
 async function performDeploy(){
   if (!deployForm.templateId) { deployError.value = 'templateId обязателен' ; return }
   deploying.value = true
@@ -241,12 +203,6 @@ async function performDeploy(){
     deploying.value = false
   }
 }
-
-function copyAvailableList(){
-  const list = (searchResults.value || []).filter(i => isAvailable(i.available)).map(i => i.fqdn).join('\n')
-  if (!list) return alert('Нет доступных доменов для копирования')
-  navigator.clipboard.writeText(list).then(()=> alert('Список скопирован'))
-}
 </script>
 
 <style scoped>
@@ -258,7 +214,7 @@ function copyAvailableList(){
 .df-title{ font-size:16px }
 
 .df-container{ max-width:1100px; margin:18px auto; padding:0 16px }
-.df-search-card{ background:#fff; border:1px solid #ececec; padding:16px; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.03) }
+.df-search-card{  }
 .df-form{ display:flex; flex-direction:column; gap:12px }
 .df-row{ display:flex; flex-direction:column }
 .df-row--inline{ display:flex; gap:12px; align-items:end }
@@ -266,11 +222,15 @@ function copyAvailableList(){
 .df-col--sm{ width:160px }
 .df-label{ font-size:13px; color:#666; margin-bottom:6px }
 .df-input{ padding:8px 10px; border:1px solid #ddd; border-radius:6px; outline:none }
-.df-input:focus{ border-color:#f44336; box-shadow:0 0 0 3px rgba(244,67,54,0.06) }
+.df-input:focus{ border-color: var(--primary); box-shadow:0 0 0 3px rgba(244,67,54,0.06) }
 
 .btn{ background:#fff; border:1px solid #ddd; padding:8px 12px; border-radius:6px; cursor:pointer }
 .btn:hover{ filter:brightness(.98) }
-.btn.primary{ background:#f44336; color:#fff; border-color:#f44336 }
+.btn.primary{ 
+    background-color: var(--primary);
+    color: var(--white);
+    border: none
+}
 .btn.small{ padding:6px 8px; font-size:13px }
 .btn:disabled{ opacity:.6; cursor:not-allowed }
 
