@@ -8,8 +8,22 @@ export default defineNuxtConfig({
 
   // глобальные стили и модули
   css: ['~/assets/css/main.css'],
-  modules: ['@nuxt/image', 'nuxt-svgo', '@pinia/nuxt'],
+  modules: ['@nuxt/image', 'nuxt-svgo', '@pinia/nuxt', '@nuxt/fonts'],
 
+  fonts: {
+  families: [
+    {
+      name: 'Inter',
+      src: [
+        { path: '~/assets/fonts/Inter/Inter-Regular.ttf', weight: '400', style: 'normal' },
+        { path: '~/assets/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf', weight: '400', style: 'italic' }
+      ],
+      preload: true,
+      display: 'swap'
+    }
+  ],
+  download: false
+},
   // svgo
   svgo: {
     autoImportPath: resolve(__dirname, 'assets/icons/'),

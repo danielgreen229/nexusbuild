@@ -1,25 +1,25 @@
 <script setup>
-import Hero from '@/components/sections/Hero.vue'
+/*import Hero from '@/components/sections/Hero.vue'
 import Services from '@/components/sections/Services.vue'
 import Promo from '@/components/sections/Promo.vue'
 import Features from '@/components/sections/Features.vue'
 import LeadForm from '@/components/sections/LeadForm.vue' 
+*/
+import b0 from '@/components/landing/b0.vue' 
 </script>
 
 <template>
   <div class="page">
     <main>
-      <Hero />
-      <Services />
-      <Promo />
-      <Features />
-      <LeadForm /> 
+      <b0 />
     </main>
   </div>
 </template>
 
 <style>
-/* Глобальные стили */
+.page {
+  background-color: #E7F0FF
+}
 :root {
   --danger: #ef4444;
   --danger-light: #fee2e2;
@@ -46,6 +46,7 @@ body {
   color: var(--dark);
   line-height: 1.5;
   background-color: var(--white);
+  background-color: #e8f0ff;
 }
 
 

@@ -46,13 +46,18 @@
                 <span :class="['badge', availabilityClass(item.available)]">{{ availabilityText(item.available) }}</span>
               </td>
               <td>
-                <div v-if="item.price !== null && item.price !== undefined">{{ formatPrice(item.price, item.price_currency) }}</div>
+                <!-- Изменено: если домен занят — показываем ":" вместо цены -->
+                <div v-if="!isAvailable(item.available)">-</div>
+
+                <!-- Если домен свободен — показываем цену (или — если цены нет) -->
+                <div v-else-if="item.price !== null && item.price !== undefined">{{ formatPrice(item.price, item.price_currency) }}</div>
                 <div v-else class="muted">—</div>
               </td>
               <td>{{ item.tld || extractTld(item.fqdn) }}</td>
               <td class="td-actions">
                 <button class="btn small" @click="openWhois(item.fqdn)">Whois</button>
-                <button class="btn primary small" :disabled="!isAvailable(item.available)" @click="chooseDomain(item.fqdn)">Выбрать</button>
+                <!-- передаём весь объект item -->
+                <button class="btn primary small" :disabled="!isAvailable(item.available)" @click="chooseDomain(item)">Выбрать</button>
               </td>
             </tr>
           </tbody>
@@ -164,13 +169,13 @@ function closeDeploy(){ showDeploy.value = false }
 
 /**
  * chooseDomain — эмитит выбранный домен и открывает модал деплоя.
- * Если хотите только эмит — удалите вызов openDeployModal(fqdn).
+ * Теперь эмитим объект item (fqdn, price, price_currency, и т.д.)
  */
-function chooseDomain(fqdn){
-  // эмитируем домен наружу
-  emit('select-domain', fqdn)
-  // оставляем стандартное поведение: открываем модал деплоя
-  openDeployModal(fqdn)
+function chooseDomain(item){
+  // эмитируем объект домена наружу
+  emit('select-domain', item)
+  // оставляем стандартное поведение: открываем модал деплоя (по fqdn)
+  openDeployModal(item.fqdn)
 }
 
 async function performDeploy(){
@@ -204,6 +209,7 @@ async function performDeploy(){
   }
 }
 </script>
+
 
 <style scoped>
 .df-root{ font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#222 }

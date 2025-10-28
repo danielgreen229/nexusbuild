@@ -13,6 +13,7 @@ export const useCodesStore = defineStore('promocodes', {
     preview: null,     // data от /by-code (или от preview endpoint)
   }),
   actions: {
+    
     clearError() {
       this.error = null;
     },

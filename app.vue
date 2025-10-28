@@ -1,47 +1,49 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
-import Header from '@/components/layout/Header.vue'
-import Footer from '@/components/layout/Footer.vue'
-import { useUserStore } from '~/stores/user' // оставил твой alias - подгони, если нужно
+import Header from "@/components/layout/Header.vue";
+import LandingHeader from "@/components/ui/Nav/LandingHeader.vue";
+import Footer from "@/components/layout/Footer.vue";
+import AlertsContainer from "@/components/ui/Modal/Alert.vue";
 
-const userStore = useUserStore()
+import { useUserStore } from "~/stores/user";
 
-// Если нужно где-то локально использовать данные пользователя:
-const isAuthenticated = computed(() => !!userStore.isAuthenticated)
-const currentUser = computed(() => userStore.user || null)
+const userStore = useUserStore();
+const route = useRoute();
+
+// Проверяем, находимся ли мы на главной
+const isHome = computed(() => route.path === "/");
+
+const isAuthenticated = computed(() => !!userStore.isAuthenticated);
+const currentUser = computed(() => userStore.user || null);
 
 onMounted(async () => {
-  // viewport / zoom
-  /*document.querySelector('meta[name="viewport"]')?.setAttribute(
-    'content',
-    'width=device-width, initial-scale=0.8'
-  )
-  document.body.style.zoom = '80%'
-  */
-
   try {
-    // Инициализация: прочитать токен/uid из localStorage в стор
-    userStore.initFromStorage()
+    userStore.initFromStorage();
 
-    // Если токен/uid есть — подгружаем данные пользователя с сервера
     if (userStore.token && userStore.uid) {
-      await userStore.fetchCurrentUser()
-      console.log('User initialized from token:', userStore.user)
+      await userStore.fetchCurrentUser();
+      console.log("User initialized from token:", userStore.user);
     } else {
-      console.log('No token/uid in storage — user not authenticated')
+      console.log("No token/uid in storage — user not authenticated");
     }
   } catch (err) {
-    // Логируем ошибку. Стор сам выставит userStore.error
-    console.error('Error initializing user:', err)
+    console.error("Error initializing user:", err);
   }
-})
+});
 </script>
 
 <template>
   <div class="main__container">
-    <Header />
-    <NuxtPage class="main__body"/>
+    <!-- Если на главной — показываем LandingHeader, иначе обычный Header -->
+    <LandingHeader v-if="isHome" />
+    <Header v-else />
+
+    <AlertsContainer />
+
+    <NuxtPage class="main__body" />
+
     <Footer />
   </div>
 </template>
@@ -75,7 +77,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1800px;
+  max-width: 2100px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -141,10 +143,11 @@ body {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  height: 100%;
+  min-height: 100%;
 }
 .main__body {
   width: 100%;
+  flex: 1 0 auto;
 }
 html, body, #__nuxt {
   height: 100%;
