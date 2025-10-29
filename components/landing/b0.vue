@@ -501,11 +501,17 @@ onBeforeUnmount(() => {
 
 
 @media (max-width: 1248px) { 
-	.b0-info__container, .b0-block__bg { 
+	.b0-block__bg { 
 		display: none; 
 	} 
+	.b0__block-inside {
+		overflow: hidden;
+	}
 	.b0-block__bg-mobile {
 		display: block;
+		height: 100vh;
+		min-width: 100%;
+		min-height: 105vh;
 	}
 	.b0-block__bg {
 
@@ -513,6 +519,36 @@ onBeforeUnmount(() => {
 	.b0__bg {
 		min-height: 300vh
 	}
+	.b0-info__container {
+		flex-direction: column;
+		align-items: flex-start;
+		padding-top: 12rem;
+	}
+	.b0-right__cone {
+		top: 3rem;
+		position: fixed;
+		right: -5rem;
+		width: 18rem;
+		height: 18rem;
+	}
+
+
+	.b0-right__container {
+		width: 100%;
+
+	}
+	.b0-right__photo {
+		display: none;
+	}
+
+	.video-mask {
+		padding: 0;
+		margin-bottom: 10rem;
+	}
+	.b0-right-bottom__container {
+		display: none;
+	}
+
 }
 </style>
 
