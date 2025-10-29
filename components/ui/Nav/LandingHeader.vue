@@ -3,6 +3,7 @@
     <div class="container app-header__container">
       <!-- Верхняя часть с логотипом и основной навигацией -->
       <div class="app-header__top">
+      	<corner class="mobile__corner" :top="null" :left="null" :rotation="'0'" :mobileLeft="'12'" :mobileTop="'0.75'"/>
         <NuxtLink to="/" class="app-header__logo">
           <logo class="app-header__logo-svg" filled/>
         </NuxtLink>
@@ -28,7 +29,12 @@
         	<NuxtLink :to="'/templates'" class="nuxt-link__a">
         		<div class="goto__template">заказать</div>
         	</NuxtLink>
-        	<corner :rotation="'90'" :left="'8.3999'" :top="'4.7'"/>
+        	<div class="burger-mobile__container" @click="toggleMobileMenu">
+        		<div class="burger-stick"/>
+        		<div class="burger-stick"/>
+        		<div class="burger-stick"/>
+        	</div>
+        	<corner :rotation="'90'" :left="'11.8'" :top="'100%'" :mobileLeft="'11.8'"/>
         </div>
       </div>
     </div>
@@ -653,4 +659,52 @@ onBeforeUnmount(() => {
 	text-decoration: none;
 	height: 100%;
 }
+
+.mobile__corner {
+	display: none;
+}
+
+@media (max-width: 1248px) { 
+	.app-nav--primary, .app-nav--secondary, .b0__block-inside { 
+		display: none; 
+	} 
+
+	.app-header__logo {
+		border-radius: 26px 0 26px 0;
+	}
+
+	.mobile__corner {
+		display: block;
+	}
+}
+
+.burger-mobile__container {
+	width: 32px;
+	height: 20px;
+	margin-right: 6px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	cursor: pointer;
+}
+.burger-stick {
+	width: 100%;
+	height: 2px;
+	border-radius: 31px;
+	background: #4841E2;
+}
+
+
+
+
+
 </style>
+
+
+
+
+
+
+
+
