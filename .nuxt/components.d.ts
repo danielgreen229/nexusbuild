@@ -52,6 +52,7 @@ interface _GlobalComponents {
     'SvgoLogo': typeof import("../assets/icons/logo")['default']
     'SvgoNextCircle': typeof import("../assets/icons/next-circle")['default']
     'SvgoOpenNext': typeof import("../assets/icons/open-next")['default']
+    'SvgoTg': typeof import("../assets/icons/tg")['default']
     'SvgoUser': typeof import("../assets/icons/user")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
     'NuxtLayout': typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
@@ -118,6 +119,7 @@ interface _GlobalComponents {
     'LazySvgoLogo': LazyComponent<typeof import("../assets/icons/logo")['default']>
     'LazySvgoNextCircle': LazyComponent<typeof import("../assets/icons/next-circle")['default']>
     'LazySvgoOpenNext': LazyComponent<typeof import("../assets/icons/open-next")['default']>
+    'LazySvgoTg': LazyComponent<typeof import("../assets/icons/tg")['default']>
     'LazySvgoUser': LazyComponent<typeof import("../assets/icons/user")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
     'LazyNuxtLayout': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
@@ -190,6 +192,7 @@ export const SvgoLandingMouse: typeof import("../assets/icons/landing/mouse")['d
 export const SvgoLogo: typeof import("../assets/icons/logo")['default']
 export const SvgoNextCircle: typeof import("../assets/icons/next-circle")['default']
 export const SvgoOpenNext: typeof import("../assets/icons/open-next")['default']
+export const SvgoTg: typeof import("../assets/icons/tg")['default']
 export const SvgoUser: typeof import("../assets/icons/user")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
@@ -256,6 +259,7 @@ export const LazySvgoLandingMouse: LazyComponent<typeof import("../assets/icons/
 export const LazySvgoLogo: LazyComponent<typeof import("../assets/icons/logo")['default']>
 export const LazySvgoNextCircle: LazyComponent<typeof import("../assets/icons/next-circle")['default']>
 export const LazySvgoOpenNext: LazyComponent<typeof import("../assets/icons/open-next")['default']>
+export const LazySvgoTg: LazyComponent<typeof import("../assets/icons/tg")['default']>
 export const LazySvgoUser: LazyComponent<typeof import("../assets/icons/user")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>

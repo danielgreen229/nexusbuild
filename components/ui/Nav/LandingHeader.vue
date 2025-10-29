@@ -29,18 +29,31 @@
         	<NuxtLink :to="'/templates'" class="nuxt-link__a">
         		<div class="goto__template">заказать</div>
         	</NuxtLink>
-        	<div class="burger-mobile__container" @click="toggleMobileMenu">
+        	<div class="burger-mobile__container" @click="toggleMobileMenu" role="button" aria-label="Открыть меню">
         		<div class="burger-stick"/>
         		<div class="burger-stick"/>
         		<div class="burger-stick"/>
         	</div>
-        	<corner :rotation="'90'" :left="'11.8'" :top="'100%'" :mobileLeft="'11.8'"/>
+        	<corner :rotation="'90'" :left="'11.8'" :top="'100%'" :mobileLeft="'11.8'" :mobileTop="'4.394'"/>
         </div>
       </div>
     </div>
 
-    <div class="app-mobile-menu" :class="{ 'app-mobile-menu--active': isMobileMenuOpen }">
-      <div class="app-mobile-menu__content">
+    <!-- Мобильное меню (объединяет обе навигации) -->
+    <div
+      class="app-mobile-menu"
+      :class="{ 'app-mobile-menu--active': isMobileMenuOpen }"
+      @click.self="closeMobileMenu"
+    >
+      <div class="app-mobile-menu__content" @click.stop>
+        <!-- Мобильный хедер: логотип + крестик -->
+        <div class="app-mobile-menu__mobile-header">
+          <NuxtLink to="/" class="app-mobile-menu__logo" @click="closeMobileMenu">
+            <logo class="app-mobile-menu__logo-svg" filled/>
+          </NuxtLink>
+          <button class="app-mobile-menu__close" @click="closeMobileMenu" aria-label="Закрыть меню">✕</button>
+        </div>
+
         <nav class="app-mobile-nav">
           <div class="app-mobile-nav__section">
             <h3 class="app-mobile-nav__title">Основные</h3>
@@ -82,9 +95,24 @@
             </ul>
           </div>-->
         </nav>
+
+        <!-- Футер с кнопками (фиксирован снизу панели) -->
+        <div class="app-mobile-menu__footer">
+          <NuxtLink to="/templates" class="button button--primary app-mobile-menu__btn-order" @click="closeMobileMenu">Заказать</NuxtLink>
+          <a 
+          	href="https://t.me/dozer_stoun" 
+          	target="_blank" 
+          	rel="noopener noreferrer" 
+          	class="button button--outline app-mobile-menu__btn-tg" 
+          	@click="closeMobileMenu">
+          		<IconTg class="tg__icon"/>
+          		Написать в тг
+          </a>
+        </div>
       </div>
     </div>
 
+    <!-- Модальное окно входа -->
     <LoginModal v-model:visible="isLoginModalOpen" @login="onLoginEvent" />
   </header>
 </template>
@@ -97,6 +125,7 @@ import LoginModal from '~/components/profile/Modals/LoginModal.vue'
 import corner from '~/components/ui/blocks/corner.vue'
 import { useRouter } from 'vue-router'
 import logo from '~/assets/icons/logo.svg'
+import IconTg from '~/assets/icons/tg.svg'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -213,6 +242,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', onKeyDown, true)
 })
 </script>
+
 <style scoped>
 .app-header {
   position: relative;
@@ -561,17 +591,19 @@ onBeforeUnmount(() => {
   color: var(--primary);
 }
 
+/* ========== мобильное меню — overlay + content ========== */
 .app-mobile-menu {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
   z-index: 999;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(133deg, rgba(28, 78, 255, 0.30) 15.35%, rgba(191, 161, 255, 0.30) 87.95%);
+    backdrop-filter: blur(2.5px);
 }
 
 .app-mobile-menu--active {
@@ -588,7 +620,10 @@ onBeforeUnmount(() => {
   background: white;
   padding: 1.25rem;
   transform: translateX(100%);
+  background: #E7F0FF;
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-mobile-menu--active .app-mobile-menu__content {
@@ -622,6 +657,16 @@ onBeforeUnmount(() => {
   color: var(--dark);
   border-radius: 0.5rem;
   transition: background 0.2s ease;
+  color: #0040C1;
+	text-align: left;
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18.2px;
+	letter-spacing: -0.56px;
+	text-transform: lowercase;
+
 }
 
 .app-mobile-nav__link:hover,
@@ -664,6 +709,69 @@ onBeforeUnmount(() => {
 	display: none;
 }
 
+/* ===== добавленные стили для мобильного хедера и футера панели ===== */
+.app-mobile-menu__mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eef2f7;
+  margin-bottom: 12px;
+}
+.app-mobile-menu__logo { display: flex; align-items: center; }
+.app-mobile-menu__logo-svg { width: 7.5rem; height: auto; display:block; }
+.app-mobile-menu__close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+}
+
+/* Футер */
+.app-mobile-menu__footer {
+  padding-top: 12px;
+  border-top: 1px solid #eef2f7;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+	flex-direction: column;
+  width: 100%;
+}
+.app-mobile-menu__btn-order {
+  flex: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 52px;
+  font-weight: 700;
+  text-decoration: none;
+  background: linear-gradient(133deg, #1C4EFF 15%, #BFA1FF 88%);
+  color: #fff;
+  width: 100%;
+}
+.app-mobile-menu__btn-tg {
+  flex: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 52px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid #e6e9ee;
+  color: #4A63C4;
+  background: rgba(12, 57, 97, 0.10);
+  gap: 12.5px;
+  text-wrap: nowrap;
+  width: 100%;
+}
+
+/* Медиа правила — оставлены как в оригинале */
 @media (max-width: 1248px) { 
 	.app-nav--primary, .app-nav--secondary, .b0__block-inside { 
 		display: none; 
@@ -693,18 +801,12 @@ onBeforeUnmount(() => {
 	height: 2px;
 	border-radius: 31px;
 	background: #4841E2;
+
+}
+.tg__icon {
+	width: 25.0px;
+	height: 23.2px;
+
 }
 
-
-
-
-
 </style>
-
-
-
-
-
-
-
-
