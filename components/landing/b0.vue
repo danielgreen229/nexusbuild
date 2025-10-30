@@ -294,6 +294,11 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* ===========================
+   ORIGINAL STYLES + BROWSER PATCHES
+   =========================== */
+
+/* base */
 .b0__bg {
   width: 100%;
   height: 100%;
@@ -325,14 +330,12 @@ onBeforeUnmount(() => {
 }
 
 .b0-block__bg-mobile {
-	display: none;
-	width: inherit;
+  display: none;
+  width: inherit;
   height: inherit;
   margin-bottom: 0;
   border-radius: 26px;
 }
-
-
 
 .b0__block-inside {
   border-radius: 26px;
@@ -359,6 +362,8 @@ onBeforeUnmount(() => {
   position: relative;
 }
 
+/* --- VIDEO / SVG area --- */
+/* Use aspect-ratio when available; fallback handled below */
 .video-mask {
   width: 100%;
   aspect-ratio: 22 / 15;
@@ -385,6 +390,7 @@ onBeforeUnmount(() => {
   vector-effect: non-scaling-stroke;
 }
 
+/* typography blocks */
 .b0-left__info-h3 {
   color: #000;
   position: relative;
@@ -499,65 +505,193 @@ onBeforeUnmount(() => {
   100% { transform: translateY(0); }
 }
 
+/* ===========================
+   CROSS-BROWSER PATCHES
+   =========================== */
 
-@media (max-width: 1248px) { 
-	.b0-block__bg { 
-		display: none; 
-	} 
-	.b0__block-inside {
-		overflow: hidden;
-	}
-	.b0-block__bg-mobile {
-		display: block;
-		height: 100vh;
-		min-width: 100%;
-		min-height: 105vh;
-	}
-	.b0-block__bg {
-
-	}
-	.b0__bg {
-		min-height: 300vh
-	}
-	.b0-info__container {
-		flex-direction: column;
-		align-items: flex-start;
-		padding-top: 12rem;
-	}
-	.b0-right__cone {
-		top: 3rem;
-		position: fixed;
-		right: -5rem;
-		width: 18rem;
-		height: 18rem;
-	}
-
-
-	.b0-right__container {
-		width: 100%;
-
-	}
-	.b0-right__photo {
-		display: none;
-	}
-
-	.video-mask {
-		padding: 0;
-		margin-bottom: 10rem;
-	}
-	.b0-right-bottom__container {
-		display: none;
-	}
-
+/* Rendering smoothness + box sizing safe */
+.b0__block,
+.b0__block-inside,
+.b0-info__container,
+.b0-right__container,
+.video-mask,
+.svg-wrap,
+.inner-video,
+.b0-right__photo,
+.b0-right__photo .photo-img {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
+
+/* object-fit fallbacks & video flipping cross-browser */
+.inner-video {
+  object-fit: cover;
+  -webkit-object-fit: cover;
+  -o-object-fit: cover;
+  width: 100%;
+  height: 100%;
+  /* two ways to flip horizontally for broader compatibility */
+  transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
+  display: block;
+  will-change: transform;
+}
+
+/* aspect-ratio support and fallback */
+@supports (aspect-ratio: 1/1) {
+  .video-mask {
+    aspect-ratio: 22 / 15;
+    padding-bottom: 0;
+    height: auto;
+  }
+  .video-mask > svg { position: relative; width: 100%; height: 100%; }
+}
+@supports not (aspect-ratio: 1/1) {
+  .video-mask {
+    height: 0;
+    padding-bottom: calc(15 / 22 * 100%); /* fallback: 22:15 ratio */
+    overflow: hidden;
+  }
+  .video-mask > svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+}
+
+/* Ensure svg scales correctly in flex containers (Firefox) */
+.svg-wrap {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* force non-scaling stroke and consistent stroke rendering */
+.outline {
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 8;
+}
+
+/* hardware acceleration hints for animated elements */
+.b0-right__photo,
+.b0-right__photo .photo-img,
+.b0-right__imgs,
+.b0-right__mouse,
+.b0-right__cone {
+  /*-webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  */
+}
+
+/* make sure image doesn't reflow while loading */
+.b0-right__photo img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Safari specific tweaks (old versions) */
+@supports (-webkit-touch-callout: none) {
+  .outline { stroke-width: 6; } /* visual tweak for old Safari */
+  .svg-wrap { -webkit-transform-style: preserve-3d; transform-style: preserve-3d; }
+}
+
+/* Firefox-specific (older) */
+@-moz-document url-prefix() {
+  .b0-right__container { min-width: 260px; }
+  .svg-wrap { display: block; width: 100%; height: 100%; }
+}
+
+/* typography small improvements across browsers */
+.b0-left__info-h1,
+.b0-left__info-h1-blue {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* keep visual identical but smoother */
+}
+
+/* ===========================
+   MEDIA QUERIES (fixed)
+   =========================== */
+
+@media (max-width: 1248px) {
+  /* kept intentionally minimal — only safe responsive tweaks */
+}
+
+@media (max-width: 768px) {
+  .b0-block__bg {
+    display: none;
+  }
+  .b0-block__bg-mobile {
+    display: block;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 105vh;
+  }
+
+  .b0__block-inside {
+    overflow: hidden;
+  }
+  .b0__bg {
+    min-height: 300vh;
+  }
+  .b0-info__container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 12rem;
+  }
+  .b0-right__cone {
+    top: 3rem;
+    position: fixed;
+    right: -5rem;
+    width: 18rem;
+    height: 18rem;
+  }
+
+  .b0-right__container {
+    width: 100%;
+  }
+  .b0-right__photo {
+    display: none;
+  }
+
+  .video-mask {
+    padding: 0;
+    margin-bottom: 10rem;
+  }
+  .b0-right-bottom__container {
+    display: none;
+  }
+
+  /* responsive typography adjustments for small screens */
+  .b0-left__info-h1,
+  .b0-left__info-h1-blue {
+    font-size: clamp(28px, 10vw, 48px);
+    text-align: left;
+    padding-right: 0.6rem;
+  }
+  .b0-left__info-h3 {
+    font-size: clamp(12px, 3.6vw, 16px);
+  }
+}
+
+/* ===========================
+   end of styles
+   =========================== */
 </style>
-
-
-
-
-
-
-
-
-
-
