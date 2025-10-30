@@ -1,94 +1,94 @@
 <template>
-  <bg class="b0__bg" />
-  <div class="b0__container">
-    <div class="b0__block">
-      <div class="b0__block-inside">
-        <block_bg class="b0-block__bg" />
-        <block_mobile_bg class="b0-block__bg-mobile" />
+  <div class="b0">
+	  <div class="b0__container">
+	    <div class="b0__block">
+	      <div class="b0__block-inside">
+	        <block_bg class="b0-block__bg" />
+	        <block_mobile_bg class="b0-block__bg-mobile" />
 
-        <div class="b0-info__container">
-          <div class="b0-left__container">
-            <div class="b0-left__info">
-              <h3 class="b0-left__info-h3">Интеграторы digital-решений </h3>
-              <corner :rotation="'270'" :left="'0'" :top="'-1.9'" :mobileLeft="'0'" :mobileTop="'-1.9'"/>
-              <h1 class="b0-left__info-h1-blue">Воплоти свой<br/>бизнес</h1>
-              <corner :rotation="'270'" :left="'20.85'" :top="'0.5'" :mobileLeft="'17.85'" :mobileTop="'0.5'"/>
+	        <div class="b0-info__container">
+	          <div class="b0-left__container">
+	            <div class="b0-left__info">
+	              <h3 class="b0-left__info-h3">Интеграторы digital-решений </h3>
+	              <corner :rotation="'270'" :left="'0'" :top="'-1.9'" :mobileLeft="'0'" :mobileTop="'-1.9'"/>
+	              <h1 class="b0-left__info-h1-blue">Воплоти свой<br/>бизнес</h1>
+	              <corner :rotation="'270'" :left="'20.85'" :top="'0.5'" :mobileLeft="'17.85'" :mobileTop="'0.5'"/>
 
-              <corner class="middle-corner" :rotation="'270'" :left="'29.45'" :top="'10'" :mobileLeft="'29.45'" :mobileTop="'10'"/>
-              <h1 class="b0-left__info-h1">в цифровом<br/>пространстве</h1>
-              <corner :rotation="'0'" :left="'0'" :top="'100%'"/>
-            </div>
-          </div>
+	              <corner class="middle-corner" :rotation="'270'" :left="'29.45'" :top="'10'" :mobileLeft="'29.45'" :mobileTop="'10'"/>
+	              <h1 class="b0-left__info-h1">в цифровом<br/>пространстве</h1>
+	              <corner :rotation="'0'" :left="'0'" :top="'100%'"/>
+	            </div>
+	          </div>
 
-          <!-- RIGHT CONTAINER -->
-          <div class="b0-right__container" ref="rightContainer">
-            <!-- контейнер с длинной картинкой (окно просмотра) -->
-            <div class="b0-right__photo" ref="rightPhoto">
-              <img ref="longPhoto" :src="photoSrc" alt="template" class="photo-img"/>
-            </div>
+	          <!-- RIGHT CONTAINER -->
+	          <div class="b0-right__container" ref="rightContainer">
+	            <!-- контейнер с длинной картинкой (окно просмотра) -->
+	            <div class="b0-right__photo" ref="rightPhoto">
+	              <img ref="longPhoto" :src="photoSrc" alt="template" class="photo-img"/>
+	            </div>
 
-            <!-- видео-вырез с clipPath -->
-            <div ref="videoWrapper" class="video-mask">
-              <svg
-                ref="svg"
-                xmlns="http://www.w3.org/2000/svg"
-                :viewBox="viewBox"
-                preserveAspectRatio="xMidYMid slice"
-                class="svg-wrap"
-              >
-                <defs>
-                  <clipPath id="rounded-clip" clipPathUnits="userSpaceOnUse">
-                    <path id="clip-path-d" ref="clipPathEl" d="M0 0Z"></path>
-                  </clipPath>
+	            <!-- видео-вырез с clipPath -->
+	            <div ref="videoWrapper" class="video-mask">
+	              <svg
+	                ref="svg"
+	                xmlns="http://www.w3.org/2000/svg"
+	                :viewBox="viewBox"
+	                preserveAspectRatio="xMidYMid slice"
+	                class="svg-wrap"
+	              >
+	                <defs>
+	                  <clipPath id="rounded-clip" clipPathUnits="userSpaceOnUse">
+	                    <path id="clip-path-d" ref="clipPathEl" d="M0 0Z"></path>
+	                  </clipPath>
 
-                  <path id="outline-path" ref="outlineEl" class="outline" d="M0 0Z"></path>
-                </defs>
+	                  <path id="outline-path" ref="outlineEl" class="outline" d="M0 0Z"></path>
+	                </defs>
 
-                <foreignObject
-                  x="0"
-                  y="0"
-                  :width="vbWidth"
-                  :height="vbHeight"
-                  clip-path="url(#rounded-clip)"
-                >
-                  <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;">
-                    <video
-                      ref="videoEl"
-                      class="inner-video"
-                      :src="videoSrc"
-                      autoplay
-                      muted
-                      loop
-                      playsinline
-                    ></video>
-                  </div>
-                </foreignObject>
+	                <foreignObject
+	                  x="0"
+	                  y="0"
+	                  :width="vbWidth"
+	                  :height="vbHeight"
+	                  clip-path="url(#rounded-clip)"
+	                >
+	                  <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;">
+	                    <video
+	                      ref="videoEl"
+	                      class="inner-video"
+	                      :src="videoSrc"
+	                      autoplay
+	                      muted
+	                      loop
+	                      playsinline
+	                    ></video>
+	                  </div>
+	                </foreignObject>
 
-                <use href="#outline-path"></use>
-              </svg>
-            </div>
+	                <use href="#outline-path"></use>
+	              </svg>
+	            </div>
 
-            <div class="b0-right__imgs">
-              <div class="b0-right__cone"/>
-              <div class="b0-right__mouse"/>
-            </div>
-          </div>
+	            <div class="b0-right__imgs">
+	              <div class="b0-right__cone"/>
+	              <div class="b0-right__mouse"/>
+	            </div>
+	          </div>
 
-          <div class="b0-right-bottom__container">
-            <div class="b0-right-bottom__box">
-              <corner :rotation="'180'" :left="'-1.95'" :top="'1'"/>
-              <corner :rotation="'180'" :left="'18.03'" :top="'-2'"/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	          <div class="b0-right-bottom__container">
+	            <div class="b0-right-bottom__box">
+	              <corner :rotation="'180'" :left="'-1.95'" :top="'1'"/>
+	              <corner :rotation="'180'" :left="'18.03'" :top="'-2'"/>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import bg from '~/assets/icons/landing/bg.svg';
 import block_bg from '~/assets/icons/landing/block-bg.svg';
 import block_mobile_bg from '~/assets/icons/landing/block-bg-mobile.svg';
 
@@ -750,5 +750,7 @@ onBeforeUnmount(() => {
 		height: 20rem;
   }
 }
-
+.b0 {
+	min-height: 110vh;
+}
 </style>
