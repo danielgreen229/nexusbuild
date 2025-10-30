@@ -10,11 +10,13 @@
           <div class="b0-left__container">
             <div class="b0-left__info">
               <h3 class="b0-left__info-h3">Интеграторы digital-решений </h3>
-              <corner :rotation="'270'" :left="'0'" :top="'-1.9'"/>
+              <corner :rotation="'270'" :left="'0'" :top="'-1.9'" :mobileLeft="'0'" :mobileTop="'-1.9'"/>
               <h1 class="b0-left__info-h1-blue">Воплоти свой<br/>бизнес</h1>
-              <corner :rotation="'270'" :left="'20.85'" :top="'0.5'"/>
+              <corner :rotation="'270'" :left="'20.85'" :top="'0.5'" :mobileLeft="'17.85'" :mobileTop="'0.5'"/>
+
+              <corner class="middle-corner" :rotation="'270'" :left="'29.45'" :top="'10'" :mobileLeft="'29.45'" :mobileTop="'10'"/>
               <h1 class="b0-left__info-h1">в цифровом<br/>пространстве</h1>
-              <corner :rotation="'0'" :left="'0'" :top="'22'"/>
+              <corner :rotation="'0'" :left="'0'" :top="'100%'"/>
             </div>
           </div>
 
@@ -352,14 +354,18 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   flex-direction: row;
+  gap: 7rem;
   flex-wrap: nowrap;
   padding-top: 4rem;
   justify-content: space-between;
 }
 .b0-left__container { margin-left: -1px; }
 .b0-right__container {
-  width: 60%;
   position: relative;
+	width: 100%;
+	max-width: 60%;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /* --- VIDEO / SVG area --- */
@@ -626,15 +632,48 @@ onBeforeUnmount(() => {
   /* keep visual identical but smoother */
 }
 
+.middle-corner {
+	display: none;
+}
 /* ===========================
    MEDIA QUERIES (fixed)
    =========================== */
 
-@media (max-width: 1248px) {
-  /* kept intentionally minimal — only safe responsive tweaks */
+@media (max-width: 1248px) and (min-width: 768px) {
+	.b0-right__container {
+		
+	}
+	.b0-right__photo {
+		width: 27vw;
+		height: 17vw;
+		bottom: 3vw;
+	}
+	.b0-right__mouse {
+		width: 14rem;
+		height: 14rem;
+		left: -9rem;
+		bottom: -6rem;
+	}
+	.b0-right__cone {
+		width: 18rem;
+		height: 18rem;
+		top: 0rem;
+		right: -5rem;
+		position: fixed;
+	}
+	.b0-block__bg {
+		min-height: 31vh;
+	}
+	.b0__block-inside {
+		overflow: hidden;
+	}
 }
 
+
 @media (max-width: 768px) {
+	.middle-corner {
+		display: block;
+	}
   .b0-block__bg {
     display: none;
   }
@@ -642,7 +681,7 @@ onBeforeUnmount(() => {
     display: block;
     height: 100vh;
     min-width: 100%;
-    min-height: 105vh;
+    min-height: 100vh;
   }
 
   .b0__block-inside {
@@ -682,16 +721,34 @@ onBeforeUnmount(() => {
   /* responsive typography adjustments for small screens */
   .b0-left__info-h1,
   .b0-left__info-h1-blue {
-    font-size: clamp(28px, 10vw, 48px);
-    text-align: left;
-    padding-right: 0.6rem;
+  }
+  .b0-left__info-h1-blue {
+  	padding-right: 36px;
+		width: fit-content;
+  }
+  .b0-left__info-h1 {
+		border-radius: 0px 26px 26px 0px;
+		padding-left: 66px;
+		padding-right: 36px;
   }
   .b0-left__info-h3 {
     font-size: clamp(12px, 3.6vw, 16px);
   }
+  .b0-info__container {
+  	gap: 0rem;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
+  }
+  .b0-right__container {
+  	max-width: 100%;
+  }
+  .b0-right__mouse {
+		bottom: 2rem;
+		left: -1rem;
+		width: 20rem;
+		height: 20rem;
+  }
 }
 
-/* ===========================
-   end of styles
-   =========================== */
 </style>
