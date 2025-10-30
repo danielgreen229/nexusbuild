@@ -1,90 +1,90 @@
 <template>
   <div class="b0">
-	  <div class="b0__container">
-	    <div class="b0__block">
-	      <div class="b0__block-inside">
-	        <block_bg class="b0-block__bg" />
-	        <block_mobile_bg class="b0-block__bg-mobile" />
+    <div class="b0__container">
+      <div class="b0__block">
+        <div class="b0__block-inside">
+          <block_bg class="b0-block__bg" />
+          <block_mobile_bg class="b0-block__bg-mobile" />
 
-	        <div class="b0-info__container">
-	          <div class="b0-left__container">
-	            <div class="b0-left__info">
-	              <h3 class="b0-left__info-h3">Интеграторы digital-решений </h3>
-	              <corner :rotation="'270'" :left="'0'" :top="'-1.9'" :mobileLeft="'0'" :mobileTop="'-1.9'"/>
-	              <h1 class="b0-left__info-h1-blue">Воплоти свой<br/>бизнес</h1>
-	              <corner :rotation="'270'" :left="'20.85'" :top="'0.5'" :mobileLeft="'17.85'" :mobileTop="'0.5'"/>
+          <div class="b0-info__container">
+            <div class="b0-left__container">
+              <div class="b0-left__info">
+                <h3 class="b0-left__info-h3">Интеграторы digital-решений </h3>
+                <corner :rotation="'270'" :left="'0'" :top="'-1.9'" :mobileLeft="'0'" :mobileTop="'-1.9'"/>
+                <h1 class="b0-left__info-h1-blue">Воплоти свой<br/>бизнес</h1>
+                <corner :rotation="'270'" :left="'20.85'" :top="'0.5'" :mobileLeft="'17.85'" :mobileTop="'0.5'"/>
 
-	              <corner class="middle-corner" :rotation="'270'" :left="'29.45'" :top="'10'" :mobileLeft="'29.45'" :mobileTop="'10'"/>
-	              <h1 class="b0-left__info-h1">в цифровом<br/>пространстве</h1>
-	              <corner :rotation="'0'" :left="'0'" :top="'100%'"/>
-	            </div>
-	          </div>
+                <corner class="middle-corner" :rotation="'270'" :left="'29.45'" :top="'10'" :mobileLeft="'29.45'" :mobileTop="'10'"/>
+                <h1 class="b0-left__info-h1">в цифровом<br/>пространстве</h1>
+                <corner :rotation="'0'" :left="'0'" :top="'100%'"/>
+              </div>
+            </div>
 
-	          <!-- RIGHT CONTAINER -->
-	          <div class="b0-right__container" ref="rightContainer">
-	            <!-- контейнер с длинной картинкой (окно просмотра) -->
-	            <div class="b0-right__photo" ref="rightPhoto">
-	              <img ref="longPhoto" :src="photoSrc" alt="template" class="photo-img"/>
-	            </div>
+            <!-- RIGHT CONTAINER -->
+            <div class="b0-right__container" ref="rightContainer">
+              <!-- контейнер с длинной картинкой (окно просмотра) -->
+              <div class="b0-right__photo" ref="rightPhoto">
+                <img ref="longPhoto" :src="photoSrc" alt="template" class="photo-img"/>
+              </div>
 
-	            <!-- видео-вырез с clipPath -->
-	            <div ref="videoWrapper" class="video-mask">
-	              <svg
-	                ref="svg"
-	                xmlns="http://www.w3.org/2000/svg"
-	                :viewBox="viewBox"
-	                preserveAspectRatio="xMidYMid slice"
-	                class="svg-wrap"
-	              >
-	                <defs>
-	                  <clipPath id="rounded-clip" clipPathUnits="userSpaceOnUse">
-	                    <path id="clip-path-d" ref="clipPathEl" d="M0 0Z"></path>
-	                  </clipPath>
+              <!-- видео-вырез с clipPath -->
+              <div ref="videoWrapper" class="video-mask patched-video-mask">
+                <svg
+                  ref="svg"
+                  xmlns="http://www.w3.org/2000/svg"
+                  :viewBox="viewBox"
+                  preserveAspectRatio="xMidYMid slice"
+                  class="svg-wrap"
+                >
+                  <defs>
+                    <clipPath id="rounded-clip" clipPathUnits="userSpaceOnUse">
+                      <path id="clip-path-d" ref="clipPathEl" d="M0 0Z"></path>
+                    </clipPath>
 
-	                  <path id="outline-path" ref="outlineEl" class="outline" d="M0 0Z"></path>
-	                </defs>
+                    <path id="outline-path" ref="outlineEl" class="outline" d="M0 0Z"></path>
+                  </defs>
 
-	                <foreignObject
-	                  x="0"
-	                  y="0"
-	                  :width="vbWidth"
-	                  :height="vbHeight"
-	                  clip-path="url(#rounded-clip)"
-	                >
-	                  <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;">
-	                    <video
-	                      ref="videoEl"
-	                      class="inner-video"
-	                      :src="videoSrc"
-	                      autoplay
-	                      muted
-	                      loop
-	                      playsinline
-	                    ></video>
-	                  </div>
-	                </foreignObject>
+                  <foreignObject
+                    x="0"
+                    y="0"
+                    :width="vbWidth"
+                    :height="vbHeight"
+                    clip-path="url(#rounded-clip)"
+                  >
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;">
+                      <video
+                        ref="videoEl"
+                        class="inner-video"
+                        :src="videoSrc"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                      ></video>
+                    </div>
+                  </foreignObject>
 
-	                <use href="#outline-path"></use>
-	              </svg>
-	            </div>
+                  <use href="#outline-path"></use>
+                </svg>
+              </div>
 
-	            <div class="b0-right__imgs">
-	              <div class="b0-right__cone"/>
-	              <div class="b0-right__mouse"/>
-	            </div>
-	          </div>
+              <div class="b0-right__imgs">
+                <div class="b0-right__cone"/>
+                <div class="b0-right__mouse"/>
+              </div>
+            </div>
 
-	          <div class="b0-right-bottom__container">
-	            <div class="b0-right-bottom__box">
-	              <corner :rotation="'180'" :left="'-1.95'" :top="'1'"/>
-	              <corner :rotation="'180'" :left="'18.03'" :top="'-2'"/>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
+            <div class="b0-right-bottom__container">
+              <div class="b0-right-bottom__box">
+                <corner :rotation="'180'" :left="'-1.95'" :top="'1'"/>
+                <corner :rotation="'180'" :left="'18.03'" :top="'-2'"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -196,6 +196,48 @@ function updatePath() {
   clipPathEl.value.setAttribute('d', d);
   outlineEl.value.setAttribute('d', d);
   outlineEl.value.setAttribute('vector-effect', 'non-scaling-stroke');
+
+  // Попытка применить CSS clip-path path(...) (для современных браузеров)
+  try {
+    const cssPath = `path('${d.replace(/'/g, "\\'")}')`;
+    videoWrapper.value.style.clipPath = cssPath;
+    videoWrapper.value.style.webkitClipPath = cssPath;
+    if (videoEl.value) {
+      videoEl.value.style.clipPath = cssPath;
+      videoEl.value.style.webkitClipPath = cssPath;
+    }
+  } catch (e) {
+    // ignore if not supported
+  }
+
+  // Safari / WebKit fallback: применяем SVG маску как data URL к элементу (mask / -webkit-mask)
+  try {
+    const svgMask = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${w} ${h}' preserveAspectRatio='none'>
+      <rect width='100%' height='100%' fill='black'/>
+      <path d='${d}' fill='white'/>
+    </svg>`;
+
+    const dataUrl = `data:image/svg+xml;utf8,${encodeURIComponent(svgMask)}`;
+    videoWrapper.value.style.webkitMaskImage = `url("${dataUrl}")`;
+    videoWrapper.value.style.maskImage = `url("${dataUrl}")`;
+    videoWrapper.value.style.webkitMaskRepeat = 'no-repeat';
+    videoWrapper.value.style.maskRepeat = 'no-repeat';
+    videoWrapper.value.style.webkitMaskSize = '100% 100%';
+    videoWrapper.value.style.maskSize = '100% 100%';
+    videoWrapper.value.style.webkitMaskPosition = '0 0';
+    videoWrapper.value.style.maskPosition = '0 0';
+    // также применим к самому видео на всякий случай
+    if (videoEl.value) {
+      videoEl.value.style.webkitMaskImage = `url("${dataUrl}")`;
+      videoEl.value.style.maskImage = `url("${dataUrl}")`;
+      videoEl.value.style.webkitMaskSize = '100% 100%';
+      videoEl.value.style.maskSize = '100% 100%';
+      videoEl.value.style.webkitMaskPosition = '0 0';
+      videoEl.value.style.maskPosition = '0 0';
+    }
+  } catch (e) {
+    // если что-то пошло не так — оставляем SVG clipPath
+  }
 }
 
 // --- логика прокрутки длинной картинки ---
@@ -291,8 +333,6 @@ onBeforeUnmount(() => {
   clearTimeout(resizeTimer);
   clearTimeout(resizeTimerPhoto);
 });
-
-// expose assets
 </script>
 
 <style scoped>
@@ -501,7 +541,7 @@ onBeforeUnmount(() => {
 
 /* активная анимация: двигаем img внутри контейнера */
 .b0-right__photo.photo-pan-active .photo-img {
-  animation: photo-pan 10s ease-in-out infinite;
+  animation: photo-pan var(--pan-duration) ease-in-out infinite;
   animation-direction: normal;
 }
 
@@ -633,47 +673,69 @@ onBeforeUnmount(() => {
 }
 
 .middle-corner {
-	display: none;
+  display: none;
 }
+
+/* Патч: контейнер, к которому динамически применяется mask/clip */
+.patched-video-mask {
+  position: relative;
+  /* mask/clip будут применяться к этому элементу */
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+  overflow: hidden; /* важно: прятать выступающие части видео */
+}
+
+/* дополнительные safeguard правила */
+.patched-video-mask, .patched-video-mask * {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* ===========================
    MEDIA QUERIES (fixed)
    =========================== */
 
 @media (max-width: 1248px) and (min-width: 768px) {
-	.b0-right__container {
-		
-	}
-	.b0-right__photo {
-		width: 27vw;
-		height: 17vw;
-		bottom: 3vw;
-	}
-	.b0-right__mouse {
-		width: 14rem;
-		height: 14rem;
-		left: -9rem;
-		bottom: -6rem;
-	}
-	.b0-right__cone {
-		width: 18rem;
-		height: 18rem;
-		top: 0rem;
-		right: -5rem;
-		position: fixed;
-	}
-	.b0-block__bg {
-		min-height: 31vh;
-	}
-	.b0__block-inside {
-		overflow: hidden;
-	}
+  .b0-right__container {
+    
+  }
+  .b0-right__photo {
+    width: 27vw;
+    height: 17vw;
+    bottom: 3vw;
+  }
+  .b0-right__mouse {
+    width: 14rem;
+    height: 14rem;
+    left: -9rem;
+    bottom: -6rem;
+  }
+  .b0-right__cone {
+    width: 18rem;
+    height: 18rem;
+    top: 0rem;
+    right: -5rem;
+    position: fixed;
+  }
+  .b0-block__bg {
+    min-height: 31vh;
+  }
+  .b0__block-inside {
+    overflow: hidden;
+  }
 }
 
 
 @media (max-width: 768px) {
-	.middle-corner {
-		display: block;
-	}
+  .middle-corner {
+    display: block;
+  }
   .b0-block__bg {
     display: none;
   }
@@ -723,34 +785,34 @@ onBeforeUnmount(() => {
   .b0-left__info-h1-blue {
   }
   .b0-left__info-h1-blue {
-  	padding-right: 36px;
-		width: fit-content;
+    padding-right: 36px;
+    width: fit-content;
   }
   .b0-left__info-h1 {
-		border-radius: 0px 26px 26px 0px;
-		padding-left: 66px;
-		padding-right: 36px;
+    border-radius: 0px 26px 26px 0px;
+    padding-left: 66px;
+    padding-right: 36px;
   }
   .b0-left__info-h3 {
     font-size: clamp(12px, 3.6vw, 16px);
   }
   .b0-info__container {
-  	gap: 0rem;
-		flex-direction: column;
-		flex-wrap: nowrap;
-		justify-content: flex-start;
+    gap: 0rem;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
   }
   .b0-right__container {
-  	max-width: 100%;
+    max-width: 100%;
   }
   .b0-right__mouse {
-		bottom: 2rem;
-		left: -1rem;
-		width: 20rem;
-		height: 20rem;
+    bottom: 2rem;
+    left: -1rem;
+    width: 20rem;
+    height: 20rem;
   }
 }
 .b0 {
-	min-height: 110vh;
+  min-height: 110vh;
 }
 </style>
