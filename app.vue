@@ -1,39 +1,4 @@
-<script setup>
-import { computed, onMounted } from "vue";
-import { useRoute } from "vue-router";
-
-import Header from "@/components/layout/Header.vue";
-import LandingHeader from "@/components/ui/Nav/LandingHeader.vue";
-import Footer from "@/components/layout/Footer.vue";
-import AlertsContainer from "@/components/ui/Modal/Alert.vue";
-
-import { useUserStore } from "~/stores/user";
-
-const userStore = useUserStore();
-const route = useRoute();
-
-// Проверяем, находимся ли мы на главной
-const isHome = computed(() => route.path === "/");
-
-const isAuthenticated = computed(() => !!userStore.isAuthenticated);
-const currentUser = computed(() => userStore.user || null);
-
-onMounted(async () => {
-  try {
-    userStore.initFromStorage();
-
-    if (userStore.token && userStore.uid) {
-      await userStore.fetchCurrentUser();
-      console.log("User initialized from token:", userStore.user);
-    } else {
-      console.log("No token/uid in storage — user not authenticated");
-    }
-  } catch (err) {
-    console.error("Error initializing user:", err);
-  }
-});
-</script>
-
+<!-- app.vue -->
 <template>
   <div class="main__container">
     <!-- Если на главной — показываем LandingHeader, иначе обычный Header -->
@@ -47,6 +12,49 @@ onMounted(async () => {
     <Footer />
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+
+// Nuxt: useHead доступен через '#imports'
+import { useHead } from '#imports'
+
+import Header from '@/components/layout/Header.vue'
+import LandingHeader from '@/components/ui/Nav/LandingHeader.vue'
+import Footer from '@/components/layout/Footer.vue'
+import AlertsContainer from '@/components/ui/Modal/Alert.vue'
+
+import { useUserStore } from '~/stores/user'
+import { defaultHead } from '~/seo/defaultHead' // файл с глобальными SEO-настройками
+
+// Устанавливаем глобальные метаданные (их можно будет переопределять в страницах)
+useHead(defaultHead)
+
+const userStore = useUserStore()
+const route = useRoute()
+
+// Проверяем, находимся ли мы на главной
+const isHome = computed(() => route.path === '/')
+
+const isAuthenticated = computed(() => !!userStore.isAuthenticated)
+const currentUser = computed(() => userStore.user || null)
+
+onMounted(async () => {
+  try {
+    userStore.initFromStorage()
+
+    if (userStore.token && userStore.uid) {
+      await userStore.fetchCurrentUser()
+      console.log('User initialized from token:', userStore.user)
+    } else {
+      console.log('No token/uid in storage — user not authenticated')
+    }
+  } catch (err) {
+    console.error('Error initializing user:', err)
+  }
+})
+</script>
 
 <style>
 :root {

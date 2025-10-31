@@ -3,20 +3,20 @@
     <div class="b0__container">
       <div class="b0__block">
         <div class="b0__block-inside">
-          <block_bg class="b0-block__bg" />
-          <block_mobile_bg class="b0-block__bg-mobile" />
+          <BlockBg class="b0-block__bg" />
+          <BlockMobileBg class="b0-block__bg-mobile" />
 
           <div class="b0-info__container">
             <div class="b0-left__container">
               <div class="b0-left__info">
-                <h3 class="b0-left__info-h3">Интеграторы digital-решений </h3>
-                <corner :rotation="'270'" :left="'0'" :top="'-1.9'" :mobileLeft="'0'" :mobileTop="'-1.9'"/>
+                <h3 class="b0-left__info-h3">Интеграторы digital-решений</h3>
+                <Corner :rotation="'270'" :left="'0'" :top="'-1.9'" :mobileLeft="'0'" :mobileTop="'-1.9'" />
                 <h1 class="b0-left__info-h1-blue">Воплоти свой<br/>бизнес</h1>
-                <corner :rotation="'270'" :left="'20.85'" :top="'0.5'" :mobileLeft="'17.85'" :mobileTop="'0.5'"/>
+                <Corner :rotation="'270'" :left="'20.85'" :top="'0.5'" :mobileLeft="'17.85'" :mobileTop="'0.5'" />
 
-                <corner class="middle-corner" :rotation="'270'" :left="'29.45'" :top="'10'" :mobileLeft="'29.45'" :mobileTop="'10'"/>
+                <Corner class="middle-corner" :rotation="'270'" :left="'29.45'" :top="'10'" :mobileLeft="'29.45'" :mobileTop="'10'" />
                 <h1 class="b0-left__info-h1">в цифровом<br/>пространстве</h1>
-                <corner :rotation="'0'" :left="'0'" :top="'100%'"/>
+                <Corner :rotation="'0'" :left="'0'" :top="'100%'" />
               </div>
             </div>
 
@@ -24,12 +24,14 @@
             <div class="b0-right__container" ref="rightContainer">
               <!-- контейнер с длинной картинкой (окно просмотра) -->
               <div class="b0-right__photo" ref="rightPhoto">
-                <img ref="longPhoto" :src="photoSrc" alt="template" class="photo-img"/>
+                <img ref="longPhoto" :src="photoSrc" alt="template" class="photo-img" />
               </div>
 
-              <!-- видео-вырез с clipPath -->
-              <div ref="videoWrapper" class="video-mask patched-video-mask">
+              <!-- видео-вырез с clipPath: один контейнер; внутри — два варианта рендера (SVG+foreignObject для большинства, HTML+CSS clip-path для Safari) -->
+              <div ref="videoWrapper" class="video-mask">
+                <!-- Non-Safari: SVG + foreignObject (видео внутри SVG clipPath) -->
                 <svg
+                  v-if="!isSafari"
                   ref="svg"
                   xmlns="http://www.w3.org/2000/svg"
                   :viewBox="viewBox"
@@ -38,10 +40,10 @@
                 >
                   <defs>
                     <clipPath id="rounded-clip" clipPathUnits="userSpaceOnUse">
-                      <path id="clip-path-d" ref="clipPathEl" d="M0 0Z"></path>
+                      <path id="clip-path-d" ref="clipPathEl" :d="currentPath" />
                     </clipPath>
 
-                    <path id="outline-path" ref="outlineEl" class="outline" d="M0 0Z"></path>
+                    <path id="outline-path" ref="outlineEl" class="outline" :d="currentPath" />
                   </defs>
 
                   <foreignObject
@@ -64,20 +66,39 @@
                     </div>
                   </foreignObject>
 
-                  <use href="#outline-path"></use>
+                  <use href="#outline-path" />
                 </svg>
+
+                <!-- Safari fallback: обычный HTML <video> с CSS clip-path (path()) и отдельная SVG overlay для контура -->
+                <div v-else class="safari-fallback">
+                  <video
+                    ref="videoEl"
+                    class="inner-video"
+                    :src="videoSrc"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    :style="videoClipStyle"
+                  ></video>
+
+                  <!-- SVG overlay для stroke контура (не используем foreignObject здесь) -->
+                  <svg v-if="currentPath" :viewBox="viewBox" preserveAspectRatio="xMidYMid slice" class="svg-wrap svg-overlay">
+                    <path :d="currentPath" class="outline" fill="none" />
+                  </svg>
+                </div>
               </div>
 
               <div class="b0-right__imgs">
-                <div class="b0-right__cone"/>
-                <div class="b0-right__mouse"/>
+                <div class="b0-right__cone" />
+                <div class="b0-right__mouse" />
               </div>
             </div>
 
             <div class="b0-right-bottom__container">
               <div class="b0-right-bottom__box">
-                <corner :rotation="'180'" :left="'-1.95'" :top="'1'"/>
-                <corner :rotation="'180'" :left="'18.03'" :top="'-2'"/>
+                <Corner :rotation="'180'" :left="'-1.95'" :top="'1'" />
+                <Corner :rotation="'180'" :left="'18.03'" :top="'-2'" />
               </div>
             </div>
           </div>
@@ -89,14 +110,13 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import block_bg from '~/assets/icons/landing/block-bg.svg';
-import block_mobile_bg from '~/assets/icons/landing/block-bg-mobile.svg';
-
-import corner from '~/components/ui/blocks/corner.vue';
+import BlockBg from '~/assets/icons/landing/block-bg.svg';
+import BlockMobileBg from '~/assets/icons/landing/block-bg-mobile.svg';
+import Corner from '~/components/ui/blocks/corner.vue';
 import photoSrc from '@/assets/icons/landing/template.png';
 import videoSrc from '@/assets/images/landing/preview-video.mp4';
 
-// polygon в процентах (ваш)
+// polygon в процентах
 const polygonPercent = [
   [11, 15],
   [94, 7],
@@ -120,12 +140,17 @@ const longPhoto = ref(null);
 const vbWidth = ref(1);
 const vbHeight = ref(1);
 const viewBox = ref('0 0 1 1');
+const currentPath = ref('M0 0Z');
+const videoClipStyle = ref({});
 
 let ro = null; // ResizeObserver for svg/video wrapper
 let photoRO = null; // ResizeObserver for photo/container
 let resizeTimer = null;
 let resizeTimerPhoto = null;
 let imgLoadListener = null;
+
+// Safari detection
+const isSafari = ref(false);
 
 // векторные утилиты
 function vec(x, y) { return { x, y }; }
@@ -142,7 +167,6 @@ function roundedPolygonPath(points, r) {
 
   const starts = new Array(n);
   const ends = new Array(n);
-  const rUsed = new Array(n);
 
   for (let i = 0; i < n; i++) {
     const P = points[i];
@@ -158,7 +182,6 @@ function roundedPolygonPath(points, r) {
     const r1 = Math.min(r, lenPrev / 2);
     const r2 = Math.min(r, lenNext / 2);
     const rCorner = Math.min(r1, r2);
-    rUsed[i] = rCorner;
 
     const nvPrev = norm(vPrev);
     const nvNext = norm(vNext);
@@ -180,63 +203,48 @@ function roundedPolygonPath(points, r) {
 }
 
 function updatePath() {
-  if (!videoWrapper.value || !svg.value || !clipPathEl.value || !outlineEl.value) return;
+  const wrapper = videoWrapper.value;
+  if (!wrapper) return;
 
-  const rect = videoWrapper.value.getBoundingClientRect();
+  const rect = wrapper.getBoundingClientRect();
   const w = Math.max(1, Math.round(rect.width));
   const h = Math.max(1, Math.round(rect.height));
+
+  // Защита от аномалий
+  if (!isFinite(w) || !isFinite(h) || w <= 0 || h <= 0) return;
+  if (w * h > 1e8) { // слишком большая область — прекращаем
+    console.warn('updatePath: skipping crazy big size', w, h);
+    return;
+  }
 
   vbWidth.value = w;
   vbHeight.value = h;
   viewBox.value = `0 0 ${vbWidth.value} ${vbHeight.value}`;
 
   const pointsPx = polygonPercent.map(p => vec((p[0] / 100) * vbWidth.value, (p[1] / 100) * vbHeight.value));
-  const d = roundedPolygonPath(pointsPx, radiusPx);
+  const d = roundedPolygonPath(pointsPx, radiusPx) || `M0 0 L ${w} 0 L ${w} ${h} L 0 ${h} Z`;
 
-  clipPathEl.value.setAttribute('d', d);
-  outlineEl.value.setAttribute('d', d);
-  outlineEl.value.setAttribute('vector-effect', 'non-scaling-stroke');
+  // сохраняем и применяем
+  currentPath.value = d;
 
-  // Попытка применить CSS clip-path path(...) (для современных браузеров)
-  try {
-    const cssPath = `path('${d.replace(/'/g, "\\'")}')`;
-    videoWrapper.value.style.clipPath = cssPath;
-    videoWrapper.value.style.webkitClipPath = cssPath;
-    if (videoEl.value) {
-      videoEl.value.style.clipPath = cssPath;
-      videoEl.value.style.webkitClipPath = cssPath;
-    }
-  } catch (e) {
-    // ignore if not supported
+  // Для SVG-элементов (non-safari) — напрямую ставим в элементы, если refs доступны
+  if (clipPathEl.value) clipPathEl.value.setAttribute('d', d);
+  if (outlineEl.value) {
+    outlineEl.value.setAttribute('d', d);
+    outlineEl.value.setAttribute('vector-effect', 'non-scaling-stroke');
   }
 
-  // Safari / WebKit fallback: применяем SVG маску как data URL к элементу (mask / -webkit-mask)
+  // Safari fallback — ставим CSS clip-path на video
   try {
-    const svgMask = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${w} ${h}' preserveAspectRatio='none'>
-      <rect width='100%' height='100%' fill='black'/>
-      <path d='${d}' fill='white'/>
-    </svg>`;
-
-    const dataUrl = `data:image/svg+xml;utf8,${encodeURIComponent(svgMask)}`;
-    videoWrapper.value.style.webkitMaskImage = `url("${dataUrl}")`;
-    videoWrapper.value.style.maskImage = `url("${dataUrl}")`;
-    videoWrapper.value.style.webkitMaskRepeat = 'no-repeat';
-    videoWrapper.value.style.maskRepeat = 'no-repeat';
-    videoWrapper.value.style.webkitMaskSize = '100% 100%';
-    videoWrapper.value.style.maskSize = '100% 100%';
-    videoWrapper.value.style.webkitMaskPosition = '0 0';
-    videoWrapper.value.style.maskPosition = '0 0';
-    // также применим к самому видео на всякий случай
-    if (videoEl.value) {
-      videoEl.value.style.webkitMaskImage = `url("${dataUrl}")`;
-      videoEl.value.style.maskImage = `url("${dataUrl}")`;
-      videoEl.value.style.webkitMaskSize = '100% 100%';
-      videoEl.value.style.maskSize = '100% 100%';
-      videoEl.value.style.webkitMaskPosition = '0 0';
-      videoEl.value.style.maskPosition = '0 0';
-    }
+    const escaped = d.replace(/'/g, "\\'");
+    const clip = `path('${escaped}')`;
+    videoClipStyle.value = {
+      clipPath: clip,
+      WebkitClipPath: clip,
+    };
   } catch (e) {
-    // если что-то пошло не так — оставляем SVG clipPath
+    // если не получилось — сбрасываем
+    videoClipStyle.value = {};
   }
 }
 
@@ -246,35 +254,34 @@ function updateLongPhotoScroll() {
   const img = longPhoto.value;
   if (!cont || !img) return;
 
-  // размеры окна просмотра (контейнера) и высота реальной картинки
   const containerH = cont.clientHeight;
   const imgH = img.offsetHeight;
-
-  // смещение в px (сколько нужно поднять картинку, чтобы показать низ)
   const dy = Math.max(0, imgH - containerH);
   const dyClamped = Math.round(dy);
 
-  // длительность анимации (настраиваемые параметры)
-  const baseSeconds = 4; // минимальная
-  const pxPerSecond = 200; // пикселей в секунду
+  const baseSeconds = 4;
+  const pxPerSecond = 200;
   const duration = dyClamped > 0 ? Math.max(baseSeconds, dyClamped / pxPerSecond) : baseSeconds;
 
   cont.style.setProperty('--dy', `-${dyClamped}px`);
   cont.style.setProperty('--pan-duration', `${duration}s`);
 
-  if (dyClamped === 0) {
-    cont.classList.remove('photo-pan-active');
-  } else {
-    cont.classList.add('photo-pan-active');
-  }
+  if (dyClamped === 0) cont.classList.remove('photo-pan-active');
+  else cont.classList.add('photo-pan-active');
 }
 
 onMounted(async () => {
-  // SVG clippath resize
+  // Safari detection (simple)
+  const ua = navigator.userAgent || '';
+  isSafari.value = /Safari/.test(ua) && !/Chrome|Chromium|Edg|OPR/.test(ua);
+
+  await nextTick();
+
+  // ResizeObserver для видео-обёртки (debounced)
   if (videoWrapper.value) {
     ro = new ResizeObserver(() => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(updatePath, 40);
+      resizeTimer = setTimeout(updatePath, 60);
     });
     ro.observe(videoWrapper.value);
   }
@@ -283,14 +290,13 @@ onMounted(async () => {
   if (rightContainer.value) {
     photoRO = new ResizeObserver(() => {
       clearTimeout(resizeTimerPhoto);
-      resizeTimerPhoto = setTimeout(updateLongPhotoScroll, 80);
+      resizeTimerPhoto = setTimeout(updateLongPhotoScroll, 120);
     });
     photoRO.observe(rightContainer.value);
     if (rightPhoto.value) photoRO.observe(rightPhoto.value);
   }
 
   // слушаем загрузку картинки если она не готова
-  await nextTick();
   const img = longPhoto.value;
   if (img && !img.complete) {
     imgLoadListener = () => {
@@ -300,11 +306,10 @@ onMounted(async () => {
     };
     img.addEventListener('load', imgLoadListener);
   } else {
-    // если уже загружено
     updateLongPhotoScroll();
   }
 
-  // safety вызовы
+  // initial safe calls
   setTimeout(updatePath, 60);
   setTimeout(updateLongPhotoScroll, 120);
 
@@ -334,6 +339,8 @@ onBeforeUnmount(() => {
   clearTimeout(resizeTimerPhoto);
 });
 </script>
+
+
 
 <style scoped>
 /* ===========================
@@ -541,7 +548,7 @@ onBeforeUnmount(() => {
 
 /* активная анимация: двигаем img внутри контейнера */
 .b0-right__photo.photo-pan-active .photo-img {
-  animation: photo-pan var(--pan-duration) ease-in-out infinite;
+  animation: photo-pan 10s ease-in-out infinite;
   animation-direction: normal;
 }
 
@@ -673,69 +680,47 @@ onBeforeUnmount(() => {
 }
 
 .middle-corner {
-  display: none;
+	display: none;
 }
-
-/* Патч: контейнер, к которому динамически применяется mask/clip */
-.patched-video-mask {
-  position: relative;
-  /* mask/clip будут применяться к этому элементу */
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-position: 0 0;
-  mask-position: 0 0;
-  overflow: hidden; /* важно: прятать выступающие части видео */
-}
-
-/* дополнительные safeguard правила */
-.patched-video-mask, .patched-video-mask * {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 /* ===========================
    MEDIA QUERIES (fixed)
    =========================== */
 
 @media (max-width: 1248px) and (min-width: 768px) {
-  .b0-right__container {
-    
-  }
-  .b0-right__photo {
-    width: 27vw;
-    height: 17vw;
-    bottom: 3vw;
-  }
-  .b0-right__mouse {
-    width: 14rem;
-    height: 14rem;
-    left: -9rem;
-    bottom: -6rem;
-  }
-  .b0-right__cone {
-    width: 18rem;
-    height: 18rem;
-    top: 0rem;
-    right: -5rem;
-    position: fixed;
-  }
-  .b0-block__bg {
-    min-height: 31vh;
-  }
-  .b0__block-inside {
-    overflow: hidden;
-  }
+	.b0-right__container {
+		
+	}
+	.b0-right__photo {
+		width: 27vw;
+		height: 17vw;
+		bottom: 3vw;
+	}
+	.b0-right__mouse {
+		width: 14rem;
+		height: 14rem;
+		left: -9rem;
+		bottom: -6rem;
+	}
+	.b0-right__cone {
+		width: 18rem;
+		height: 18rem;
+		top: 0rem;
+		right: -5rem;
+		position: fixed;
+	}
+	.b0-block__bg {
+		min-height: 31vh;
+	}
+	.b0__block-inside {
+		overflow: hidden;
+	}
 }
 
 
 @media (max-width: 768px) {
-  .middle-corner {
-    display: block;
-  }
+	.middle-corner {
+		display: block;
+	}
   .b0-block__bg {
     display: none;
   }
@@ -785,34 +770,34 @@ onBeforeUnmount(() => {
   .b0-left__info-h1-blue {
   }
   .b0-left__info-h1-blue {
-    padding-right: 36px;
-    width: fit-content;
+  	padding-right: 36px;
+		width: fit-content;
   }
   .b0-left__info-h1 {
-    border-radius: 0px 26px 26px 0px;
-    padding-left: 66px;
-    padding-right: 36px;
+		border-radius: 0px 26px 26px 0px;
+		padding-left: 66px;
+		padding-right: 36px;
   }
   .b0-left__info-h3 {
     font-size: clamp(12px, 3.6vw, 16px);
   }
   .b0-info__container {
-    gap: 0rem;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
+  	gap: 0rem;
+		flex-direction: column;
+		flex-wrap: nowrap;
+		justify-content: flex-start;
   }
   .b0-right__container {
-    max-width: 100%;
+  	max-width: 100%;
   }
   .b0-right__mouse {
-    bottom: 2rem;
-    left: -1rem;
-    width: 20rem;
-    height: 20rem;
+		bottom: 2rem;
+		left: -1rem;
+		width: 20rem;
+		height: 20rem;
   }
 }
 .b0 {
-  min-height: 110vh;
+	min-height: 110vh;
 }
 </style>
