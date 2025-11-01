@@ -2,6 +2,14 @@
   <div class="b0">
     <div class="b0__container">
       <div class="b0__block">
+      	<SectionCom class="b0__section"/>
+
+
+
+      	<!--<Section class="b0__section"/>-->
+      	
+        <!--
+        <div class="b0-main__section"/>
         <div class="b0__block-inside">
           <BlockBg class="b0-block__bg" />
           <BlockMobileBg class="b0-block__bg-mobile" />
@@ -10,99 +18,20 @@
             <div class="b0-left__container">
               <div class="b0-left__info">
                 <h3 class="b0-left__info-h3">Интеграторы digital-решений</h3>
-                <Corner :rotation="'270'" :left="'0'" :top="'-1.9'" :mobileLeft="'0'" :mobileTop="'-1.9'" />
+                
                 <h1 class="b0-left__info-h1-blue">Воплоти свой<br/>бизнес</h1>
-                <Corner :rotation="'270'" :left="'20.85'" :top="'0.5'" :mobileLeft="'17.85'" :mobileTop="'0.5'" />
-
-                <Corner class="middle-corner" :rotation="'270'" :left="'29.45'" :top="'10'" :mobileLeft="'29.45'" :mobileTop="'10'" />
                 <h1 class="b0-left__info-h1">в цифровом<br/>пространстве</h1>
-                <Corner :rotation="'0'" :left="'0'" :top="'100%'" />
               </div>
             </div>
 
-            <!-- RIGHT CONTAINER -->
-            <div class="b0-right__container" ref="rightContainer">
-              <!-- контейнер с длинной картинкой (окно просмотра) -->
-              <div class="b0-right__photo" ref="rightPhoto">
-                <img ref="longPhoto" :src="photoSrc" alt="template" class="photo-img" />
-              </div>
-
-              <!-- видео-вырез с clipPath: один контейнер; внутри — два варианта рендера (SVG+foreignObject для большинства, HTML+CSS clip-path для Safari) -->
-              <div ref="videoWrapper" class="video-mask">
-                <!-- Non-Safari: SVG + foreignObject (видео внутри SVG clipPath) -->
-                <svg
-                  v-if="!isSafari"
-                  ref="svg"
-                  xmlns="http://www.w3.org/2000/svg"
-                  :viewBox="viewBox"
-                  preserveAspectRatio="xMidYMid slice"
-                  class="svg-wrap"
-                >
-                  <defs>
-                    <clipPath id="rounded-clip" clipPathUnits="userSpaceOnUse">
-                      <path id="clip-path-d" ref="clipPathEl" :d="currentPath" />
-                    </clipPath>
-
-                    <path id="outline-path" ref="outlineEl" class="outline" :d="currentPath" />
-                  </defs>
-
-                  <foreignObject
-                    x="0"
-                    y="0"
-                    :width="vbWidth"
-                    :height="vbHeight"
-                    clip-path="url(#rounded-clip)"
-                  >
-                    <div xmlns="http://www.w3.org/1999/xhtml" style="width:100%;height:100%;">
-                      <video
-                        ref="videoEl"
-                        class="inner-video"
-                        :src="videoSrc"
-                        autoplay
-                        muted
-                        loop
-                        playsinline
-                      ></video>
-                    </div>
-                  </foreignObject>
-
-                  <use href="#outline-path" />
-                </svg>
-
-                <!-- Safari fallback: обычный HTML <video> с CSS clip-path (path()) и отдельная SVG overlay для контура -->
-                <div v-else class="safari-fallback">
-                  <video
-                    ref="videoEl"
-                    class="inner-video"
-                    :src="videoSrc"
-                    autoplay
-                    muted
-                    loop
-                    playsinline
-                    :style="videoClipStyle"
-                  ></video>
-
-                  <!-- SVG overlay для stroke контура (не используем foreignObject здесь) -->
-                  <svg v-if="currentPath" :viewBox="viewBox" preserveAspectRatio="xMidYMid slice" class="svg-wrap svg-overlay">
-                    <path :d="currentPath" class="outline" fill="none" />
-                  </svg>
-                </div>
-              </div>
-
-              <div class="b0-right__imgs">
-                <div class="b0-right__cone" />
-                <div class="b0-right__mouse" />
-              </div>
-            </div>
+            
 
             <div class="b0-right-bottom__container">
               <div class="b0-right-bottom__box">
-                <Corner :rotation="'180'" :left="'-1.95'" :top="'1'" />
-                <Corner :rotation="'180'" :left="'18.03'" :top="'-2'" />
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
@@ -112,6 +41,11 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import BlockBg from '~/assets/icons/landing/block-bg.svg';
 import BlockMobileBg from '~/assets/icons/landing/block-bg-mobile.svg';
+
+
+
+import Section from '~/assets/images/landing/b0-section.svg'
+import SectionCom from './SectionCom.vue'
 import Corner from '~/components/ui/blocks/corner.vue';
 import photoSrc from '@/assets/icons/landing/template.png';
 import videoSrc from '@/assets/images/landing/preview-video.mp4';
@@ -343,11 +277,7 @@ onBeforeUnmount(() => {
 
 
 <style scoped>
-/* ===========================
-   ORIGINAL STYLES + BROWSER PATCHES
-   =========================== */
 
-/* base */
 .b0__bg {
   width: 100%;
   height: 100%;
@@ -361,13 +291,14 @@ onBeforeUnmount(() => {
   top: 0;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  /*padding: 20px;*/
 }
 .b0__block {
-  max-width: 2100px;
+  /*max-width: 2100px;*/
   margin: 0 auto;
   background-color: white;
   padding: 12px 12px 96px 12px;
+  padding: 0;
   border-radius: 26px;
   overflow: hidden;
 }
@@ -799,5 +730,15 @@ onBeforeUnmount(() => {
 }
 .b0 {
 	min-height: 110vh;
+}
+.b0-main__section {
+	width: 100%;
+	height: 100vh;
+	background: url('@/assets/images/landing/b0-section.svg');
+	background-repeat: no-repeat; 
+}
+.b0__section {
+	width: 100%;
+	height: 100%;	
 }
 </style>
