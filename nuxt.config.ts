@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import removePreloadsPlugin from './utils/remove-preloads';
 
 export default defineNuxtConfig({
   // базовые опции
@@ -9,7 +10,11 @@ export default defineNuxtConfig({
   // глобальные стили и модули
   css: ['~/assets/css/main.css'],
   modules: ['@nuxt/image', 'nuxt-svgo', '@pinia/nuxt', '@nuxt/fonts'],
-
+  vite: {
+    plugins: [
+      removePreloadsPlugin() // удалит ссылки на payload/meta json
+    ]
+  },
   // шрифты (оставил ваши файлы, при необходимости можно добавить woff2/woff версии для лучшей поддержки)
   fonts: {
     families: [

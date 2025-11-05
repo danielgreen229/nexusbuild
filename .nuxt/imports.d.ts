@@ -30,6 +30,7 @@ export { requestIdleCallback, cancelIdleCallback } from '#app/compat/idle-callba
 export { setInterval } from '#app/compat/interval';
 export { useSEO } from '../composables/useSEO';
 export { isNode } from '../utils/env';
+export { default as removePreloads } from '../utils/remove-preloads';
 export { useAlertStore } from '../stores/alert';
 export { useDomainStore } from '../stores/deploy';
 export { useLandingStore } from '../stores/landing';
