@@ -1,29 +1,34 @@
+// ===== file: nuxt.config.ts =====
 import { resolve } from 'node:path'
 
 export default defineNuxtConfig({
   // базовые опции
-  components: true, 
+  components: true,
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
 
-  // глобальные стили и модули
+  // глобальные стили и плагины
   css: ['~/assets/css/main.css'],
+  // plugins: ['~/plugins/scale.client.ts'],
+
+  // модули
   modules: ['@nuxt/image', 'nuxt-svgo', '@pinia/nuxt', '@nuxt/fonts'],
 
   fonts: {
-  families: [
-    {
-      name: 'Inter',
-      src: [
-        { path: '~/assets/fonts/Inter/Inter-Regular.ttf', weight: '400', style: 'normal' },
-        { path: '~/assets/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf', weight: '400', style: 'italic' }
-      ],
-      preload: true,
-      display: 'swap'
-    }
-  ],
-  download: false
-},
+    families: [
+      {
+        name: 'Inter',
+        src: [
+          { path: '~/assets/fonts/Inter/Inter-Regular.ttf', weight: '400', style: 'normal' },
+          { path: '~/assets/fonts/Inter/Inter-Italic-VariableFont_opsz,wght.ttf', weight: '400', style: 'italic' }
+        ],
+        preload: true,
+        display: 'swap'
+      }
+    ],
+    download: false
+  },
+
   // svgo
   svgo: {
     autoImportPath: resolve(__dirname, 'assets/icons/'),
@@ -44,35 +49,18 @@ export default defineNuxtConfig({
     }
   },
 
-  // Вставляем в <head> мета/стили/скрипт, чтобы viewport и zoom применялись сразу
+  // head: оставляем серверный meta viewport + лёгкий ранний скрипт для CSS-переменной
   app: {
     head: {
       meta: [
-        // задаём initial-scale сразу
-        { name: 'viewport', content: 'width=device-width, initial-scale=0.8' }
+        // начальный масштаб — SSR-мета. Не запрещаем зум пользователю (accessibility)
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, minimum-scale=0.8, maximum-scale=1, user-scalable=yes' }
       ],
-      // inline стиль для быстрой установки zoom до рендера
-      style: [
-        {
-          // zoom: не CSS-стандарт, но применяется сразу как inline-style
-          children: `
-           
-          `
-        }
-      ],
-      // небольшой ранний скрипт-фоллбек для гарантии установки (выполнится до инициализации Vue)
+      // легкий ранний скрипт, который устанавливает CSS-переменную --app-scale до рендера
+      // важно: мы НЕ применяем document.documentElement.style.zoom здесь (устраняем нестабильное поведение)
       script: [
         {
-          children: `
-            (function () {
-              try {
-                var m = document.querySelector('meta[name="viewport"]');
-                if (m) m.setAttribute('content', 'width=device-width, initial-scale=0.8');
-                document.documentElement.style.zoom = '80%';
-                if (document.body) document.body.style.zoom = '80%';
-              } catch(e) {}
-            })();
-          `
+          children: `(function(){try{document.documentElement.style.setProperty('--app-scale','0.8')}catch(e){}})();`
         }
       ]
     }

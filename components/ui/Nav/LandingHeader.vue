@@ -789,7 +789,7 @@ onBeforeUnmount(() => {
 /* Медиа правила — оставлены как в оригинале */
 @media (max-width: 1248px) { 
 	.app-nav--primary, .app-nav--secondary, .b0__block-inside { 
-		display: none; 
+		
 	} 
 
 	.app-header__logo {

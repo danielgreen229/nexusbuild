@@ -24,6 +24,7 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/nuxt/dist/app/plugins/check-if-layout-used.js")> &
   InjectionType<typeof import("../../plugins/axios.client.js")> &
   InjectionType<typeof import("../../plugins/pinia-init.client")> &
+  InjectionType<typeof import("../../plugins/scale.client")> &
   InjectionType<typeof import("../../plugins/vue3-tel-input.client")>
 
 declare module '#app' {
