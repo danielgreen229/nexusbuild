@@ -2,10 +2,16 @@
   <div class="b0">
     <div class="b0__container">
       <div class="b0__block">
+        <!--<video width="640" height="360" autoplay loop muted class="b0__video">
+          <source src="@/assets/images/landing/preview-landing-video-high.mp4" type="video/mp4">
+          Ваш браузер не поддерживает видео.
+        </video>
+        -->
       	<client-only>
           <SectionCom class="b0__section"/>
-        </client-only>
 
+        </client-only>
+         
 
 
       	<!--<Section class="b0__section"/>-->
@@ -840,5 +846,13 @@ html, body {
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
+}
+.b0__video {
+  position: absolute;
+  top: 12vw;
+  left: 52vw;
+  width: 67vw;
+  height: 40vw;
+  border-radius: 2vw;
 }
 </style>
