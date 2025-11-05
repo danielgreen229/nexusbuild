@@ -291,7 +291,7 @@ onBeforeUnmount(() => {
   top: 0;
   width: 100%;
   height: 100%;
-  /*padding: 20px;*/
+  padding: 1vw;
 }
 .b0__block {
   /*max-width: 2100px;*/
@@ -740,5 +740,103 @@ onBeforeUnmount(() => {
 .b0__section {
 	width: 100%;
 	height: 100%;	
+}
+
+html, body {
+  -webkit-text-size-adjust: 100%;
+}
+
+@supports (-webkit-touch-callout: none) {
+
+  /* 1) принудительный хардварный слой для smooth animations / transform */
+  .video-mask,
+  .svg-wrap,
+  .inner-video,
+  .b0-right__photo,
+  .b0-right__photo .photo-img,
+  .b0-right__imgs {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+
+  /* 2) object-fit / flipping compatibility */
+  .inner-video {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -webkit-object-fit: cover;
+    object-fit: cover;
+    object-position: 50% 50%;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* 3) flex children min-height bug in Safari (prevents overflow / collapsing) */
+  .b0-info__container,
+  .b0-right__container,
+  .svg-wrap {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  /* 4) prefix for keyframes / animation on iOS Safari */
+  @-webkit-keyframes photo-pan {
+    0% { -webkit-transform: translateY(0); transform: translateY(0); }
+    50% { -webkit-transform: translateY(var(--dy)); transform: translateY(var(--dy)); }
+    100% { -webkit-transform: translateY(0); transform: translateY(0); }
+  }
+  @keyframes photo-pan {
+    0% { -webkit-transform: translateY(0); transform: translateY(0); }
+    50% { -webkit-transform: translateY(var(--dy)); transform: translateY(var(--dy)); }
+    100% { -webkit-transform: translateY(0); transform: translateY(0); }
+  }
+  .b0-right__photo.photo-pan-active .photo-img {
+    -webkit-animation: photo-pan var(--pan-duration) ease-in-out infinite;
+    animation: photo-pan var(--pan-duration) ease-in-out infinite;
+    -webkit-animation-direction: normal;
+    animation-direction: normal;
+    -webkit-animation-timing-function: ease-in-out;
+  }
+
+  /* 5) stroke visual tweak for older Safari (сохраняем читаемость контура) */
+  .outline {
+    stroke-width: 6; /* чуть тоньше для старых движков */
+    -webkit-stroke-width: 6;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* 6) ensure smooth touch scrolling in image/photo containers on iOS */
+  .b0-right__photo,
+  .b0-info__container {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 7) background / image rendering fixes */
+  .b0-right__mouse,
+  .b0-right__cone {
+    -webkit-background-size: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+    -webkit-transform-style: preserve-3d;
+  }
+
+  /* 8) fallback for clip-path: Safari иногда лучше работает с mask/clip-path префиксом.
+     JS у вас уже ставит inline -webkit-clip-path — этот селектор поможет, если нужно */
+  .inner-video[style*="clip-path"],
+  .inner-video[style*="-webkit-clip-path"] {
+    -webkit-clip-path: unset; /* даём приоритет inline-стилю из JS */
+  }
+
+  /* 9) предотвращаем резкие изменения шрифтов при масштабировании / рендере */
+  .b0-left__info-h1,
+  .b0-left__info-h1-blue,
+  .b0-left__info-h3 {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 }
 </style>

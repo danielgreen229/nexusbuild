@@ -253,7 +253,7 @@ onBeforeUnmount(() => {
   flex-direction: column;
   border-radius: 1.805556vw; /* 26px */
   margin: 0;
-  padding: 0;
+  padding: 1vw 1vw 1vw 0vw;
 }
 
 .app-header__top {
@@ -586,7 +586,7 @@ onBeforeUnmount(() => {
   height: fit-content;
   padding: 0;
   margin-left: 2.7vw;
-  margin-top: -0.3vw;
+  margin-top: -0.5vw;
 }
 
 .app-nav--secondary .app-nav__list {
