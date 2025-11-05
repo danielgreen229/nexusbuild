@@ -2,18 +2,14 @@
   <div class="b0">
     <div class="b0__container">
       <div class="b0__block">
-        <!--<video width="640" height="360" autoplay loop muted class="b0__video">
-          <source src="@/assets/images/landing/preview-landing-video-high.mp4" type="video/mp4">
-          Ваш браузер не поддерживает видео.
-        </video>
-        -->
+       
       	<client-only>
           <SectionCom class="b0__section"/>
           <video autoplay loop muted playsinline
             class="b0__video"
            id="video-player-v"
            ref="video-player-v">
-            <source src="@/assets/images/landing/preview-landing-video-high.mp4" type="video/mp4">
+            <source src="@/assets/images/landing/preview-landing-video-low.mp4" type="video/mp4">
           </video>
 
           <img src="@/assets/images/landing/cone.png" class="b0__cone"/>
