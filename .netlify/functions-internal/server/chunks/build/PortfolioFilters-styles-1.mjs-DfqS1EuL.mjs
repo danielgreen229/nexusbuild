@@ -1,0 +1,4 @@
+const PortfolioFilters_vue_vue_type_style_index_0_scoped_f61ec0aa_lang = ".portfolio-filters[data-v-f61ec0aa]{background:#fff;box-shadow:0 2px 10px #0000000d;padding:25px 0}.portfolio-filters__wrapper[data-v-f61ec0aa]{display:flex;flex-wrap:wrap;gap:10px;justify-content:left}.portfolio-filters__button[data-v-f61ec0aa]{background:#f1f5f9;border:none;border-radius:8px;cursor:pointer;font-size:1rem;font-weight:500;padding:10px 20px;transition:all .2s ease}.portfolio-filters__button[data-v-f61ec0aa]:hover{background:#e2e8f0}.portfolio-filters__button--active[data-v-f61ec0aa]{background:#2563eb;color:#fff}@media (max-width:768px){.portfolio-filters[data-v-f61ec0aa]{top:69px}.portfolio-filters__wrapper[data-v-f61ec0aa]{justify-content:flex-start;overflow-x:auto;padding-bottom:10px}}";
+
+export { PortfolioFilters_vue_vue_type_style_index_0_scoped_f61ec0aa_lang as P };
+//# sourceMappingURL=PortfolioFilters-styles-1.mjs-DfqS1EuL.mjs.map

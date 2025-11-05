@@ -1,0 +1,83 @@
+import { h, createElementBlock, openBlock, createElementVNode } from 'vue';
+import { N as NuxtIcon } from './server.mjs';
+import '../nitro/nitro.mjs';
+import 'node:http';
+import 'node:https';
+import 'node:events';
+import 'node:buffer';
+import 'node:fs';
+import 'node:path';
+import 'node:crypto';
+import 'node:url';
+import 'ipx';
+import 'pinia';
+import 'vue-router';
+import 'vue/server-renderer';
+import 'unhead/utils';
+import '../routes/renderer.mjs';
+import 'vue-bundle-renderer/runtime';
+import 'unhead/server';
+import 'devalue';
+import 'unhead/plugins';
+
+const _hoisted_1 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  "xmlns:vectornator": "http://vectornator.io",
+  "xml:space": "preserve",
+  "stroke-miterlimit": "10",
+  style: { "fill-rule": "nonzero", "clip-rule": "evenodd", "stroke-linecap": "round", "stroke-linejoin": "round" },
+  viewBox: "0 0 512 512"
+};
+function render(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1, _cache[0] || (_cache[0] = [
+    createElementVNode("clipPath", { id: "i29814847__a" }, [
+      createElementVNode("path", { d: "M0 0h512v512H0z" })
+    ], -1),
+    createElementVNode("g", {
+      "vectornator:layerName": "\u0421\u043B\u043E\u0439 1",
+      "clip-path": "url(#i29814847__a)"
+    }, [
+      createElementVNode("path", {
+        fill: "#e9eef1",
+        stroke: "#e9eef1",
+        d: "M448 232v-89c0-39 1.499-78.029 0-117-.574-14.933-13.708-20.867-25-26H93C81.682 4.042 65.593 9.825 65 25c-1.535 39.305-.667 78.667-1 118v89c42.774 35.645 102.118 69.679 151 96 12.667-7.667 24.701-16.492 38-23 11.367-5.562 41.348 20.718 45 23 53.119-26.559 105.262-56.855 150-96"
+      }),
+      createElementVNode("path", {
+        fill: "#2297f3",
+        stroke: "#2297f3",
+        d: "M512 476c-14.736-20.63-50.593-37.729-69-50-48.265-32.177-98.871-62.516-145-98-3.652-2.282-33.633-28.562-45-23-13.299 6.508-25.333 15.333-38 23-69 46-138.692 90.979-207 138-3.516 2.42-5.333 6.667-8 10v12c9.69 15.748 10.593 17.783 28 24h460c14.38-7.743 17.387-9.451 24-24z"
+      }),
+      createElementVNode("path", {
+        fill: "#1e88e5",
+        stroke: "#1e88e5",
+        d: "M215 328C146 374 76.308 418.979 8 466c-3.516 2.42-5.333 6.667-8 10V192c7.883 4.786 51.474 40 64 40 42.774 35.645 102.118 69.679 151 96m297 148V192c-21.111 13.683-41.499 28.749-64 40-44.738 39.145-96.881 69.441-150 96 46.129 35.484 96.735 65.823 145 98 18.407 12.271 54.264 29.37 69 50"
+      }),
+      createElementVNode("path", {
+        fill: "#94a7b1",
+        stroke: "#94a7b1",
+        d: "M142 64c76.333 0 152.691-1.916 229 0 17.805.447 16.927 31.784 0 32-75.994.97-152.006.966-228 0-19.626-.25-17.495-25.835-1-32m0 64c76.333 0 152.691-1.916 229 0 17.805.447 16.927 31.784 0 32-75.994.97-152.006.966-228 0-19.626-.249-17.495-25.835-1-32"
+      }),
+      createElementVNode("path", {
+        fill: "#5fb1f3",
+        stroke: "#5fb1f3",
+        d: "M64 143c-20.983 16.457-37.333 48-64 48v1c7.883 4.786 51.474 40 64 40z"
+      }),
+      createElementVNode("path", {
+        fill: "#62b4f5",
+        stroke: "#62b4f5",
+        d: "M448 232v-89c16.031 16.031 43.817 37.908 64 48v1c-21.111 13.683-41.499 28.749-64 40"
+      }),
+      createElementVNode("path", {
+        fill: "#94a7b1",
+        stroke: "#94a7b1",
+        d: "M142 192c44.333 0 88.706-1.859 133 0 17.78.746 16.953 31.634 0 32-43.99.949-88.01.943-132 0-19.609-.42-17.544-25.819-1-32"
+      })
+    ], -1)
+  ]));
+}
+const BigEmail = { render() {
+  return h(NuxtIcon, { icon: { render }, name: "big-email" });
+} };
+
+export { BigEmail as default, render };
+//# sourceMappingURL=big-email-dFX6Kh5b.mjs.map
