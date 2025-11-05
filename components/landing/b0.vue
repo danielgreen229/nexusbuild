@@ -4,7 +4,10 @@
       <div class="b0__block">
        
       	<client-only>
-          <SectionCom class="b0__section"/>
+          <SectionComMobile v-if="isMobile" class="b0__section" />
+          <SectionCom v-else class="b0__section" />
+
+
           <video autoplay loop muted playsinline
             class="b0__video"
            id="video-player-v"
@@ -55,10 +58,9 @@ import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import BlockBg from '~/assets/icons/landing/block-bg.svg';
 import BlockMobileBg from '~/assets/icons/landing/block-bg-mobile.svg';
 
-
-
 import Section from '~/assets/images/landing/b0-section.svg'
 import SectionCom from './SectionCom.vue'
+import SectionComMobile from './SectionComMobile.vue'
 import Corner from '~/components/ui/blocks/corner.vue';
 import photoSrc from '@/assets/icons/landing/template.png';
 import videoSrc from '@/assets/images/landing/preview-video.mp4';
@@ -218,6 +220,13 @@ function updateLongPhotoScroll() {
 }
 
 onMounted(async () => {
+  update()
+  mq = window.matchMedia('(max-width: 767.98px)')
+  // modern browsers
+  if (mq.addEventListener) mq.addEventListener('change', update)
+  else mq.addListener(update) // fallback for older browsers
+
+
   // Safari detection (simple)
   const ua = navigator.userAgent || '';
   isSafari.value = /Safari/.test(ua) && !/Chrome|Chromium|Edg|OPR/.test(ua);
@@ -284,7 +293,23 @@ onBeforeUnmount(() => {
   window.removeEventListener('orientationchange', updatePath);
   clearTimeout(resizeTimer);
   clearTimeout(resizeTimerPhoto);
+
+  if (!mq) return
+  if (mq.removeEventListener) mq.removeEventListener('change', update)
+  else mq.removeListener(update)
 });
+
+
+
+const isMobile = ref(false)
+let mq = null
+
+function update() {
+  isMobile.value = window.innerWidth < 768
+}
+
+
+
 </script>
 
 
@@ -626,121 +651,7 @@ onBeforeUnmount(() => {
 .middle-corner {
 	display: none;
 }
-/* ===========================
-   MEDIA QUERIES (fixed)
-   =========================== */
 
-@media (max-width: 1248px) and (min-width: 768px) {
-	.b0-right__container {
-		
-	}
-	.b0-right__photo {
-		width: 27vw;
-		height: 17vw;
-		bottom: 3vw;
-	}
-	.b0-right__mouse {
-		width: 14rem;
-		height: 14rem;
-		left: -9rem;
-		bottom: -6rem;
-	}
-	.b0-right__cone {
-		width: 18rem;
-		height: 18rem;
-		top: 0rem;
-		right: -5rem;
-		position: fixed;
-	}
-	.b0-block__bg {
-		min-height: 31vh;
-	}
-	.b0__block-inside {
-		overflow: hidden;
-	}
-}
-
-
-@media (max-width: 768px) {
-	.middle-corner {
-		display: block;
-	}
-  .b0-block__bg {
-    display: none;
-  }
-  .b0-block__bg-mobile {
-    display: block;
-    height: 100vh;
-    min-width: 100%;
-    min-height: 100vh;
-  }
-
-  .b0__block-inside {
-    overflow: hidden;
-  }
-  .b0__bg {
-    min-height: 300vh;
-  }
-  .b0-info__container {
-    flex-direction: column;
-    align-items: flex-start;
-    padding-top: 12rem;
-  }
-  .b0-right__cone {
-    top: 3rem;
-    position: fixed;
-    right: -5rem;
-    width: 18rem;
-    height: 18rem;
-  }
-
-  .b0-right__container {
-    width: 100%;
-  }
-  .b0-right__photo {
-    display: none;
-  }
-
-  .video-mask {
-    padding: 0;
-    margin-bottom: 10rem;
-  }
-  .b0-right-bottom__container {
-    display: none;
-  }
-
-  /* responsive typography adjustments for small screens */
-  .b0-left__info-h1,
-  .b0-left__info-h1-blue {
-  }
-  .b0-left__info-h1-blue {
-  	padding-right: 36px;
-		width: fit-content;
-  }
-  .b0-left__info-h1 {
-		border-radius: 0px 26px 26px 0px;
-		padding-left: 66px;
-		padding-right: 36px;
-  }
-  .b0-left__info-h3 {
-    font-size: clamp(12px, 3.6vw, 16px);
-  }
-  .b0-info__container {
-  	gap: 0rem;
-		flex-direction: column;
-		flex-wrap: nowrap;
-		justify-content: flex-start;
-  }
-  .b0-right__container {
-  	max-width: 100%;
-  }
-  .b0-right__mouse {
-		bottom: 2rem;
-		left: -1rem;
-		width: 20rem;
-		height: 20rem;
-  }
-}
 .b0 {
   min-height: calc(65vw + 5px);
 }
@@ -867,9 +778,9 @@ html, body {
 }
 .b0__cone {
   position: absolute;
-  right: -7vw;
-  top: 2vw;
-  width: 29vw;
+  right: -2vw;
+  top: 1vw;
+  width: 26vw;
   height: 31vw;
 }
 .b0__mouse {
@@ -879,4 +790,39 @@ html, body {
   width: 28vw;
   height: 24vw;
 }
+
+@media (max-width: 768px) {
+  .b0 {
+    min-height: calc(228vw + 5px);
+  }
+  .b0__video {
+    top: 135vw;
+    left: 8vw;
+    width: 108vw;
+    height: 64vw;
+  }
+  .b0__mouse {
+    right: unset;
+    top: 191vw;
+    width: 52vw;
+    height: 44vw;
+    left: 5vw;
+  }
+  .b0__cone {
+    position: absolute;
+    right: 0vw;
+    top: 2vw;
+    width: 74vw;
+    height: 88vw;
+  }
+}
 </style>
+
+
+
+
+
+
+
+
+

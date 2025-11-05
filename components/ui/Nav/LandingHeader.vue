@@ -195,7 +195,7 @@ onBeforeUnmount(() => {
 .app-header__top {
 	display: flex;
 	justify-content: flex-start;
-	align-items: stretch;
+	align-items: center;
 	border-radius: 1.805556vw 1.805556vw 0 0; /* 26px */
 	position: relative;
   padding: 0;
@@ -221,6 +221,7 @@ onBeforeUnmount(() => {
   padding: 0;
   height: fit-content;
   width: fit-content;
+  margin-top: -1.2vw;
 }
 
 .app-header__logo-badge {
@@ -520,7 +521,7 @@ onBeforeUnmount(() => {
   height: fit-content;
   padding: 0;
   margin-left: 2.7vw;
-  margin-top: -0.5vw;
+  margin-top: -1vw;
 }
 
 .app-nav--secondary .app-nav__list {
@@ -722,17 +723,9 @@ onBeforeUnmount(() => {
 
 /* Медиа правила — оставлены как в оригинале */
 @media (max-width: 1248px) { 
-	.app-nav--primary, .app-nav--secondary, .b0__block-inside { 
-		
-	} 
-
-	.app-header__logo {
-		border-radius: 26px 0 26px 0;
-	}
-
-	.mobile__corner {
-		display: block;
-	}
+  .app-nav__list {
+    padding: 0.6vw 3vw;
+  }
 }
 
 .burger-mobile__container {
@@ -767,4 +760,48 @@ onBeforeUnmount(() => {
   transform-origin: 0 0;
 }
 
+
+@media (max-width: 768px) {
+  .app-nav--primary {
+    display: none;
+  }
+  .app-header__logo {
+    margin-top: -3vw;
+  }
+  .app-header {
+    padding: 4vw 4vw 0 5.5vw
+  }
+  .app-header__container {
+    padding: 0;
+  }
+  .app-header__logo-svg {
+    width: 31vw;
+  }
+  .goto__template {
+    font-size: 3.5vw;
+    padding: 2.3vw 7.5vw;
+    border-radius: 5vw;
+  }
+  .burger-mobile__container {
+    width: 8vw;
+    margin-right: 1vw;
+    height: 5vw;
+  }
+  .app-header__actions {
+    gap: 3vw;
+    margin-top: -1vw;
+  }
+  .burger-stick {
+    height: 0.5vw;
+    border-radius: 5vw;
+  }
+}
 </style>
+
+
+
+
+
+
+
+
