@@ -9,6 +9,15 @@
         -->
       	<client-only>
           <SectionCom class="b0__section"/>
+          <video autoplay loop muted playsinline
+            class="b0__video"
+           id="video-player-v"
+           ref="video-player-v">
+            <source src="@/assets/images/landing/preview-landing-video-high.mp4" type="video/mp4">
+          </video>
+
+          <img src="@/assets/images/landing/cone.png" class="b0__cone"/>
+          <img src="@/assets/images/landing/mouse.png" class="b0__mouse"/>
 
         </client-only>
          
@@ -849,10 +858,29 @@ html, body {
 }
 .b0__video {
   position: absolute;
-  top: 12vw;
-  left: 52vw;
-  width: 67vw;
-  height: 40vw;
-  border-radius: 2vw;
+  top: 14vw;
+  left: 55vw;
+  width: 62vw;
+  height: 37vw;
+  display: block;
+  margin: 0;
+  padding: 0;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 1vw;
+}
+.b0__cone {
+  position: absolute;
+  right: -7vw;
+  top: 2vw;
+  width: 29vw;
+  height: 31vw;
+}
+.b0__mouse {
+  position: absolute;
+  right: 57vw;
+  top: 46vw;
+  width: 28vw;
+  height: 24vw;
 }
 </style>
