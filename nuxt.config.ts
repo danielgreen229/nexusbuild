@@ -54,7 +54,7 @@ export default defineNuxtConfig({
     head: {
       meta: [
         // начальный масштаб — SSR-мета. Не запрещаем зум пользователю (accessibility)
-        { name: 'viewport', content: 'width=device-width, initial-scale=1, minimum-scale=0.8, maximum-scale=1, user-scalable=yes' }
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes' }
       ],
       // легкий ранний скрипт, который устанавливает CSS-переменную --app-scale до рендера
       // важно: мы НЕ применяем document.documentElement.style.zoom здесь (устраняем нестабильное поведение)
