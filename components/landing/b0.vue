@@ -793,7 +793,12 @@ html, body {
 
 @media (max-width: 768px) {
   .b0 {
-    min-height: calc(228vw + 5px);
+    min-height: calc(222vw + 5px);
+    overflow-x: hidden;
+    width: 100vw;
+  }
+  .b0__container {
+    padding: 0vw;
   }
   .b0__video {
     top: 135vw;
@@ -814,6 +819,10 @@ html, body {
     top: 2vw;
     width: 74vw;
     height: 88vw;
+  }
+
+  .b0__block {
+    border-radius: 0; 
   }
 }
 </style>

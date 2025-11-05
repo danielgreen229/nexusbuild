@@ -769,7 +769,7 @@ onBeforeUnmount(() => {
     margin-top: -3vw;
   }
   .app-header {
-    padding: 4vw 4vw 0 5.5vw
+    padding: 3vw 3vw 0 4.5vw;
   }
   .app-header__container {
     padding: 0;
