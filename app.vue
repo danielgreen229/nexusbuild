@@ -158,6 +158,5 @@ body {
   flex: 1 0 auto;
 }
 html, body, #__nuxt {
-  height: 100%;
 }
 </style>

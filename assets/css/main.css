@@ -19,9 +19,18 @@ html, body {
   -webkit-transform-origin: 0 0;
   transform: scale(var(--app-scale));
   -webkit-transform: scale(var(--app-scale));
-  /* компенсируем уменьшение ширины: */
+
   width: calc(100% / var(--app-scale));
   height: calc(100% / var(--app-scale));
+
+
+
+
+
+
   /* при необходимости избежать скролла по оси X */
 /*  overflow-x: hidden;*/
+}
+html, body {
+	height: 100%;
 }

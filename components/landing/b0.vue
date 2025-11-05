@@ -731,7 +731,7 @@ onBeforeUnmount(() => {
   }
 }
 .b0 {
-	min-height: 110vh;
+  min-height: calc(65vw + 5px);
 }
 .b0-main__section {
 	width: 100%;

@@ -36,81 +36,16 @@
     </div>
 
     <!-- Мобильное меню (объединяет обе навигации) -->
-    <div
-      class="app-mobile-menu"
-      :class="{ 'app-mobile-menu--active': isMobileMenuOpen }"
-      @click.self="closeMobileMenu"
-    >
-      <div class="app-mobile-menu__content" @click.stop>
-        <!-- Мобильный хедер: логотип + крестик -->
-        <div class="app-mobile-menu__mobile-header">
-          <NuxtLink to="/" class="app-mobile-menu__logo" @click="closeMobileMenu">
-            <logo class="app-mobile-menu__logo-svg" filled/>
-          </NuxtLink>
-          <button class="app-mobile-menu__close" @click="closeMobileMenu" aria-label="Закрыть меню">✕</button>
-        </div>
-
-        <nav class="app-mobile-nav">
-          <div class="app-mobile-nav__section">
-            <h3 class="app-mobile-nav__title">Основные</h3>
-            <ul class="app-mobile-nav__list">
-              <li v-for="page in primaryPages" :key="page.path" class="app-mobile-nav__item">
-                <NuxtLink
-                  :to="page.path"
-                  class="app-mobile-nav__link"
-                  @click="closeMobileMenu"
-                  exact-active-class="app-mobile-nav__link--active"
-                >
-                  {{ page.title }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
-
-          <div class="app-mobile-nav__section">
-            <h3 class="app-mobile-nav__title">Дополнительные</h3>
-            <ul class="app-mobile-nav__list">
-              <li v-for="page in secondaryPages" :key="page.path" class="app-mobile-nav__item">
-                <NuxtLink
-                  :to="page.path"
-                  class="app-mobile-nav__link"
-                  @click="closeMobileMenu"
-                  active-class="app-mobile-nav__link--active"
-                >
-                  {{ page.title }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
-
-          <!--<div class="app-mobile-nav__section">
-            <ul class="app-mobile-nav__list">
-              <li class="app-mobile-nav__item">
-                <button class="app-mobile-nav__link" @click="onMobileLogin">Войти</button>
-              </li>
-            </ul>
-          </div>-->
-        </nav>
-
-        <!-- Футер с кнопками (фиксирован снизу панели) -->
-        <div class="app-mobile-menu__footer">
-          <NuxtLink to="/templates" class="button button--primary app-mobile-menu__btn-order" @click="closeMobileMenu">Заказать</NuxtLink>
-          <a 
-          	href="https://t.me/dozer_stoun" 
-          	target="_blank" 
-          	rel="noopener noreferrer" 
-          	class="button button--outline app-mobile-menu__btn-tg" 
-          	@click="closeMobileMenu">
-          		<IconTg class="tg__icon"/>
-          		Написать в тг
-          </a>
-        </div>
-      </div>
-    </div>
-
     <!-- Модальное окно входа -->
     <LoginModal v-model:visible="isLoginModalOpen" @login="onLoginEvent" />
   </header>
+
+  <SideMenu
+      v-model:visible="isMobileMenuOpen"
+      :primary-pages="primaryPages"
+      :secondary-pages="secondaryPages"
+      @login="onMobileLogin"
+    />
 </template>
 
 <script setup>
@@ -118,6 +53,7 @@ import IconClick from '~/assets/icons/icon-click.svg'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useUserStore } from '~/stores/user'
 import LoginModal from '~/components/profile/Modals/LoginModal.vue'
+import SideMenu from '~/components/ui/Modal/SideMenu.vue'
 import corner from '~/components/ui/blocks/corner.vue'
 import { useRouter } from 'vue-router'
 import logo from '~/assets/icons/logo.svg'
@@ -281,7 +217,6 @@ onBeforeUnmount(() => {
   font-size: 2.000000vw; /* 1.8rem -> 28.8px -> 2vw */
   color: var(--primary);
   position: relative;
-	background-color: white;
   margin: 0;
   padding: 0;
   height: fit-content;
@@ -577,7 +512,6 @@ onBeforeUnmount(() => {
 .app-nav--primary {
 	width: fit-content;
   position: relative;
-	background-color: white;
 	border-radius: 0 0 1.805556vw 0; /* 26px */
 
 
