@@ -2,7 +2,9 @@
   <div class="b0">
     <div class="b0__container">
       <div class="b0__block">
-      	<SectionCom class="b0__section"/>
+      	<client-only>
+          <SectionCom class="b0__section"/>
+        </client-only>
 
 
 

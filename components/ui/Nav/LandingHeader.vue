@@ -823,5 +823,14 @@ onBeforeUnmount(() => {
 	height: 1.611111vw; /* 23.2px */
 
 }
+.app-header,
+.app-header * {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
 
 </style>
