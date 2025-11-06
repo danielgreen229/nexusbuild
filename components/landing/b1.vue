@@ -152,7 +152,6 @@ onBeforeUnmount(() => {
   min-height: calc(118vh + 5px);
   position: relative;
   height: 100%;
-  overflow-x: hidden;
 }
 .b1__bg {
   height: 94vw;
