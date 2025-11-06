@@ -6,12 +6,14 @@ import Features from '@/components/sections/Features.vue'
 import LeadForm from '@/components/sections/LeadForm.vue' 
 */
 import b0 from '@/components/landing/b0.vue' 
+import b1 from '@/components/landing/b1.vue' 
 </script>
 
 <template>
   <div class="page">
     <main>
       <b0 />
+      <b1 />
     </main>
   </div>
 </template>

@@ -17,6 +17,7 @@ interface _GlobalComponents {
     'LandingSectionComMobile': typeof import("../components/landing/SectionComMobile.vue")['default']
     'LandingB0': typeof import("../components/landing/b0.vue")['default']
     'LandingB1': typeof import("../components/landing/b1.vue")['default']
+    'LandingB2': typeof import("../components/landing/b2.vue")['default']
     'LayoutFooter': typeof import("../components/layout/Footer.vue")['default']
     'LayoutHeader': typeof import("../components/layout/Header.vue")['default']
     'PortfolioCTA': typeof import("../components/portfolio/PortfolioCTA.vue")['default']
@@ -46,6 +47,7 @@ interface _GlobalComponents {
     'UiBlocksCorner': typeof import("../components/ui/blocks/corner.vue")['default']
     'SvgoBigEmail': typeof import("../assets/icons/big-email")['default']
     'SvgoIconClick': typeof import("../assets/icons/icon-click")['default']
+    'SvgoItemShare': typeof import("../assets/icons/item-share")['default']
     'SvgoLandingCone': typeof import("../assets/icons/landing/Cone")['default']
     'SvgoLandingBg': typeof import("../assets/icons/landing/bg")['default']
     'SvgoLandingBlockBgMobile': typeof import("../assets/icons/landing/block-bg-mobile")['default']
@@ -88,6 +90,7 @@ interface _GlobalComponents {
     'LazyLandingSectionComMobile': LazyComponent<typeof import("../components/landing/SectionComMobile.vue")['default']>
     'LazyLandingB0': LazyComponent<typeof import("../components/landing/b0.vue")['default']>
     'LazyLandingB1': LazyComponent<typeof import("../components/landing/b1.vue")['default']>
+    'LazyLandingB2': LazyComponent<typeof import("../components/landing/b2.vue")['default']>
     'LazyLayoutFooter': LazyComponent<typeof import("../components/layout/Footer.vue")['default']>
     'LazyLayoutHeader': LazyComponent<typeof import("../components/layout/Header.vue")['default']>
     'LazyPortfolioCTA': LazyComponent<typeof import("../components/portfolio/PortfolioCTA.vue")['default']>
@@ -117,6 +120,7 @@ interface _GlobalComponents {
     'LazyUiBlocksCorner': LazyComponent<typeof import("../components/ui/blocks/corner.vue")['default']>
     'LazySvgoBigEmail': LazyComponent<typeof import("../assets/icons/big-email")['default']>
     'LazySvgoIconClick': LazyComponent<typeof import("../assets/icons/icon-click")['default']>
+    'LazySvgoItemShare': LazyComponent<typeof import("../assets/icons/item-share")['default']>
     'LazySvgoLandingCone': LazyComponent<typeof import("../assets/icons/landing/Cone")['default']>
     'LazySvgoLandingBg': LazyComponent<typeof import("../assets/icons/landing/bg")['default']>
     'LazySvgoLandingBlockBgMobile': LazyComponent<typeof import("../assets/icons/landing/block-bg-mobile")['default']>
@@ -165,6 +169,7 @@ export const LandingSectionCom: typeof import("../components/landing/SectionCom.
 export const LandingSectionComMobile: typeof import("../components/landing/SectionComMobile.vue")['default']
 export const LandingB0: typeof import("../components/landing/b0.vue")['default']
 export const LandingB1: typeof import("../components/landing/b1.vue")['default']
+export const LandingB2: typeof import("../components/landing/b2.vue")['default']
 export const LayoutFooter: typeof import("../components/layout/Footer.vue")['default']
 export const LayoutHeader: typeof import("../components/layout/Header.vue")['default']
 export const PortfolioCTA: typeof import("../components/portfolio/PortfolioCTA.vue")['default']
@@ -194,6 +199,7 @@ export const UiServiceCard: typeof import("../components/ui/ServiceCard.vue")['d
 export const UiBlocksCorner: typeof import("../components/ui/blocks/corner.vue")['default']
 export const SvgoBigEmail: typeof import("../assets/icons/big-email")['default']
 export const SvgoIconClick: typeof import("../assets/icons/icon-click")['default']
+export const SvgoItemShare: typeof import("../assets/icons/item-share")['default']
 export const SvgoLandingCone: typeof import("../assets/icons/landing/Cone")['default']
 export const SvgoLandingBg: typeof import("../assets/icons/landing/bg")['default']
 export const SvgoLandingBlockBgMobile: typeof import("../assets/icons/landing/block-bg-mobile")['default']
@@ -236,6 +242,7 @@ export const LazyLandingSectionCom: LazyComponent<typeof import("../components/l
 export const LazyLandingSectionComMobile: LazyComponent<typeof import("../components/landing/SectionComMobile.vue")['default']>
 export const LazyLandingB0: LazyComponent<typeof import("../components/landing/b0.vue")['default']>
 export const LazyLandingB1: LazyComponent<typeof import("../components/landing/b1.vue")['default']>
+export const LazyLandingB2: LazyComponent<typeof import("../components/landing/b2.vue")['default']>
 export const LazyLayoutFooter: LazyComponent<typeof import("../components/layout/Footer.vue")['default']>
 export const LazyLayoutHeader: LazyComponent<typeof import("../components/layout/Header.vue")['default']>
 export const LazyPortfolioCTA: LazyComponent<typeof import("../components/portfolio/PortfolioCTA.vue")['default']>
@@ -265,6 +272,7 @@ export const LazyUiServiceCard: LazyComponent<typeof import("../components/ui/Se
 export const LazyUiBlocksCorner: LazyComponent<typeof import("../components/ui/blocks/corner.vue")['default']>
 export const LazySvgoBigEmail: LazyComponent<typeof import("../assets/icons/big-email")['default']>
 export const LazySvgoIconClick: LazyComponent<typeof import("../assets/icons/icon-click")['default']>
+export const LazySvgoItemShare: LazyComponent<typeof import("../assets/icons/item-share")['default']>
 export const LazySvgoLandingCone: LazyComponent<typeof import("../assets/icons/landing/Cone")['default']>
 export const LazySvgoLandingBg: LazyComponent<typeof import("../assets/icons/landing/bg")['default']>
 export const LazySvgoLandingBlockBgMobile: LazyComponent<typeof import("../assets/icons/landing/block-bg-mobile")['default']>

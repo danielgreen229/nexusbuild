@@ -92,7 +92,7 @@ function clearSearch() {
         </form>
 
         <div class="portfolio-hero__meta" v-if="templateStore.templates && templateStore.templates.length >= 0">
-          <span class="meta-count">
+          <span class="meta-count" v-if="templateStore.total && templateStore.templates.length > 0">
             Найдено: <strong>{{ templateStore.total ?? templateStore.templates.length }}</strong>
           </span>
           <span class="meta-loading" v-if="templateStore.loading"> · загружается…</span>

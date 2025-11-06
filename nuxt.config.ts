@@ -2,6 +2,12 @@
 import { resolve } from 'node:path'
 
 export default defineNuxtConfig({
+   // рендер / nitro / сервер
+  target: 'static',
+  nitro: { preset: 'netlify' },
+  server: { port: 3000 },
+  generate: { cache: false },
+
   // базовые опции
   components: true,
   compatibilityDate: '2025-05-15',
@@ -12,7 +18,7 @@ export default defineNuxtConfig({
   // plugins: ['~/plugins/scale.client.ts'],
 
   // модули
-  modules: ['@nuxt/image', 'nuxt-svgo', '@pinia/nuxt', '@nuxt/fonts'],
+  modules: ['@nuxt/image', '@pinia/nuxt', '@nuxt/fonts', 'nuxt-svgo'],
 
   fonts: {
     families: [
@@ -28,19 +34,6 @@ export default defineNuxtConfig({
     ],
     download: false
   },
-
-  // svgo
-  svgo: {
-    autoImportPath: resolve(__dirname, 'assets/icons/'),
-  },
-
-  // рендер / nitro / сервер
-  target: 'static',
-  nitro: { preset: 'netlify' },
-  server: { port: 3000 },
-  generate: { cache: false },
-
-  // router hook (оставил как у вас)
   router: {
     extendRoutes(routes, resolve) {
       routes.forEach(route => {
@@ -48,16 +41,11 @@ export default defineNuxtConfig({
       })
     }
   },
-
-  // head: оставляем серверный meta viewport + лёгкий ранний скрипт для CSS-переменной
   app: {
     head: {
       meta: [
-        // начальный масштаб — SSR-мета. Не запрещаем зум пользователю (accessibility)
         { name: 'viewport', content: 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes' }
       ],
-      // легкий ранний скрипт, который устанавливает CSS-переменную --app-scale до рендера
-      // важно: мы НЕ применяем document.documentElement.style.zoom здесь (устраняем нестабильное поведение)
       script: [
         {
           children: `(function(){try{document.documentElement.style.setProperty('--app-scale','0.8')}catch(e){}})();`
