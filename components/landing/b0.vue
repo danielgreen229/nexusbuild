@@ -794,7 +794,7 @@ html, body {
 
 @media (max-width: 768px) {
   .b0 {
-    min-height: calc(222vw + 5px);
+    min-height: calc(224vw + 5px);
     overflow-x: hidden;
     width: 100vw;
   }

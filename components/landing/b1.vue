@@ -1,21 +1,11 @@
 <template>
 	<div class="b1">
-		<div class="b1__container">
+		<div class="b1__container" v-if="!isMobile">
 			<bg class="b1__bg"/>
 		</div>
 		<div class="b1__top">
 			<h2 class="b1__top-h2">
-				<!--<Corner
-				  :rotation="180"
-				  left="-2vw"
-				  top="3vw"
-				/>-->
 				<span>Наши услуги</span>
-				<!--<Corner
-				  :rotation="-90"
-				  left="20.6vw"
-				  top="3vw"
-				/>-->
 			</h2>
 		</div>
 
@@ -24,7 +14,7 @@
 			<h2 class="b1__main-h2">
 				<span class="b1__main-h2-colored">Полный цикл разработки сайтов</span>
 				<br>
-				от идеи до запуска и поддержки.
+				от&nbsp;идеи до&nbsp;запуска и&nbsp;поддержки.
 			</h2>
 			<div class="b1__list">
 				<div class="b1__list-item">
@@ -34,24 +24,24 @@
 					<div class="b1__item-container">
 						<div class="b1__item-info">
 							<h3 class="b1__item-h3">Лендинг</h3>
-							<p class="b1__item-p">Одностраничный сайт для запуска продукта, акции или сбора лидов. С фокусом на конверсию и быстрой отдаче.</p>
+							<p class="b1__item-p">Одностраничный сайт для запуска продукта, акции или сбора лидов. С&nbsp;фокусом на&nbsp;конверсию и&nbsp;быстрой отдаче.</p>
 						</div>
 						<div class="b1__item-checkbox">
 							<p class="b1__p-checkbox">
 								<itemCheckbox class="b1__p-checkbox-img"/>
-								<span>UX-структура и продающий текст</span>
+								<span>UX-структура и&nbsp;продающий текст</span>
 							</p>
 							<p class="b1__p-checkbox">
 								<itemCheckbox class="b1__p-checkbox-img"/>
-								<span>адаптивная верстка mobile / desktop</span>
+								<span>адаптивная верстка mobile&nbsp;/ desktop</span>
 							</p>
 							<p class="b1__p-checkbox">
 								<itemCheckbox class="b1__p-checkbox-img"/>
-								<span>форма заявки + интеграция с e-mail</span>
+								<span>форма заявки + интеграция с&nbsp;e-mail</span>
 							</p>
 						</div>
 						<div class="b1__item-bottom">
-							<p class="b1__item-price-p">30 000₽</p>
+							<p class="b1__item-price-p">15 000₽</p>
 							<button class="b1__item-button">Заказать</button>
 						</div>
 					</div>
@@ -62,7 +52,7 @@
 					<div class="b1__item-container">
 						<div class="b1__item-info">
 							<h3 class="b1__item-h3">Корпоративный сайт</h3>
-							<p class="b1__item-p">Многостраничный сайт для бренда или компании: услуги, команда, кейсы, блог и контакты. Сделаем так, чтобы клиент сразу понял ценность.</p>
+							<p class="b1__item-p">Многостраничный сайт для бренда или компании: услуги, команда, кейсы, блог и&nbsp;контакты. Сделаем так, чтобы клиент сразу понял ценность.</p>
 						</div>
 						<div class="b1__item-checkbox">
 							<p class="b1__p-checkbox">
@@ -75,7 +65,7 @@
 							</p>
 							<p class="b1__p-checkbox">
 								<itemCheckbox class="b1__p-checkbox-img"/>
-								<span>CMS редактирование контента + обучение</span>
+								<span>форма заявки + интеграция с&nbsp;e-mail</span>
 							</p>
 						</div>
 						<div class="b1__item-bottom">
@@ -90,12 +80,12 @@
 					<div class="b1__item-container">
 						<div class="b1__item-info">
 							<h3 class="b1__item-h3">Bеб-магазин</h3>
-							<p class="b1__item-p">Каталог, корзина, оплата, учёт товаров и интеграции с доставкой, всё для старта продаж.</p>
+							<p class="b1__item-p">Каталог, корзина, оплата, учёт товаров и&nbsp;интеграции с&nbsp;доставкой, всё для старта продаж.</p>
 						</div>
 						<div class="b1__item-checkbox">
 							<p class="b1__p-checkbox">
 								<itemCheckbox class="b1__p-checkbox-img"/>
-								<span>карточки товара и фильтры</span>
+								<span>карточки товара и&nbsp;фильтры</span>
 							</p>
 							<p class="b1__p-checkbox">
 								<itemCheckbox class="b1__p-checkbox-img"/>
@@ -103,21 +93,22 @@
 							</p>
 							<p class="b1__p-checkbox">
 								<itemCheckbox class="b1__p-checkbox-img"/>
-								<span>интеграция с платёжной системой</span>
+								<span>интеграция с&nbsp;платёжной системой</span>
 							</p>
 							<p class="b1__p-checkbox">
 								<itemCheckbox class="b1__p-checkbox-img"/>
-								<span>настройка логистики и выгрузок</span>
+								<span>настройка логистики и&nbsp;выгрузок</span>
 							</p>
 						</div>
 						<div class="b1__item-bottom">
-							<p class="b1__item-price-p">30 000₽</p>
+							<p class="b1__item-price-p">15 000₽</p>
 							<button class="b1__item-button">Заказать</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<flower class="b1__flow-img"/>
 	</div>
 </template>
 
@@ -125,10 +116,33 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import bg from '~/assets/images/landing/b1-background.svg';
 import Corner from '~/components/ui/blocks/corner.vue';
+import flower from '@/assets/images/landing/flower.svg'
 
 import itemCorner from '~/assets/images/landing/item-share.svg';
 
 import itemCheckbox from '~/assets/images/landing/checkbox.svg';
+
+
+const isMobile = ref(false)
+let mq = null
+
+function update() {
+  isMobile.value = window.innerWidth < 768
+}
+
+onMounted(async () => {
+  update()
+  mq = window.matchMedia('(max-width: 767.98px)')
+  // modern browsers
+  if (mq.addEventListener) mq.addEventListener('change', update)
+  else mq.addListener(update) // fallback for older browsers
+})
+
+onBeforeUnmount(() => {
+	if (!mq) return
+  if (mq.removeEventListener) mq.removeEventListener('change', update)
+  else mq.removeListener(update)
+})
 
 </script>
 
@@ -138,6 +152,7 @@ import itemCheckbox from '~/assets/images/landing/checkbox.svg';
   min-height: calc(118vh + 5px);
   position: relative;
   height: 100%;
+  overflow-x: hidden;
 }
 .b1__bg {
   height: 94vw;
@@ -303,6 +318,107 @@ import itemCheckbox from '~/assets/images/landing/checkbox.svg';
 	width: 100%;
 	overflow: hidden;
 }
+
+.b1__flow-img {
+	position: absolute;
+	right: 9vw;
+	bottom: -4vw;
+	width: 25vw;
+	height: 28vw;
+}
+
+
+@media (max-width: 768px) {
+	.b1 {
+		padding-top: 17vw;
+		background-color: white;
+	}
+	.b1__top-h2 {
+		transform: translateY(-12vw);
+		font-size: 7vw;
+		font-weight: 400;
+		padding: 1vw 9vw;
+	}
+	.b1__main {
+		padding: 3vw 3vw 30vw 3vw;
+		background-color: #e8f0ff;
+	}
+	.b1__main-h2 {
+		position: relative;
+		font-weight: 400;
+		font-size: 12vw;
+		letter-spacing: -0.9vw;
+		padding-top: 12vw;
+		padding-bottom: 9vw;
+	}
+	.b1__list {
+		padding: 0 1vw;
+		gap: 5vw;
+		flex-direction: column;
+		margin: 0 3vw 0 10vw;
+	}
+	.b1__flow-img {
+		top: 7vw;
+		border: unset;
+		right: -11vw;
+		width: 39vw;
+		height: 44vw;
+	}
+	.b1__list-item {
+		margin: 0 !important;
+		width: 100%;
+		border-radius: 6vw;
+	}
+
+	.b1__item-h3 {
+		font-size: 11vw;
+		font-weight: 400;
+	}
+	.b1__item-p {
+		font-size: 7vw;
+		margin-top: 6vw;
+		font-weight: 300;
+	}
+
+	.b1__item-container {
+		padding: 11vw 6.5vw 7vw 6.5vw;
+	}
+
+	.b1__p-checkbox {
+		font-size: 4.8vw;
+		gap: 3vw;
+		font-weight: 400;
+	}
+	.b1__item-checkbox {
+		margin-top: 7vw;
+		gap: 3vw;
+	}
+	.b1__p-checkbox-img {
+		width: 5vw;
+		height: 5vw;
+	}
+
+	.b1__item-bottom {
+		margin-top: 10vw;
+	}
+	.b1__item-price-p {
+		font-size: 11vw;
+	}
+	.b1__item-button {
+		font-size: 5vw;
+    padding: 4vw 10vw;
+    border-radius: 7vw;
+	}
+	.b1__item-corner {
+		width: 23vw;
+		height: 23vw;
+	}
+	.b1__item-bg {
+		clip-path: polygon(80% 0, 80% 14%, 100% 14%, 100% 100%, 0 100%, 0 0);
+	}
+}
+
+
 </style>
 
 
