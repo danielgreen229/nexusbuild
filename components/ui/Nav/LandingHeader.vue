@@ -4,21 +4,24 @@
       <!-- Верхняя часть с логотипом и основной навигацией -->
       <div class="app-header__top">
         <NuxtLink to="/" class="app-header__logo">
-          <logo class="app-header__logo-svg" filled/>
+          <logo :aria-label="`Перейти на Главную страницу`" class="app-header__logo-svg" filled/>
         </NuxtLink>
 
-        <nav class="app-nav app-nav--primary">
+        <nav class="app-nav app-nav--primary" aria-label="Главное меню">
           <ul class="app-nav__list">
             <li v-for="page in primaryPages" :key="page.path" class="app-nav__item">
               <NuxtLink
                 :to="page.path"
                 class="app-nav__link"
                 exact-active-class="app-nav__link--active"
+                :aria-label="`Перейти на страницу ${page.title}`"
+                :aria-current="$route.path === page.path ? 'page' : null"
               >
                 {{ page.title }}
               </NuxtLink>
             </li>
           </ul>
+
 
         </nav>
         <div class="app-header__actions">

@@ -15,39 +15,14 @@
             <source src="@/assets/images/landing/preview-landing-video-low.mp4" type="video/mp4">
           </video>
 
-          <img src="@/assets/images/landing/cone.png" class="b0__cone"/>
-          <img src="@/assets/images/landing/mouse.png" class="b0__mouse"/>
+          <img v-if="!isMobile" alt="earn-cone" src="@/assets/images/landing/cone.png" class="b0__cone"/>
+          <img v-if="!isMobile" alt="earn-mouse" src="@/assets/images/landing/mouse.png" class="b0__mouse"/>
+
+          <img v-if="isMobile" alt="earn-cone" src="@/assets/images/landing/cone-mobile.png" class="b0__cone"/>
+          <img v-if="isMobile" alt="earn-mouse" src="@/assets/images/landing/mouse-mobile.png" class="b0__mouse"/>
 
         </client-only>
          
-
-
-      	<!--<Section class="b0__section"/>-->
-      	
-        <!--
-        <div class="b0-main__section"/>
-        <div class="b0__block-inside">
-          <BlockBg class="b0-block__bg" />
-          <BlockMobileBg class="b0-block__bg-mobile" />
-
-          <div class="b0-info__container">
-            <div class="b0-left__container">
-              <div class="b0-left__info">
-                <h3 class="b0-left__info-h3">Интеграторы digital-решений</h3>
-                
-                <h1 class="b0-left__info-h1-blue">Воплоти свой<br/>бизнес</h1>
-                <h1 class="b0-left__info-h1">в цифровом<br/>пространстве</h1>
-              </div>
-            </div>
-
-            
-
-            <div class="b0-right-bottom__container">
-              <div class="b0-right-bottom__box">
-              </div>
-            </div>
-          </div>
-        </div>-->
       </div>
     </div>
   </div>
@@ -55,15 +30,10 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import BlockBg from '~/assets/icons/landing/block-bg.svg';
-import BlockMobileBg from '~/assets/icons/landing/block-bg-mobile.svg';
 
-import Section from '~/assets/images/landing/b0-section.svg'
 import SectionCom from './SectionCom.vue'
 import SectionComMobile from './SectionComMobile.vue'
-import Corner from '~/components/ui/blocks/corner.vue';
-import photoSrc from '@/assets/icons/landing/template.png';
-import videoSrc from '@/assets/images/landing/preview-video.mp4';
+
 
 // polygon в процентах
 const polygonPercent = [
@@ -656,12 +626,7 @@ function update() {
 .b0 {
   min-height: calc(65vw + 5px);
 }
-.b0-main__section {
-	width: 100%;
-	height: 100vh;
-	background: url('@/assets/images/landing/b0-section.svg');
-	background-repeat: no-repeat; 
-}
+
 .b0__section {
 	width: 100%;
 	height: 100%;	
@@ -779,17 +744,17 @@ html, body {
 }
 .b0__cone {
   position: absolute;
-  right: -2vw;
-  top: 1vw;
-  width: 26vw;
-  height: 31vw;
+  right: 1vw;
+  top: 7vw;
+  width: 12vw;
+  height: 13vw;
 }
 .b0__mouse {
-  position: absolute;
-  right: 57vw;
-  top: 46vw;
-  width: 28vw;
-  height: 24vw;
+      position: absolute;
+    right: 57vw;
+    top: 46vw;
+    width: 29vw;
+    height: 25vw;
 }
 
 @media (max-width: 768px) {
@@ -816,10 +781,10 @@ html, body {
   }
   .b0__cone {
     position: absolute;
-    right: 0vw;
-    top: 2vw;
-    width: 74vw;
-    height: 88vw;
+    right: 4vw;
+    top: 19vw;
+    width: 45vw;
+    height: 50vw;
   }
 
   .b0__block {

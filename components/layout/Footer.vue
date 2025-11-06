@@ -1,6 +1,5 @@
 <template>
-  <footer class="footer">
-    <!-- Показываем CTA только если showCTA = true -->
+  <footer class="footer" role="contentinfo">
     <PortfolioCTA v-if="showCTA" />
 
     <div class="footer__container container">
@@ -9,7 +8,6 @@
         <div class="footer__logo">SiteByPro</div>
         <p class="footer__tagline">Быстрые сайты для быстрых денег</p>
         
-        <!-- Telegram кнопка -->
         <a 
           :href="telegramLink" 
           class="footer__telegram"
@@ -23,29 +21,28 @@
       </div>
       
       <!-- Центральный блок - Навигация -->
-      <div class="footer__nav">
-        <h4 class="footer__title">Навигация</h4>
+      <nav class="footer__nav" aria-label="Навигация по сайту в футере">
+        <h3 class="footer__title">Навигация</h3>
         <ul class="footer__list">
           <li><a href="#" class="footer__link">Главная</a></li>
           <li><a href="#" class="footer__link">Портфолио</a></li>
           <li><a href="#" class="footer__link">Тарифы</a></li>
           <li><a href="#" class="footer__link">Блог</a></li>
         </ul>
-      </div>
+      </nav>
       
       <!-- Правый блок - Услуги -->
-      <div class="footer__services">
-        <h4 class="footer__title">Услуги</h4>
+      <section class="footer__services" aria-label="Услуги в футере">
+        <h3 class="footer__title">Услуги</h3>
         <ul class="footer__list">
           <li><a href="#" class="footer__link">Лендинги</a></li>
           <li><a href="#" class="footer__link">Корпоративные сайты</a></li>
           <li><a href="#" class="footer__link">Интернет-магазины</a></li>
           <li><a href="#" class="footer__link">SEO-оптимизация</a></li>
         </ul>
-      </div>
+      </section>
     </div>
     
-    <!-- Нижний блок - Копирайт -->
     <div class="footer__bottom">
       <div class="container">
         <div class="footer__copyright">
@@ -56,6 +53,7 @@
     </div>
   </footer>
 </template>
+
 
 <script setup>
 import PortfolioCTA from '@/components/portfolio/PortfolioCTA.vue'
@@ -220,7 +218,7 @@ const currentYear = ref(new Date().getFullYear())
 .footer__copyright {
   text-align: center;
   font-size: 0.95rem;
-  color: var(--gray);
+  color: white;
 }
 
 .footer__highlight {

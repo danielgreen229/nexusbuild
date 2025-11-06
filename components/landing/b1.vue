@@ -19,7 +19,6 @@
 			<div class="b1__list">
 				<div class="b1__list-item">
 					<div class="b1__item-bg"/>
-					<item-share/>
 					<itemCorner class="b1__item-corner"/>
 					<div class="b1__item-container">
 						<div class="b1__item-info">
@@ -101,22 +100,22 @@
 							</p>
 						</div>
 						<div class="b1__item-bottom">
-							<p class="b1__item-price-p">15 000₽</p>
+							<p class="b1__item-price-p">150 000₽</p>
 							<button class="b1__item-button">Заказать</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<flower class="b1__flow-img"/>
+
+		<img v-if="!isMobile" alt="earn" src="@/assets/images/landing/flower.png" class="b1__flow-img">
+		<img v-if="isMobile" alt="earn" src="@/assets/images/landing/flower-mobile.png" class="b1__flow-img">
 	</div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import bg from '~/assets/images/landing/b1-background.svg';
-import Corner from '~/components/ui/blocks/corner.vue';
-import flower from '@/assets/images/landing/flower.svg'
 
 import itemCorner from '~/assets/images/landing/item-share.svg';
 
@@ -357,9 +356,9 @@ onBeforeUnmount(() => {
 		margin: 0 3vw 0 10vw;
 	}
 	.b1__flow-img {
-		top: 7vw;
+		top: 5vw;
 		border: unset;
-		right: -11vw;
+		right: -9vw;
 		width: 39vw;
 		height: 44vw;
 	}
@@ -405,7 +404,7 @@ onBeforeUnmount(() => {
 	}
 	.b1__item-button {
 		font-size: 5vw;
-    padding: 4vw 10vw;
+    padding: 4vw 9vw;
     border-radius: 7vw;
 	}
 	.b1__item-corner {

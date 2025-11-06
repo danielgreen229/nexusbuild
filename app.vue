@@ -1,4 +1,3 @@
-<!-- app.vue -->
 <template>
   <div class="main__container">
     <!-- Если на главной — показываем LandingHeader, иначе обычный Header -->
@@ -14,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 // Nuxt: useHead доступен через '#imports'
@@ -40,10 +39,55 @@ const isHome = computed(() => route.path === '/')
 const isAuthenticated = computed(() => !!userStore.isAuthenticated)
 const currentUser = computed(() => userStore.user || null)
 
+// reactive lang value (по умолчанию — русский)
+const lang = ref('ru')
+
+/**
+ * Функция выбора языка страницы.
+ * Порядок: route.meta.lang -> userStore.lang/locale -> document.html lang -> navigator.language -> 'ru'
+ */
+function resolveLang(): string {
+  // 1) язык из meta маршрута (если указан)
+  const routeLang = (route.meta && (route.meta as any).lang) || undefined
+
+  // 2) язык из userStore (популярные поля: lang, locale, settings.lang)
+  const storeLang =
+    (userStore as any).lang ||
+    (userStore as any).locale ||
+    (userStore.settings && (userStore.settings as any).lang) ||
+    undefined
+
+  // 3) уже установленный в document (если есть) — только при client-side
+  const docLang = typeof document !== 'undefined' ? document.documentElement.lang : undefined
+
+  // 4) браузерный язык (navigator) — берем только часть до дефиса, например 'en' из 'en-US'
+  const navLang =
+    typeof navigator !== 'undefined' && navigator.language
+      ? navigator.language.split('-')[0]
+      : undefined
+
+  return (routeLang as string) || (storeLang as string) || docLang || (navLang as string) || 'ru'
+}
+
+/**
+ * Устанавливаем lang в <html> через useHead.
+ * Вызывается при монтировании и при смене маршрута / настроек пользователя.
+ */
+function applyLang(nextLang: string) {
+  lang.value = nextLang
+  useHead({
+    htmlAttrs: {
+      lang: nextLang,
+    },
+  })
+}
+
 onMounted(async () => {
   try {
+    // Initialize user from storage if any (как у тебя было)
     userStore.initFromStorage()
 
+    // Попытка подтянуть данные юзера при наличии токена
     if (userStore.token && userStore.uid) {
       await userStore.fetchCurrentUser()
       console.log('User initialized from token:', userStore.user)
@@ -53,7 +97,34 @@ onMounted(async () => {
   } catch (err) {
     console.error('Error initializing user:', err)
   }
+
+  // При монтировании вычисляем и применяем lang
+  const initial = resolveLang()
+  applyLang(initial)
 })
+
+// При смене маршрута — пробуем заново разрешить язык (если у роутов указали meta.lang)
+watch(
+  () => route.fullPath,
+  () => {
+    const newLang = resolveLang()
+    if (newLang !== lang.value) {
+      applyLang(newLang)
+    }
+  }
+)
+
+// Также можно наблюдать за userStore (например, если язык пользователя подтягивается после fetch)
+watch(
+  () => [(userStore as any).lang, (userStore as any).locale, userStore.settings],
+  () => {
+    const newLang = resolveLang()
+    if (newLang !== lang.value) {
+      applyLang(newLang)
+    }
+  },
+  { deep: true }
+)
 </script>
 
 <style>
