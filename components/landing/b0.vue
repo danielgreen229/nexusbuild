@@ -329,7 +329,6 @@ function update() {
   position: absolute;
   top: 0;
   width: 100%;
-  height: 100%;
   padding: 1vw;
   overflow: hidden;
 }
