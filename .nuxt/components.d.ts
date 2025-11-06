@@ -18,6 +18,7 @@ interface _GlobalComponents {
     'LandingB0': typeof import("../components/landing/b0.vue")['default']
     'LandingB1': typeof import("../components/landing/b1.vue")['default']
     'LandingB2': typeof import("../components/landing/b2.vue")['default']
+    'LandingB3': typeof import("../components/landing/b3.vue")['default']
     'LayoutFooter': typeof import("../components/layout/Footer.vue")['default']
     'LayoutHeader': typeof import("../components/layout/Header.vue")['default']
     'PortfolioCTA': typeof import("../components/portfolio/PortfolioCTA.vue")['default']
@@ -90,6 +91,7 @@ interface _GlobalComponents {
     'LazyLandingB0': LazyComponent<typeof import("../components/landing/b0.vue")['default']>
     'LazyLandingB1': LazyComponent<typeof import("../components/landing/b1.vue")['default']>
     'LazyLandingB2': LazyComponent<typeof import("../components/landing/b2.vue")['default']>
+    'LazyLandingB3': LazyComponent<typeof import("../components/landing/b3.vue")['default']>
     'LazyLayoutFooter': LazyComponent<typeof import("../components/layout/Footer.vue")['default']>
     'LazyLayoutHeader': LazyComponent<typeof import("../components/layout/Header.vue")['default']>
     'LazyPortfolioCTA': LazyComponent<typeof import("../components/portfolio/PortfolioCTA.vue")['default']>
@@ -168,6 +170,7 @@ export const LandingSectionComMobile: typeof import("../components/landing/Secti
 export const LandingB0: typeof import("../components/landing/b0.vue")['default']
 export const LandingB1: typeof import("../components/landing/b1.vue")['default']
 export const LandingB2: typeof import("../components/landing/b2.vue")['default']
+export const LandingB3: typeof import("../components/landing/b3.vue")['default']
 export const LayoutFooter: typeof import("../components/layout/Footer.vue")['default']
 export const LayoutHeader: typeof import("../components/layout/Header.vue")['default']
 export const PortfolioCTA: typeof import("../components/portfolio/PortfolioCTA.vue")['default']
@@ -240,6 +243,7 @@ export const LazyLandingSectionComMobile: LazyComponent<typeof import("../compon
 export const LazyLandingB0: LazyComponent<typeof import("../components/landing/b0.vue")['default']>
 export const LazyLandingB1: LazyComponent<typeof import("../components/landing/b1.vue")['default']>
 export const LazyLandingB2: LazyComponent<typeof import("../components/landing/b2.vue")['default']>
+export const LazyLandingB3: LazyComponent<typeof import("../components/landing/b3.vue")['default']>
 export const LazyLayoutFooter: LazyComponent<typeof import("../components/layout/Footer.vue")['default']>
 export const LazyLayoutHeader: LazyComponent<typeof import("../components/layout/Header.vue")['default']>
 export const LazyPortfolioCTA: LazyComponent<typeof import("../components/portfolio/PortfolioCTA.vue")['default']>

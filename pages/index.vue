@@ -1,19 +1,17 @@
 <script setup>
-/*import Hero from '@/components/sections/Hero.vue'
-import Services from '@/components/sections/Services.vue'
-import Promo from '@/components/sections/Promo.vue'
-import Features from '@/components/sections/Features.vue'
-import LeadForm from '@/components/sections/LeadForm.vue' 
-*/
 import b0 from '@/components/landing/b0.vue' 
 import b1 from '@/components/landing/b1.vue' 
+import b2 from '@/components/landing/b2.vue' 
+import b3 from '@/components/landing/b3.vue' 
 </script>
 
 <template>
   <div class="page">
     <main>
-      <b0 />
-      <b1 />
+      <b0/>
+      <b1/>
+      <b2/>
+      <b3/>
     </main>
   </div>
 </template>

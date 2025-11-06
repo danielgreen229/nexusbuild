@@ -750,11 +750,11 @@ html, body {
   height: 13vw;
 }
 .b0__mouse {
-      position: absolute;
-    right: 57vw;
-    top: 46vw;
-    width: 29vw;
-    height: 25vw;
+  position: absolute;
+  right: 57vw;
+  top: 46vw;
+  width: 29vw;
+  height: 25vw;
 }
 
 @media (max-width: 768px) {
@@ -791,6 +791,7 @@ html, body {
     border-radius: 0; 
   }
 }
+
 </style>
 
 

@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .b1 {
-  min-height: calc(118vh + 5px);
+  min-height: calc(75vw + 5px);
   position: relative;
   height: 100%;
 }
@@ -159,9 +159,6 @@ onBeforeUnmount(() => {
 }
 .nuxt-icon--fill, .nuxt-icon--fill * {
 	fill: revert-layer !important;
-}
-.b1 {
-	min-height: calc(118vh + 5px);
 }
 .b1__top-h2 {
 	position: absolute;
@@ -176,10 +173,10 @@ onBeforeUnmount(() => {
 }
 .b1__main-h2 {
 	font-size: 4vw;
-	font-weight: 500;
+	font-weight: 400;
 	line-height: 100%;
 	letter-spacing: -0.06em;
-	padding: 4vw 5vw;
+	padding: 4vw 7vw;
 	position: absolute;
 }
 .b1__main-h2-colored {
@@ -310,7 +307,6 @@ onBeforeUnmount(() => {
 }
 
 .b1__container {
-	min-height: calc(118vh + 5px);
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -323,6 +319,7 @@ onBeforeUnmount(() => {
 	bottom: -4vw;
 	width: 25vw;
 	height: 28vw;
+	z-index: 2;
 }
 
 
