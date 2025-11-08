@@ -17,7 +17,7 @@
 				от&nbsp;идеи до&nbsp;запуска и&nbsp;поддержки.
 			</h2>
 			<div class="b1__list">
-				<div class="b1__list-item">
+				<div class="b1__list-item" @click.prevent="scrollTo({ offset: 0 })">
 					<div class="b1__item-bg"/>
 					<itemCorner class="b1__item-corner"/>
 					<div class="b1__item-container">
@@ -45,7 +45,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="b1__list-item">
+				<div class="b1__list-item" @click.prevent="scrollTo({ offset: 0 })">
 					<div class="b1__item-bg"/>
 					<itemCorner class="b1__item-corner"/>
 					<div class="b1__item-container">
@@ -73,7 +73,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="b1__list-item">
+				<div class="b1__list-item" @click.prevent="scrollTo({ offset: 0 })">
 					<div class="b1__item-bg"/>
 					<itemCorner class="b1__item-corner"/>
 					<div class="b1__item-container">
@@ -142,6 +142,32 @@ onBeforeUnmount(() => {
   if (mq.removeEventListener) mq.removeEventListener('change', update)
   else mq.removeListener(update)
 })
+
+function scrollTo({ offset = 0, behavior = 'smooth' } = {}) {
+  if (typeof window === 'undefined') return false;
+  const el = document.querySelector('.b3__form');
+  if (!el) return false;
+
+  try {
+    el.scrollIntoView({ behavior, block: 'center', inline: 'nearest' });
+
+    if (offset) {
+      requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const elCenterY = rect.top + rect.height / 2 + window.scrollY;
+        const target = elCenterY - window.innerHeight / 2 - offset;
+        window.scrollTo({ top: Math.max(0, Math.round(target)), behavior });
+      });
+    }
+    return true;
+  } catch (err) {
+    const rect = el.getBoundingClientRect();
+    const elCenterY = rect.top + rect.height / 2 + window.scrollY;
+    const target = elCenterY - window.innerHeight / 2 - offset;
+    window.scrollTo({ top: Math.max(0, Math.round(target)), behavior });
+    return true;
+  }
+}
 
 </script>
 

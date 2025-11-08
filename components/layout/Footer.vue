@@ -5,18 +5,19 @@
     <div class="footer__container container">
       <!-- Левый блок - Лого и описание -->
       <div class="footer__brand">
-        <div class="footer__logo">SiteByPro</div>
-        <p class="footer__tagline">Быстрые сайты для быстрых денег</p>
+        <NuxtLink to="/" class="app-header__logo" aria-label="Перейти на Главную страницу">
+          <Logo class="app-header__logo-svg" filled />
+        </NuxtLink>
         
-        <a 
-          :href="telegramLink" 
-          class="footer__telegram"
+        <a
+          href="https://t.me/dozer_stoun"
           target="_blank"
-          rel="noopener"
-          aria-label="Наш Telegram"
+          rel="noopener noreferrer"
+          class="button button--outline app-mobile-menu__btn-tg"
+          @click="close"
         >
-          <span class="footer__telegram-icon">✈️</span>
-          <span class="footer__telegram-text">Пишите в Telegram</span>
+          <IconTg class="tg__icon"/>
+          Написать в тг
         </a>
       </div>
       
@@ -46,8 +47,7 @@
     <div class="footer__bottom">
       <div class="container">
         <div class="footer__copyright">
-          &copy; {{ currentYear }} sitebypro. Продажа сайтов. 
-          <span class="footer__highlight">Быстрые сайты.</span>
+          &copy; {{ currentYear }} sitebypro. Сайты на заказ.
         </div>
       </div>
     </div>
@@ -59,6 +59,8 @@
 import PortfolioCTA from '@/components/portfolio/PortfolioCTA.vue'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import Logo from '~/assets/icons/logo.svg' 
+import IconTg from '~/assets/icons/tg.svg'
 
 const route = useRoute()
 
@@ -127,6 +129,8 @@ const currentYear = ref(new Date().getFullYear())
 .footer__brand {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 1rem;
 }
 
 .footer__logo {
@@ -224,6 +228,36 @@ const currentYear = ref(new Date().getFullYear())
 .footer__highlight {
   color: var(--secondary);
   font-weight: 600;
+}
+
+.app-header__logo-svg { 
+  width:14vw; 
+  height:auto; 
+  background-color: white;
+  border-radius: 9vw;
+  padding: 0.7vw 1.5vw 1vw 2vw;
+  width: fit-content;
+}
+
+.app-mobile-menu__btn-tg {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vw 2vw;
+  border-radius: 3.611111vw; /* 52px */
+  font-weight: 700;
+  text-decoration: none;
+  border: 0.069444vw solid #e6e9ee; /* 1px */
+  color: #4A63C4;
+  background: rgb(210 222 240);
+  gap: 0.868056vw; /* 12.5px */
+  text-wrap: nowrap;
+  width: 100%;
+}
+.tg__icon {
+  width: 1.736111vw; /* 25px */
+  height: 1.611111vw; /* 23.2px */
+
 }
 
 @media (max-width: 768px) {

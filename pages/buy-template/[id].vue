@@ -26,11 +26,11 @@
           </div>
         </div>
 
-        <div class="card__right">
+        <!--<div class="card__right">
           <div class="meta">
             <span class="price">{{ formatCurrency(template.price) }}</span>
           </div>
-        </div>
+        </div>-->
       </section>
 
       <!-- RIGHT: корзина / заказ -->
@@ -697,7 +697,7 @@ async function resetSelections() {
   display: flex;
   gap: 1.25rem;
   align-items: flex-start;
-  max-width: 1800px;
+  max-width: 2100px;
   margin: 0 auto;
 }
 

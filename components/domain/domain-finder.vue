@@ -219,7 +219,7 @@ async function performDeploy(){
 .df-logo span{ color:#f44336 }
 .df-title{ font-size:16px }
 
-.df-container{ max-width:1100px; margin:18px auto; padding:0 16px }
+.df-container{ margin:18px auto; padding:0 16px }
 .df-search-card{  }
 .df-form{ display:flex; flex-direction:column; gap:12px }
 .df-row{ display:flex; flex-direction:column }

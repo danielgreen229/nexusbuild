@@ -42,6 +42,65 @@ export const useOrdersStore = defineStore('orders', {
   }),
 
   actions: {
+    /**
+     * Отправка простой заявки/контактной формы.
+     * Ожидаемый payload: { fio, company, email, phone, description }
+     *
+     * Возвращает { success: true, data } при успехе.
+     * В случае ошибки бросает Error с текстом (чтобы компонент мог поймать).
+     */
+    async sendRequest(payload = {}) {
+      this.loading = true
+      this.error = null
+      try {
+        // Простая валидация на стороне стора (дополнительно к проверкам в компоненте)
+        if (!payload || typeof payload !== 'object') {
+          const msg = 'Неверные данные заявки'
+          this.error = msg
+          throw new Error(msg)
+        }
+        if (!payload.email) {
+          const msg = 'Email обязателен'
+          this.error = msg
+          throw new Error(msg)
+        }
+        if (!payload.description || String(payload.description).trim().length < 3) {
+          const msg = 'Короткое описание заявки'
+          this.error = msg
+          throw new Error(msg)
+        }
+
+        // Подготовка тела — просто пробрасываем пришедшие поля
+        const body = { ...payload }
+
+        // Отправляем на endpoint /order/request — если API у вас другой, поправьте путь
+        const got = await this._doFetch(`${base}/request`, {
+          method: 'POST',
+          body: JSON.stringify(body)
+        })
+
+        if (!got.success) {
+          const msg = got.message || 'Ошибка отправки заявки'
+          this.error = msg
+          // бросаем Error чтобы компонент попал в catch
+          throw new Error(msg)
+        }
+
+        const data = got.data ?? got.raw ?? null
+        // Сохраняем последний созданный/отправленный объект для возможного использования
+        this.lastCreated = data
+
+        return { success: true, data }
+      } catch (err) {
+        console.error('sendRequest error', err)
+        this.error = err?.message || 'Сетевая ошибка'
+        // пробрасываем дальше
+        throw err
+      } finally {
+        this.loading = false
+      }
+    },
+
     clearError() { this.error = null },
 
     reset() {

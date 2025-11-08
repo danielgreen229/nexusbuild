@@ -30,6 +30,7 @@ interface _GlobalComponents {
     'ProfileModalsLoginModal': typeof import("../components/profile/Modals/LoginModal.vue")['default']
     'ProfileModalsRegisterModal': typeof import("../components/profile/Modals/RegisterModal.vue")['default']
     'ProfileBalance': typeof import("../components/profile/ProfileBalance.vue")['default']
+    'ProfileHeader': typeof import("../components/profile/ProfileHeader.vue")['default']
     'ProfileInfo': typeof import("../components/profile/ProfileInfo.vue")['default']
     'ProfileOrders': typeof import("../components/profile/ProfileOrders.vue")['default']
     'ProfileSettings': typeof import("../components/profile/ProfileSettings.vue")['default']
@@ -55,6 +56,7 @@ interface _GlobalComponents {
     'SvgoLandingBlockBg1': typeof import("../assets/icons/landing/block-bg1")['default']
     'SvgoLandingBlockBg2': typeof import("../assets/icons/landing/block-bg2")['default']
     'SvgoLandingMouse': typeof import("../assets/icons/landing/mouse")['default']
+    'SvgoLogoWhite': typeof import("../assets/icons/logo-white")['default']
     'SvgoLogo': typeof import("../assets/icons/logo")['default']
     'SvgoNextCircle': typeof import("../assets/icons/next-circle")['default']
     'SvgoOpenNext': typeof import("../assets/icons/open-next")['default']
@@ -103,6 +105,7 @@ interface _GlobalComponents {
     'LazyProfileModalsLoginModal': LazyComponent<typeof import("../components/profile/Modals/LoginModal.vue")['default']>
     'LazyProfileModalsRegisterModal': LazyComponent<typeof import("../components/profile/Modals/RegisterModal.vue")['default']>
     'LazyProfileBalance': LazyComponent<typeof import("../components/profile/ProfileBalance.vue")['default']>
+    'LazyProfileHeader': LazyComponent<typeof import("../components/profile/ProfileHeader.vue")['default']>
     'LazyProfileInfo': LazyComponent<typeof import("../components/profile/ProfileInfo.vue")['default']>
     'LazyProfileOrders': LazyComponent<typeof import("../components/profile/ProfileOrders.vue")['default']>
     'LazyProfileSettings': LazyComponent<typeof import("../components/profile/ProfileSettings.vue")['default']>
@@ -128,6 +131,7 @@ interface _GlobalComponents {
     'LazySvgoLandingBlockBg1': LazyComponent<typeof import("../assets/icons/landing/block-bg1")['default']>
     'LazySvgoLandingBlockBg2': LazyComponent<typeof import("../assets/icons/landing/block-bg2")['default']>
     'LazySvgoLandingMouse': LazyComponent<typeof import("../assets/icons/landing/mouse")['default']>
+    'LazySvgoLogoWhite': LazyComponent<typeof import("../assets/icons/logo-white")['default']>
     'LazySvgoLogo': LazyComponent<typeof import("../assets/icons/logo")['default']>
     'LazySvgoNextCircle': LazyComponent<typeof import("../assets/icons/next-circle")['default']>
     'LazySvgoOpenNext': LazyComponent<typeof import("../assets/icons/open-next")['default']>
@@ -182,6 +186,7 @@ export const ProfileModalsForgotPasswordModal: typeof import("../components/prof
 export const ProfileModalsLoginModal: typeof import("../components/profile/Modals/LoginModal.vue")['default']
 export const ProfileModalsRegisterModal: typeof import("../components/profile/Modals/RegisterModal.vue")['default']
 export const ProfileBalance: typeof import("../components/profile/ProfileBalance.vue")['default']
+export const ProfileHeader: typeof import("../components/profile/ProfileHeader.vue")['default']
 export const ProfileInfo: typeof import("../components/profile/ProfileInfo.vue")['default']
 export const ProfileOrders: typeof import("../components/profile/ProfileOrders.vue")['default']
 export const ProfileSettings: typeof import("../components/profile/ProfileSettings.vue")['default']
@@ -207,6 +212,7 @@ export const SvgoLandingBlockBg: typeof import("../assets/icons/landing/block-bg
 export const SvgoLandingBlockBg1: typeof import("../assets/icons/landing/block-bg1")['default']
 export const SvgoLandingBlockBg2: typeof import("../assets/icons/landing/block-bg2")['default']
 export const SvgoLandingMouse: typeof import("../assets/icons/landing/mouse")['default']
+export const SvgoLogoWhite: typeof import("../assets/icons/logo-white")['default']
 export const SvgoLogo: typeof import("../assets/icons/logo")['default']
 export const SvgoNextCircle: typeof import("../assets/icons/next-circle")['default']
 export const SvgoOpenNext: typeof import("../assets/icons/open-next")['default']
@@ -255,6 +261,7 @@ export const LazyProfileModalsForgotPasswordModal: LazyComponent<typeof import("
 export const LazyProfileModalsLoginModal: LazyComponent<typeof import("../components/profile/Modals/LoginModal.vue")['default']>
 export const LazyProfileModalsRegisterModal: LazyComponent<typeof import("../components/profile/Modals/RegisterModal.vue")['default']>
 export const LazyProfileBalance: LazyComponent<typeof import("../components/profile/ProfileBalance.vue")['default']>
+export const LazyProfileHeader: LazyComponent<typeof import("../components/profile/ProfileHeader.vue")['default']>
 export const LazyProfileInfo: LazyComponent<typeof import("../components/profile/ProfileInfo.vue")['default']>
 export const LazyProfileOrders: LazyComponent<typeof import("../components/profile/ProfileOrders.vue")['default']>
 export const LazyProfileSettings: LazyComponent<typeof import("../components/profile/ProfileSettings.vue")['default']>
@@ -280,6 +287,7 @@ export const LazySvgoLandingBlockBg: LazyComponent<typeof import("../assets/icon
 export const LazySvgoLandingBlockBg1: LazyComponent<typeof import("../assets/icons/landing/block-bg1")['default']>
 export const LazySvgoLandingBlockBg2: LazyComponent<typeof import("../assets/icons/landing/block-bg2")['default']>
 export const LazySvgoLandingMouse: LazyComponent<typeof import("../assets/icons/landing/mouse")['default']>
+export const LazySvgoLogoWhite: LazyComponent<typeof import("../assets/icons/logo-white")['default']>
 export const LazySvgoLogo: LazyComponent<typeof import("../assets/icons/logo")['default']>
 export const LazySvgoNextCircle: LazyComponent<typeof import("../assets/icons/next-circle")['default']>
 export const LazySvgoOpenNext: LazyComponent<typeof import("../assets/icons/open-next")['default']>

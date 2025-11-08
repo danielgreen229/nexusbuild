@@ -1,8 +1,8 @@
 <template>
   <div class="main__container">
-    <!-- Если на главной — показываем LandingHeader, иначе обычный Header -->
-    <LandingHeader v-if="isHome" />
-    <Header v-else />
+
+    <LandingHeader />
+    <!--<Header />-->
 
     <AlertsContainer />
 

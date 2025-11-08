@@ -3,8 +3,8 @@
     <div class="app-header__container">
       <!-- Верхняя часть с логотипом и основной навигацией -->
       <div class="app-header__top">
-        <NuxtLink to="/" class="app-header__logo">
-          <logo :aria-label="`Перейти на Главную страницу`" class="app-header__logo-svg" filled/>
+        <NuxtLink to="/" class="app-header__logo" aria-label="Перейти на Главную страницу">
+          <Logo class="app-header__logo-svg" filled />
         </NuxtLink>
 
         <nav class="app-nav app-nav--primary" aria-label="Главное меню">
@@ -21,83 +21,78 @@
               </NuxtLink>
             </li>
           </ul>
-
-
         </nav>
+
         <div class="app-header__actions">
-        	<NuxtLink :to="'/templates'" class="nuxt-link__a">
-        		<div class="goto__template">заказать</div>
-        	</NuxtLink>
-        	<div class="burger-mobile__container" @click="toggleMobileMenu" role="button" aria-label="Открыть меню">
-        		<div class="burger-stick"/>
-        		<div class="burger-stick"/>
-        		<div class="burger-stick"/>
-        	</div>
+          <a
+            v-if="isHome"
+            href="#"
+            class="nuxt-link__a"
+            @click.prevent="scrollTo({ offset: 0 })"
+            aria-label="Перейти к форме заказа"
+          >
+            <div class="goto__template">заказать</div>
+          </a>
+
+          <ProfileHeader v-if="!isHome" @open-login="openLogin" />
+
+          <div
+            class="burger-mobile__container"
+            @click="toggleMobileMenu"
+            role="button"
+            aria-label="Открыть меню"
+          >
+            <div class="burger-stick"></div>
+            <div class="burger-stick"></div>
+            <div class="burger-stick"></div>
+          </div>
 
         </div>
       </div>
     </div>
 
-    <!-- Мобильное меню (объединяет обе навигации) -->
-    <!-- Модальное окно входа -->
-    <LoginModal v-model:visible="isLoginModalOpen" @login="onLoginEvent" />
+    <!-- Модальное окно входа (открывается при событии из ProfileHeader или других мест) -->
+    <teleport to="body">
+      <LoginModal v-model:visible="isLoginModalOpen" @login="onLoginEvent" />
+    </teleport>
   </header>
 
+  <!-- Сайд-меню (мобильное) -->
   <SideMenu
-      v-model:visible="isMobileMenuOpen"
-      :primary-pages="primaryPages"
-      :secondary-pages="secondaryPages"
-      @login="onMobileLogin"
-    />
+    v-model:visible="isMobileMenuOpen"
+    :primary-pages="primaryPages"
+    :secondary-pages="secondaryPages"
+    @login="onMobileLogin"
+  />
 </template>
 
 <script setup>
-import IconClick from '~/assets/icons/icon-click.svg'
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useUserStore } from '~/stores/user'
-import LoginModal from '~/components/profile/Modals/LoginModal.vue'
-import SideMenu from '~/components/ui/Modal/SideMenu.vue'
-import corner from '~/components/ui/blocks/corner.vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
-import logo from '~/assets/icons/logo.svg'
-import IconTg from '~/assets/icons/tg.svg'
 
-const userStore = useUserStore()
+import SideMenu from '~/components/ui/Modal/SideMenu.vue'
+import LoginModal from '~/components/profile/Modals/LoginModal.vue'
+import ProfileHeader from '~/components/profile/ProfileHeader.vue'
+import Logo from '~/assets/icons/logo.svg' 
+
 const router = useRouter()
+const route = useRoute()
 
-// refs / state
+const isHome = computed(() => route.path === '/')
+
+
+
+// refs / state (шапка)
 const headerRef = ref(null)
-const isUserMenuOpen = ref(false)
 const isMobileMenuOpen = ref(false)
 const isLoginModalOpen = ref(false)
 
-const isAuthenticated = computed(() => !!userStore.isAuthenticated)
-const user = computed(() => userStore.user || null)
-
-const displayName = computed(() => {
-  if (!user.value) return ''
-  return user.value.fullname || user.value.username || (user.value.email ? user.value.email.split('@')[0] : '')
-})
-
-const initials = computed(() => {
-  const name = displayName.value
-  if (!name) return '👤'
-  const parts = name.split(' ').filter(Boolean)
-  if (parts.length === 1) return parts[0].slice(0, 1).toUpperCase()
-  return (parts[0].slice(0, 1) + parts[1].slice(0, 1)).toUpperCase()
-})
-
-const avatarUrl = computed(() => {
-  const av = user.value && user.value.avatar
-  if (!av) return null
-  if (typeof av === 'string') return av
-  return null
-})
-
+// открывает модалку входа (слушается <ProfileHeader @open-login>)
 function openLogin() {
   isLoginModalOpen.value = true
 }
 
+// вызывается из SideMenu (мобильное)
 function onMobileLogin() {
   isLoginModalOpen.value = true
   closeMobileMenu()
@@ -105,15 +100,7 @@ function onMobileLogin() {
 
 function onLoginEvent(userData) {
   isLoginModalOpen.value = false
-  isUserMenuOpen.value = false
-}
-
-function toggleUserMenu() {
-  isUserMenuOpen.value = !isUserMenuOpen.value
-}
-
-function closeUserMenu() {
-  isUserMenuOpen.value = false
+  // ничего не делаем с меню профиля — ProfileHeader управляет своим состоянием
 }
 
 function toggleMobileMenu() {
@@ -124,43 +111,56 @@ function closeMobileMenu() {
   isMobileMenuOpen.value = false
 }
 
-function logout() {
-  userStore.logout()
-  isUserMenuOpen.value = false
-  //router.push('/')
-}
-
-// Навигационные страницы
+// Навигационные страницы — поправил дублирование путей
 const primaryPages = [
   { path: '/templates', title: 'шаблоны' },
   { path: '/services', title: 'услуги' },
-  { path: '/services', title: '3D-модели' }
+  { path: '/3d-models', title: '3D-модели' } // исправленный путь
 ]
 
 const secondaryPages = [
   { path: '/contacts', title: 'Контакты' },
-  { path: '/blog', title: 'Блог' },
+  { path: '/blog', title: 'Блог' }
 ]
 
-/*
-  Логика: при клике вне элемента header — закрываем открытые меню.
-  Также закрываем по Escape.
-  Используем capture (true), чтобы отлавливать клик до внутренних обработчиков (надёжнее).
-*/
+
+function scrollTo({ offset = 0, behavior = 'smooth' } = {}) {
+  if (typeof window === 'undefined') return false;
+  const el = document.querySelector('.b3__form');
+  if (!el) return false;
+
+  try {
+    el.scrollIntoView({ behavior, block: 'center', inline: 'nearest' });
+
+    if (offset) {
+      requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const elCenterY = rect.top + rect.height / 2 + window.scrollY;
+        const target = elCenterY - window.innerHeight / 2 - offset;
+        window.scrollTo({ top: Math.max(0, Math.round(target)), behavior });
+      });
+    }
+    return true;
+  } catch (err) {
+    const rect = el.getBoundingClientRect();
+    const elCenterY = rect.top + rect.height / 2 + window.scrollY;
+    const target = elCenterY - window.innerHeight / 2 - offset;
+    window.scrollTo({ top: Math.max(0, Math.round(target)), behavior });
+    return true;
+  }
+}
+
 function onDocumentClick(e) {
   const el = headerRef.value
   if (!el) return
-  // если клик снаружи header — закрыть меню(ы)
   if (!el.contains(e.target)) {
-    if (isUserMenuOpen.value) isUserMenuOpen.value = false
     if (isMobileMenuOpen.value) isMobileMenuOpen.value = false
   }
 }
 
 function onKeyDown(e) {
   if (e.key === 'Escape' || e.key === 'Esc') {
-    if (isUserMenuOpen.value || isMobileMenuOpen.value || isLoginModalOpen.value) {
-      isUserMenuOpen.value = false
+    if (isMobileMenuOpen.value || isLoginModalOpen.value) {
       isMobileMenuOpen.value = false
       isLoginModalOpen.value = false
     }
@@ -179,6 +179,22 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+
+.app-header { position: relative; top: 0; z-index: 1000; padding: 1.4vw 0 0 2.4vw; margin: 0; }
+.app-header__container { display: flex; flex-direction: column; border-radius: 1.805556vw; margin: 0; padding: 1vw 1vw 1vw 0; }
+.app-header__top { display:flex; justify-content:flex-start; align-items:center; border-radius:1.805556vw 1.805556vw 0 0; position:relative; padding:0; margin:0; }
+.app-header__logo { display:flex; align-items:center; text-decoration:none; font-weight:800; font-size:2.000000vw; color:var(--primary); position:relative; margin:0; padding:0; height:fit-content; width:fit-content; margin-top:-1.2vw; }
+.app-header__logo-svg { width:14vw; height:auto; }
+.app-header__actions { display:flex; align-items:center; gap:1.041667vw; padding:0.833333vw; background:none; margin-left:auto; border-radius:0 1.805556vw 0 1.805556vw; position:relative; margin-top:-1.1vw; }
+.burger-mobile__container { width:2.222222vw; height:1.388889vw; margin-right:0.416667vw; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer; }
+.burger-stick { width:100%; height:0.138889vw; border-radius:2.152778vw; background:#4841E2; }
+.nuxt-link__a { text-decoration:none; height:100%; }
+.goto__template { padding:1.2vw 2.9vw; justify-content:center; color:#FFF; text-align:center; font-family:Inter; font-size:1.25vw; font-weight:600; border-radius:1.736111vw; background: linear-gradient(133deg,#1C4EFF 15.35%,#BFA1FF 87.95%); display:flex; align-items:center; gap:0.694444vw; }
+.app-nav__list { display:flex; list-style:none; padding:1.3vw 3vw; gap:4vw; width:fit-content; align-items:flex-start; border-radius:1.805556vw; border:0.069444vw solid #E2EEFA; background:#EFF4FF; }
+.app-nav__link { text-decoration:none; color:#0040C1; font-weight:500; font-size:1.5vw; padding:0; text-align:center; font-family:Inter; }
+@media (max-width:768px) { .app-nav--primary { display:none; } .app-header__logo-svg { width:31vw; } .burger-mobile__container { width:8vw; margin-right:1vw; height:5vw; } .goto__template { font-size:3.5vw; padding:2.3vw 7.5vw; border-radius:5vw; } }
+
+
 .app-header {
   position: relative;
   top: 0;
@@ -500,17 +516,19 @@ onBeforeUnmount(() => {
 .app-nav__link:hover,
 .app-nav__link--active {
   color: var(--primary);
+  opacity: 0.8
 }
 
 .app-nav__link--active::after {
-  content: "";
+  /*content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 0.208333vw; /* 3px */
+  height: 0.208333vw; 
   background: var(--primary);
-  border-radius: 0.138889vw; /* 2px */
+  border-radius: 0.138889vw; 
+  */
 }
 
 .app-nav--primary {
@@ -799,6 +817,7 @@ onBeforeUnmount(() => {
     border-radius: 5vw;
   }
 }
+
 </style>
 
 

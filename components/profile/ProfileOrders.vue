@@ -374,6 +374,7 @@ async function refresh() {
   grid-template-columns: 1fr 3fr 1fr 1fr 1fr; /* Date | Template (bigger) | Status | Price | Actions */
   align-items: center;
   gap: 12px;
+  background-color: white;
 }
 
 .profile-orders__row--header {

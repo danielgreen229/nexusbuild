@@ -107,6 +107,8 @@ function clearSearch() {
 .portfolio-hero {
   padding: 80px 0;
   background: linear-gradient(135deg, #2563eb 0%, #7da5e6 68%, #2563eb 85%);
+  background: linear-gradient(135deg, #6A11CB 0%, #7da5e6 68%, #2575FC 85%);
+  background: linear-gradient(135deg, #2575FC 0%, #6A11CB 85%);
   text-align: center;
   color: white;
 }

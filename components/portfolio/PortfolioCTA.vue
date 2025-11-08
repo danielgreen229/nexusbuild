@@ -46,6 +46,20 @@ const subtitle = "Разработаем эксклюзивный сайт сп�
   padding: 14px 40px;
   font-size: 1.1rem;
   font-weight: 600;
+  font-weight: 400;
+  font-size: 1.5vw;
+  letter-spacing: -0.03em;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(133deg, #1c4eff 0%, #bfa1ff 100%);
+  padding: 1.5vw 8vw;
+  border: none;
+  outline: none;
+  border-radius: 5vw;
+  line-height: 1;
+  height: -moz-fit-content;
+  height: fit-content;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
