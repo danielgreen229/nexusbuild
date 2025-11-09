@@ -574,7 +574,6 @@ async function placeOrder() {
       templateId: template.value.id,
       price: finalTotal.value,
       paymentMethod: 'balance',
-      status: 'pending_payment'
     }
 
     // Если есть применённый промокод — передаём данные как external, чтобы сервер мог создать запись order_externals

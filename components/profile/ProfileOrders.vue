@@ -267,6 +267,16 @@ async function refresh() {
   await nextTick()
   createObserver()
 }
+
+
+function getStatusTitle (status) {
+  if(status == 'pending_payment') return 'Ожидает оплаты'
+  else if(status == 'pending_yookassa_payment') return 'Ожидает оплаты'
+  else if(status == 'in_progress') return 'В разработке'
+  else if(status == 'completed') return 'Завершен'
+  else if(status == 'cancelled') return 'Отменен'
+  else return status
+}
 </script>
 
 <template>
@@ -329,7 +339,7 @@ async function refresh() {
             'profile-orders__status',
             `profile-orders__status--${order.statusCode}`
           ]">
-            {{ order.status }}
+            {{ getStatusTitle(order.status) }}
           </span>
         </div>
 

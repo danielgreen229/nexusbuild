@@ -6,10 +6,10 @@ import RequestModal from '@/components/ui/Modal/Request.vue'
 
 const showForm = ref(false)
 
-function onOpen() { /* при желании */ }
-function onClose() { showForm.value = false }       // <-- исправлено: используем showForm.value
-function onOpened() { /* при желании */ }
-function onClosed() { /* при желании */ }
+function onOpen() {  }
+function onClose() { showForm.value = false }   
+function onOpened() {  }
+function onClosed() {  }
 </script>
 
 <template>

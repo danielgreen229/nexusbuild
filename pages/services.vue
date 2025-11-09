@@ -81,7 +81,7 @@
                   <li>
                     <strong>Сайт готов — настройка CRM</strong>
                     <div class="step-desc">После публикации сайта мы подключаем и настроиваем вашу систему и административную панель.</div>
-                    <button class="service-btn" @click="goTo('/templates')">Обзор Админ. панели<NextCircle class="next-cirlce__svg"/></button>
+                    <!--<button class="service-btn" @click="goTo('/templates')">Обзор Админ. панели<NextCircle class="next-cirlce__svg"/></button>-->
                   </li>
                 </ol>
 
@@ -101,13 +101,13 @@
                   <li>
                     <strong>Оставить заявку</strong>
                     <div class="step-desc">Опишите задачу — наши менеджеры свяжутся для уточнения деталей.</div>
-                    <button class="service-btn" @click="goTo('/templates')">Оставить заявку<NextCircle class="next-cirlce__svg"/></button>
+                    <button class="service-btn" @click="showForm = true">Оставить заявку<NextCircle class="next-cirlce__svg"/></button>
                   </li>
 
                   <li>
                     <strong>Настроить админку</strong>
                     <div class="step-desc">Проектируем и настраиваем админ-панель под ваши бизнес-процессы.</div>
-                    <button class="service-btn" @click="goTo('/templates')">Обзор Админ. панели<NextCircle class="next-cirlce__svg"/></button>
+                    <!--<button class="service-btn" @click="goTo('/templates')">Обзор Админ. панели<NextCircle class="next-cirlce__svg"/></button>-->
                   </li>
 
                   <li>
@@ -129,16 +129,16 @@
                 </p>
 
                 <ol class="service-steps">
-                  <li>
+                  <!--<li>
                     <strong>Пройти опрос</strong>
                     <div class="step-desc">Короткий опрос поможет нам понять задачу и техническое задание.</div>
                     <button class="service-btn" @click="goTo('/templates')">Пройти опрос<NextCircle class="next-cirlce__svg"/></button>
-                  </li>
+                  </li>-->
 
                   <li>
                     <strong>Отправить заявку</strong>
                     <div class="step-desc">После опроса вы отправляете заявку — мы оцениваем сроки и стоимость.</div>
-                    <button class="service-btn" @click="goTo('/templates')">Отправить заявку<NextCircle class="next-cirlce__svg"/></button>
+                    <button class="service-btn" @click="showForm = true">Отправить заявку<NextCircle class="next-cirlce__svg"/></button>
                   </li>
 
                   <li>
@@ -156,17 +156,27 @@
         </transition>
       </div>
     </div>
+    <RequestModal v-model="showForm" @open="onOpen" @close="onClose" @opened="onOpened" @closed="onClosed" />
   </div>
 </template>
 
 <script setup lang="ts">
+import RequestModal from '@/components/ui/Modal/Request.vue'
 import NextCircle from '~/assets/icons/next-circle.svg'
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import BlockHeader from '@/components/ui/BlockHeader.vue'
 // статические импорты видео
 import landing from '@/assets/images/service/landing.mp4'
 import order from '@/assets/images/service/order.mp4'
-import video3D from '@/assets/images/service/3D.mp4' // имя переменной не может начинаться с цифры
+import video3D from '@/assets/images/service/3D.mp4' 
+
+
+const showForm = ref(false)
+
+function onOpen() {  }
+function onClose() { showForm.value = false }   
+function onOpened() {  }
+function onClosed() {  }
 
 // карта статических видео по именам файлов
 const videos: Record<string, string> = {
