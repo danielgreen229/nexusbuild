@@ -177,9 +177,9 @@ onBeforeUnmount(() => {
 }
 
 .main-button--primary {
-  padding: 1.2rem 3rem;
+  padding: 1rem 3rem;
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   border-radius: 1.5rem;
 }
 

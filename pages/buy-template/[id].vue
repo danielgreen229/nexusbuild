@@ -688,7 +688,7 @@ async function resetSelections() {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: #f8f9fb;
+  background-color: #e9f0ff;
 }
 
 .wrapper {
@@ -696,7 +696,7 @@ async function resetSelections() {
   display: flex;
   gap: 1.25rem;
   align-items: flex-start;
-  max-width: 2100px;
+  max-width: calc(2100px + -4rem);
   margin: 0 auto;
 }
 
