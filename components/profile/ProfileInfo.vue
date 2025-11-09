@@ -375,4 +375,14 @@ async function saveProfile() {
 .button--danger:hover {
   background: #fee2e2;
 }
+
+@media (max-width: 768px) {
+  .profile-info__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: nowrap;
+  }
+}
 </style>
