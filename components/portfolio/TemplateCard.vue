@@ -344,6 +344,6 @@ onBeforeUnmount(() => {
 .template-card__button { width:100%; padding:12px; font-weight:600; border-radius:8px; margin-top: auto }
 .template-card__view-button { display: flex; gap: 0.2rem; align-items: center; flex-direction: row; flex-wrap: nowrap; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); padding:10px 18px; border-radius:8px; border:none; background:rgba(0,0,0,0.55); color:#fff; font-weight:600; font-size:1rem; cursor:pointer; z-index:4; opacity:0; visibility:hidden; transition: opacity .25s ease, transform .25s ease, visibility .25s; pointer-events:auto }
 .template-card:hover .template-card__view-button, .template-card:focus-within .template-card__view-button { opacity:1; visibility:visible; transform:translate(-50%,-50%) }
-@media (max-width:576px) { .template-card__view-button { transform:translate(-50%,0); opacity:1; visibility:visible; background:rgba(0,0,0,0.45); pointer-events:auto } .template-card__header { flex-direction:column; align-items:flex-start; gap:5px } .template-card__price { font-size:1.1rem } }
+@media (max-width:576px) { .template-card__view-button { transform:translate(-50%,0); opacity:1; visibility:visible; background:rgba(0,0,0,0.45); pointer-events:auto } .template-card__header { flex-direction:row; align-items:flex-start; gap:5px } .template-card__price { font-size:1.1rem } }
 .open-next__svg {margin: 0;}
 </style>

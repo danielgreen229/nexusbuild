@@ -43,7 +43,7 @@
 
     <!-- Если данных пользователя нет - показываем кнопку входа -->
     <div v-else>
-      <button class="button button--primary" @click="onOpenLogin">Войти</button>
+      <button class="button button--primary" @click="onOpenLogin" :class="{'main-button--primary': !isHome}">Войти</button>
     </div>
   </div>
 </template>
@@ -51,9 +51,12 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useUserStore } from '~/stores/user'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+const route = useRoute()
 
 const emit = defineEmits(['open-login'])
+
+const isHome = computed(() => route.path === '/')
 
 const profileRef = ref(null)
 const isUserMenuOpen = ref(false)
@@ -171,5 +174,20 @@ onBeforeUnmount(() => {
   height: -moz-fit-content;
   height: fit-content;
   cursor: pointer;
+}
+
+.main-button--primary {
+  padding: 1.2rem 3rem;
+  margin: 0;
+  font-size: 1.5rem;
+  border-radius: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .main-button--primary {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.8rem;
+  }
 }
 </style>

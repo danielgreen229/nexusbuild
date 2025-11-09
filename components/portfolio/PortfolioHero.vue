@@ -253,8 +253,6 @@ function clearSearch() {
 /* Responsive */
 @media (max-width: 768px) {
   .portfolio-hero {
-    padding: 60px 0;
-    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
   }
 
   .portfolio-hero__title {

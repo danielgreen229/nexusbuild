@@ -789,8 +789,9 @@ onBeforeUnmount(() => {
 
 .main-header__container {
   background-color: white;
-  padding: 0.5rem 1.5rem;
+  padding: 1rem 1.5rem;
   height: fit-content;
+  border-radius: 2.2rem;
 }
 
 .main-nav__link {
@@ -806,6 +807,7 @@ onBeforeUnmount(() => {
 .main-header__actions {
   margin: 0;
   margin-left: auto;
+  padding: 0rem;
 }
 
 .main-nav--primary {
@@ -866,6 +868,10 @@ onBeforeUnmount(() => {
   .burger-stick {
     height: 0.5vw;
     border-radius: 5vw;
+  }
+  .main-header__container {
+    padding: 1.2rem 0.8rem 1rem 1rem;
+    border-radius: 1.5rem;
   }
 }
 
