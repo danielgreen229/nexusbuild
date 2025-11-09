@@ -1,14 +1,13 @@
 <template>
-  <header ref="headerRef" class="app-header">
-    <div class="app-header__container">
-      <!-- Верхняя часть с логотипом и основной навигацией -->
+  <header ref="headerRef" class="app-header" :class="{'main-header': !isHome}">
+    <div class="app-header__container" :class="{'main-header__container': !isHome}">
       <div class="app-header__top">
-        <NuxtLink to="/" class="app-header__logo" aria-label="Перейти на Главную страницу">
-          <Logo class="app-header__logo-svg" filled />
+        <NuxtLink to="/" class="app-header__logo" :class="{'main-header__logo': !isHome}" aria-label="Перейти на Главную страницу">
+          <Logo class="app-header__logo-svg" filled :class="{'main-header__logo-svg': !isHome}"/>
         </NuxtLink>
 
-        <nav class="app-nav app-nav--primary" aria-label="Главное меню">
-          <ul class="app-nav__list">
+        <nav class="app-nav app-nav--primary" aria-label="Главное меню" :class="{'main-nav--primary': !isHome}">
+          <ul class="app-nav__list" :class="{'main-nav__list': !isHome}">
             <li v-for="page in primaryPages" :key="page.path" class="app-nav__item">
               <NuxtLink
                 :to="page.path"
@@ -16,6 +15,8 @@
                 exact-active-class="app-nav__link--active"
                 :aria-label="`Перейти на страницу ${page.title}`"
                 :aria-current="$route.path === page.path ? 'page' : null"
+
+                :class="{'main-nav__link': !isHome}"
               >
                 {{ page.title }}
               </NuxtLink>
@@ -23,7 +24,7 @@
           </ul>
         </nav>
 
-        <div class="app-header__actions">
+        <div class="app-header__actions" :class="{'main-header__actions': !isHome}">
           <a
             v-if="isHome"
             href="#"
@@ -38,6 +39,7 @@
 
           <div
             class="burger-mobile__container"
+            :class="{'main-burger-mobile__container': !isHome}"
             @click="toggleMobileMenu"
             role="button"
             aria-label="Открыть меню"
@@ -115,7 +117,7 @@ function closeMobileMenu() {
 const primaryPages = [
   { path: '/templates', title: 'шаблоны' },
   { path: '/services', title: 'услуги' },
-  { path: '/3d-models', title: '3D-модели' } // исправленный путь
+  { path: '/services', title: '3D-модели' } // исправленный путь
 ]
 
 const secondaryPages = [
@@ -200,7 +202,10 @@ onBeforeUnmount(() => {
   top: 0;
   z-index: 1000;
   padding: 1.4vw 0vw 0 2.4vw;
-    margin: 0;
+  margin: 0;
+}
+.app-header > * {
+  transition: background 0s ease, all 0.3s ease;
 }
 
 .app-header__container {
@@ -742,13 +747,6 @@ onBeforeUnmount(() => {
   width: 100%;
 }
 
-/* Медиа правила — оставлены как в оригинале */
-@media (max-width: 1248px) { 
-  .app-nav__list {
-    padding: 0.6vw 3vw;
-  }
-}
-
 .burger-mobile__container {
 	width: 2.222222vw; /* 32px */
 	height: 1.388889vw; /* 20px */
@@ -779,6 +777,59 @@ onBeforeUnmount(() => {
   backface-visibility: hidden;
   -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
+}
+
+
+.main-header {
+  padding: 1rem 2rem;
+  max-width: 2100px;
+  width: 100%;
+  margin: auto;
+}
+
+.main-header__container {
+  background-color: white;
+  padding: 0.5rem 1.5rem;
+  height: fit-content;
+}
+
+.main-nav__link {
+  font-size: 1.3rem;
+}
+
+.main-nav__list {
+  padding: 1rem 2.5rem;
+  margin: 0;
+  gap: 2rem;
+}
+
+.main-header__actions {
+  margin: 0;
+  margin-left: auto;
+}
+
+.main-nav--primary {
+  margin: 0;
+  margin-left: 2rem;
+}
+.main-header__logo {
+  margin-top: -0.5rem;
+}
+
+.main-header__logo-svg {
+  width: 11rem;
+  height: auto;
+}
+
+.main-burger-mobile__container {
+  width: 1.8rem;
+  height: 1.3rem;
+}
+
+@media (max-width: 1248px) { 
+  .app-nav__list {
+    padding: 0.6vw 3vw;
+  }
 }
 
 

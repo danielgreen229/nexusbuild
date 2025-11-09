@@ -532,6 +532,7 @@ function sectionTitleTag(child: any) {
   box-shadow: 0 8px 22px rgba(0,0,0,0.05);
   overflow: hidden;
   background: #fff;
+  font-size: 25px;
 }
 
 /* content inside service */

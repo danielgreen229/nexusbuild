@@ -1,6 +1,15 @@
 <script setup>
+import { ref } from 'vue'
 const title = "Нужен уникальный дизайн?"
 const subtitle = "Разработаем эксклюзивный сайт специально для вас"
+import RequestModal from '@/components/ui/Modal/Request.vue'
+
+const showForm = ref(false)
+
+function onOpen() { /* при желании */ }
+function onClose() { showForm.value = false }       // <-- исправлено: используем showForm.value
+function onOpened() { /* при желании */ }
+function onClosed() { /* при желании */ }
 </script>
 
 <template>
@@ -9,11 +18,12 @@ const subtitle = "Разработаем эксклюзивный сайт сп�
       <div class="portfolio-cta__content">
         <h2 class="portfolio-cta__title">{{ title }}</h2>
         <p class="portfolio-cta__subtitle">{{ subtitle }}</p>
-        <button class="portfolio-cta__button button button--primary">
+        <button class="portfolio-cta__button button button--primary" @click="showForm = !showForm">
           Заказать дизайн
         </button>
       </div>
     </div>
+    <RequestModal v-model="showForm" @open="onOpen" @close="onClose" @opened="onOpened" @closed="onClosed" />
   </section>
 </template>
 
@@ -73,6 +83,12 @@ const subtitle = "Разработаем эксклюзивный сайт сп�
   
   .portfolio-cta__subtitle {
     font-size: 1.1rem;
+  }
+
+  .button--primary {
+    font-size: 5vw;
+    padding: 5vw 17vw;
+    border-radius: 12vw;
   }
 }
 </style>

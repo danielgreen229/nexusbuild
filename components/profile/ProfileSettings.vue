@@ -112,6 +112,11 @@ function connectTelegram() {
 </template>
 
 <style scoped>
+.profile-settings {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
 /* исходные стили оставлены без изменений */
 .profile-settings__title {
   font-size: 1.8rem;

@@ -13,5 +13,7 @@
   text-align: center;
   padding: 80px 0;
   background: linear-gradient(135deg, #2575FC 0%, #6A11CB 85%);
+  margin-top: -8rem;
+  padding-top: 10rem;
 }
 </style>

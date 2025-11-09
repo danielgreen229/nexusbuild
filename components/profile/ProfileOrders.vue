@@ -390,6 +390,7 @@ async function refresh() {
 .profile-orders__cell {
   padding: 14px;
   min-height: 1px;
+  text-wrap: nowrap;
 }
 
 /* шаблонная ячейка: миниатюра + текст */

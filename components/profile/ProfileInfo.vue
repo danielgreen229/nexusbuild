@@ -211,6 +211,11 @@ async function saveProfile() {
 </script>
 
 <style scoped>
+.profile-info {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
 /* ===== profile-info styles ===== */
 .profile-info__header {
   display: flex;

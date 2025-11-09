@@ -265,9 +265,22 @@ const currentYear = ref(new Date().getFullYear())
     grid-template-columns: 1fr;
     gap: 40px;
   }
+  .footer__container {
+    flex-direction: column;
+    margin: unset;
+    width: 100%;
+    padding: 12vw 10vw;
+  }
   
   .footer__telegram {
     max-width: 100%;
+  }
+  .tg__icon {
+    width: 3vw;
+    height: 3vw;
+  }
+  .footer__brand {
+    width: fit-content;
   }
 }
 </style>
