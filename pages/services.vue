@@ -170,6 +170,14 @@ import landing from '@/assets/images/service/landing.mp4'
 import order from '@/assets/images/service/order.mp4'
 import video3D from '@/assets/images/service/3D.mp4' 
 
+useSEO({ 
+  title: 'Услуги', 
+  description: 'Создание сайтов, брендинг и SEO-продвижение от SiteByPro — полный цикл услуг для развития вашего бизнеса онлайн.',
+  image: 'https://sitebypro-server.ru/static/files/store/preview.png',
+  url: 'https://sitebypro.com/services'
+})
+
+
 
 const showForm = ref(false)
 

@@ -9,6 +9,14 @@ import ProfileSettings from '@/components/profile/ProfileSettings.vue'
 // импорт Pinia-стора пользователя — проверьте путь к файлу стора в вашем проекте
 import { useUserStore } from '@/stores/user'
 
+
+useSEO({ 
+  title: 'Профиль', 
+  description: 'Персональная страница профиля SiteByPro — контакты, портфолио и услуги в одном месте. Быстро связаться и узнать о проектах.',
+  image: 'https://sitebypro-server.ru/static/files/store/preview.png',
+  url: 'https://sitebypro.com/profile'
+})
+
 // список вкладок (источник правды)
 const tabs = [
   { id: 'orders', title: 'Мои заказы' },
@@ -191,9 +199,10 @@ onMounted(() => {
   border-bottom: 1px solid #e2e8f0;
   margin-bottom: 30px;
   overflow-x: auto;
-  max-width: 1800px;
+  max-width: 2100px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 1rem;
 }
 
 .profile__tab {
@@ -223,8 +232,8 @@ onMounted(() => {
 }
 
 .profile__content {
-  padding: 0rem 2rem;
-  max-width: 1800px;
+  padding: 0rem 1rem;
+  max-width: 2100px;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 5rem;

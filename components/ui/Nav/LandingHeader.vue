@@ -785,7 +785,7 @@ onBeforeUnmount(() => {
   padding: 1rem 1rem;
   max-width: 2100px;
   width: 100%;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .main-header__container {

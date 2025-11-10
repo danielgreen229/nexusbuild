@@ -277,7 +277,7 @@ onBeforeUnmount(() => {
       <img ref="imageRef" :src="template.preview" :alt="template.title" loading="lazy" draggable="false" />
 
       <div class="template-card__badges">
-        <div v-if="haveHtml" class="template-card__badge template-card__badge--custom">Заказной</div>
+        <div v-if="!haveHtml" class="template-card__badge template-card__badge--custom">Заказной</div>
         <div v-if="template.popular" class="template-card__badge template-card__badge--popular">Популярный</div>
       </div>
 

@@ -238,7 +238,9 @@ function onDomainSelected(domainOrItem) {
       fqdn: domainOrItem.fqdn,
       price: domainOrItem.price ?? 0,
       price_currency: domainOrItem.price_currency ?? (domainOrItem.priceCurrency ?? 'RUB'),
-      available: domainOrItem.available
+      available: domainOrItem.available,
+      id: domainOrItem.id ?? domainOrItem.domainId ?? null,
+      raw: domainOrItem
     }
   }
 }
@@ -574,6 +576,14 @@ async function placeOrder() {
       templateId: template.value.id,
       price: finalTotal.value,
       paymentMethod: 'balance',
+      // добавлено поле domain — сервер получит информацию о выбранном домене
+      domain: {
+        fqdn: selectedDomain.value.fqdn,
+        price: Number(selectedDomain.value.price || 0),
+        currency: selectedDomain.value.price_currency || selectedDomain.value.priceCurrency || 'RUB',
+        available: !!selectedDomain.value.available,
+        id: selectedDomain.value.id ?? null
+      }
     }
 
     // Если есть применённый промокод — передаём данные как external, чтобы сервер мог создать запись order_externals
@@ -640,7 +650,8 @@ async function placeOrder() {
 
     // Навигация на страницу заказа (если backend вернул id)
     if (created && created.id) {
-      await navigateTo({ path: '/profile?tab=orders' })
+      // используем router.push чтобы гарантировать навигацию в разных окружениях
+      try { router.push({ path: '/profile', query: { tab: 'orders' } }) } catch (_) {}
     }
   } catch (e) {
     console.error(e)
@@ -688,7 +699,6 @@ async function resetSelections() {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: #e9f0ff;
 }
 
 .wrapper {

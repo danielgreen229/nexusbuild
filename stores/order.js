@@ -222,7 +222,6 @@ export const useOrdersStore = defineStore('orders', {
         params.set('perPage', String(perPage))
         if (options.status) params.set('status', options.status)
         if (options.joinExternal) params.set('joinExternal', '1')
-        console.log(params, 'paramsZXC')
         const got = await this._doFetch(`${base}?${params.toString()}`, { method: 'GET' })
         if (!got.success) 
           return { 
@@ -276,6 +275,8 @@ export const useOrdersStore = defineStore('orders', {
     async createOrder(payload = {}) {
       this.loading = true
       this.error = null
+
+
       try {
         if (!payload.templateId || isNaN(Number(payload.templateId))) {
           const msg = 'templateId required'
@@ -291,12 +292,18 @@ export const useOrdersStore = defineStore('orders', {
         const body = {
           templateId: Number(payload.templateId),
           price: Number(payload.price),
-          payment_method: payload.paymentMethod ?? payload.payment_method ?? 'balance',
+          payment_method: payload.paymentMethod ?? payload.payment_method ?? 'yookassa',
           status: payload.status ?? 'pending_payment'
         }
 
+        // Обработка external / order_externals_uid (как раньше)
         if (payload.external && typeof payload.external === 'object') body.external = payload.external
         else if (payload.order_externals_uid || payload.orderExternalUid) body.order_externals_uid = payload.order_externals_uid ?? payload.orderExternalUid
+
+        // === НОВОЕ: добавляем domain в тело запроса ===
+        // Поддерживаем разные форматы: string (fqdn) или object { fqdn, price, currency, available, id, ... }
+        body.domain = payload.domain
+        // === конец: добавление domain ===
 
         const got = await this._doFetch(base, { method: 'POST', body: JSON.stringify(body) })
         if (!got.success) return { success: false, message: got.message || 'Ошибка создания', data: null }

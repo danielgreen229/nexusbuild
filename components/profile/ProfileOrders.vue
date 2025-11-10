@@ -329,7 +329,7 @@ function getStatusTitle (status) {
             />
             <div v-else class="profile-orders__thumb profile-orders__thumb--placeholder" />
             <div class="profile-orders__template-info">
-              <div class="profile-orders__template-title">{{ order.template }}</div>
+              <div class="profile-orders__template-title">{{ order.raw.domain.fqdn }}</div>
             </div>
           </div>
         </div>
