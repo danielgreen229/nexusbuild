@@ -24,6 +24,12 @@ const noMore = ref(false)
 const sentinel = ref(null)
 let observer = null
 
+
+function goToPayment () {
+  console.log("OPEN_PAYMENT")
+}
+
+
 function goTo(path) { return navigateTo({ path }) }
 function viewOrder(orderId) {
   if (!orderId) return
@@ -346,6 +352,10 @@ function getStatusTitle (status) {
         <div class="profile-orders__cell profile-orders__cell--price">{{ order.price }}</div>
 
         <div class="profile-orders__cell profile-orders__cell--actions">
+          <button class="profile-orders__pay" @click="goToPayment()">
+            Оплатить
+          </button>
+
           <button class="profile-orders__action" @click="viewOrder(order.id)">
             Подробнее
           </button>
@@ -491,6 +501,24 @@ function getStatusTitle (status) {
   transition: background .15s ease;
 }
 
+.profile-orders__pay {
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 1.5rem;
+    font-weight: 600;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(133deg, #1c4eff 0%, #bfa1ff 100%);
+    border: none;
+    outline: none;
+    line-height: 1;
+    height: -moz-fit-content;
+    height: fit-content;
+    cursor: pointer;
+}
+
 .profile-orders__action:hover {
   background: rgba(59,130,246,0.06);
 }
@@ -510,6 +538,13 @@ function getStatusTitle (status) {
 
 .next-cirlce__svg {
   margin-bottom: 0.1rem;
+}
+
+.profile-orders__cell--actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
 }
 
 /* responsive: планшет */
