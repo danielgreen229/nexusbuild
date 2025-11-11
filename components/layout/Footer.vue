@@ -66,7 +66,10 @@
               группа ВК
             </a>
           </li>
-
+          <li>
+            <NuxtLink to="/acception" class="footer__link">Согласие<br>на обработку</NuxtLink>
+          </li>
+          
         </ul>
       </section>
     </div>
