@@ -67,7 +67,7 @@
             </a>
           </li>
           <li>
-            <NuxtLink to="/acception" class="footer__link">Согласие<br>на обработку</NuxtLink>
+            <NuxtLink to="/acception" class="footer__link">Политикой<br>конфиденциальности</NuxtLink>
           </li>
           <li>
             <NuxtLink to="/privacy" class="footer__link">Правовая<br>информация</NuxtLink>
