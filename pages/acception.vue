@@ -52,7 +52,6 @@
       <h2>Оператор персональных данных</h2>
       <p>
         Обработка данных осуществляется индивидуальным предпринимателем:<br />
-        <strong>ИП SITE BY PRO</strong><br />
         ИНН: {{ contacts.inn }}<br />
         ОГРНИП: {{ contacts.ogrn }}<br />
         Email: <a :href="`mailto:${contacts.email}`">{{ contacts.email }}</a><br />
