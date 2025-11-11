@@ -543,14 +543,15 @@ function sectionTitleTag(child: any) {
 /* list */
 .services-list {
   margin: 0;
-  padding: 1rem;
+  padding: 2rem;
   list-style: none;
   border: 1px solid #f0f0f0;
   border-top: 0;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   background: #fff;
   font-size: 25px;
+  border-radius: 0rem 0rem 2rem 2rem;
 }
 
 /* content inside service */

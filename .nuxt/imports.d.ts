@@ -35,6 +35,7 @@ export { useAlertStore } from '../stores/alert';
 export { useDomainStore } from '../stores/deploy';
 export { useLandingStore } from '../stores/landing';
 export { useOrdersStore } from '../stores/order';
+export { usePaymentStore } from '../stores/payment';
 export { useCodesStore } from '../stores/promocodes';
 export { useTemplateStore } from '../stores/template';
 export { useUserStore } from '../stores/user';

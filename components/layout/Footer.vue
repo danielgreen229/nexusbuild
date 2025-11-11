@@ -3,7 +3,6 @@
     <PortfolioCTA v-if="showCTA" />
 
     <div class="footer__container container">
-      <!-- Левый блок - Лого и описание -->
       <div class="footer__brand">
         <NuxtLink to="/" class="app-header__logo" aria-label="Перейти на Главную страницу">
           <Logo class="app-header__logo-svg" filled />
@@ -25,10 +24,15 @@
       <nav class="footer__nav" aria-label="Навигация по сайту в футере">
         <h3 class="footer__title">Навигация</h3>
         <ul class="footer__list">
-          <li><a href="#" class="footer__link">Главная</a></li>
-          <li><a href="#" class="footer__link">Портфолио</a></li>
-          <li><a href="#" class="footer__link">Тарифы</a></li>
-          <li><a href="#" class="footer__link">Блог</a></li>
+          <li>
+            <NuxtLink to="/" class="footer__link">Главная</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/templates" class="footer__link">Шаблоны</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/about" class="footer__link">Контакты</NuxtLink>
+          </li>
         </ul>
       </nav>
       
@@ -36,10 +40,33 @@
       <section class="footer__services" aria-label="Услуги в футере">
         <h3 class="footer__title">Услуги</h3>
         <ul class="footer__list">
-          <li><a href="#" class="footer__link">Лендинги</a></li>
-          <li><a href="#" class="footer__link">Корпоративные сайты</a></li>
-          <li><a href="#" class="footer__link">Интернет-магазины</a></li>
-          <li><a href="#" class="footer__link">SEO-оптимизация</a></li>
+          <li>
+            <NuxtLink to="/templates" class="footer__link">Лэндинги</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink @click="showForm = true" class="footer__link">Интернет-магазины</NuxtLink>
+          </li>
+          <li>
+            <NuxtLink @click="showForm = true" class="footer__link">SEO-оптимизация</NuxtLink>
+          </li>
+        </ul>
+      </section>
+
+      <section class="footer__services" aria-label="Услуги в футере">
+        <h3 class="footer__title">О нас</h3>
+        <ul class="footer__list">
+          <li>
+            <NuxtLink to="/about" class="footer__link">Контакты</NuxtLink>
+          </li>
+          <li>
+            <a href="https://vk.com/club233841249" 
+               class="footer__link" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              группа ВК
+            </a>
+          </li>
+
         </ul>
       </section>
     </div>
@@ -47,10 +74,11 @@
     <div class="footer__bottom">
       <div class="container">
         <div class="footer__copyright">
-          &copy; {{ currentYear }} sitebypro. Сайты на заказ.
+          &copy; 2020 sitebypro. Сайты на заказ.
         </div>
       </div>
     </div>
+    <RequestModal v-model="showForm" @open="onOpen" @close="onClose" @opened="onOpened" @closed="onClosed" />
   </footer>
 </template>
 
@@ -61,17 +89,16 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Logo from '~/assets/icons/logo.svg' 
 import IconTg from '~/assets/icons/tg.svg'
-
+import RequestModal from '@/components/ui/Modal/Request.vue'
 const route = useRoute()
 
-// ------------------------------------------------------------------
-// Настройка: перечисли страницы, на которых НЕ должно быть PortfolioCTA
-// Поддерживаемые форматы:
-//   - Точный путь:           '/login'
-//   - Префикс (startsWith):  '/portfolio/*'   (звёздочка в конце)
-//   - По имени маршрута:     'name:Home'       (сравнивается с route.name)
-// Примеры ниже — изменяй как нужно.
-// ------------------------------------------------------------------
+const showForm = ref(false)
+
+function onOpen() {  }
+function onClose() { showForm.value = false }   
+function onOpened() {  }
+function onClosed() {  }
+
 const excludedPages = [
   '/login',
   '/thank-you',
@@ -178,7 +205,7 @@ const currentYear = ref(new Date().getFullYear())
 .footer__title {
   font-size: 1.3rem;
   color: var(--white);
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   position: relative;
   padding-bottom: 10px;
 }
@@ -207,6 +234,7 @@ const currentYear = ref(new Date().getFullYear())
   transition: all 0.3s ease;
   display: inline-block;
   font-size: 1.1rem;
+  cursor: pointer;
 }
 
 .footer__link:hover {

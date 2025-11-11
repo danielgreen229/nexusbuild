@@ -47,7 +47,7 @@
 
         
         <div class="od-actions">
-          <button class="od-btn od-btn--primary" @click="openOrderPage">Открыть страницу заказа (полный экран)</button>
+          <!--<button class="od-btn od-btn--primary" @click="openOrderPage">Открыть страницу заказа (полный экран)</button>-->
         </div>
       </div>
     </div>

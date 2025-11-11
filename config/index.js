@@ -1,5 +1,5 @@
 export const API = {
-  currentBuild: 'base', // 'dev' или 'base'
+  currentBuild: 'dev', // 'dev' или 'base'
 
   base: {
     protocol: 'https',
