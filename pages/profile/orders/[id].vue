@@ -272,6 +272,12 @@ const formattedRaw = computed(() => {
   color: #b91c1c;
 }
 
+.profile-orders__status { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; }
+.profile-orders__status--completed { background: #dcfce7; color: #166534; }
+.profile-orders__status--in_progress { background: #fffbeb; color: #854d0e; }
+.profile-orders__status--pending_payment { background: #fee2e2; color: #b91c1c; }
+.profile-orders__status--pending_yookassa_payment { background: #2663eb; color: #ffffff; }
+
 @media (max-width: 768px) {
   .od-top { flex-direction: column }
   .od-thumb { width: 7.5rem; height: 5.25rem }
