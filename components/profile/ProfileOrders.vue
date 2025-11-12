@@ -5,7 +5,7 @@ import { usePaymentStore } from '~/stores/payment'
 import { useUserStore } from '~/stores/user'
 import { useOrdersStore } from '~/stores/order'
 import { navigateTo } from '#app'
-
+import openIcon from '@/assets/icons/open.svg'
 const paymentStore = usePaymentStore()
 const userStore = useUserStore()
 const ordersStore = useOrdersStore()
@@ -61,6 +61,16 @@ function formatDate(raw) {
   })
 }
 
+function openLink (link) {
+  if (typeof window === 'undefined') return
+  if(!link) return 
+  const features = 'noopener,noreferrer'
+  let timedLink = link
+  timedLink = link.replace('https://', '')
+  timedLink = 'https://' + timedLink
+  window.open(timedLink, '_blank', features)
+}
+
 function getTemplatePreview(o) {
   if (!o) return null
   const candidates = [
@@ -84,13 +94,22 @@ function statusCodeFrom(order) {
   return String(s).toLowerCase().replace(/\s+/g, '_') || 'unknown'
 }
 
+function getDeployStatusTitle(status) {
+  if (!status) return '—'
+  if (status === 'pending_payment' || status === 'pending_yookassa_payment') return 'Ожидает оплаты'
+  if (status === 'in_progress') return 'В разработке'
+  if (status === 'deploying_domain') return 'Подключение домена'
+  if (status === 'succeed') return 'Все готово'
+  return 'В разработке'
+}
+
 function getStatusTitle(status) {
   if (!status) return '—'
   if (status === 'pending_payment' || status === 'pending_yookassa_payment') return 'Ожидает оплаты'
   if (status === 'in_progress') return 'В разработке'
   if (status === 'completed') return 'Оплачен'
   if (status === 'cancelled') return 'Отменен'
-  return status
+  return 'В разработке'
 }
 
 function formatPriceForDisplay(order) {
@@ -304,41 +323,54 @@ async function goToPayment(order) {
       </button>
     </div>
 
-    <div v-else class="profile-orders__table">
-      <div class="profile-orders__row profile-orders__row--header">
+    <div v-else class="profile-orders__table" role="table" aria-label="Список заказов">
+      <!-- header (визуальный) -->
+      <div class="profile-orders__row profile-orders__row--header" role="row">
         <div class="profile-orders__cell">Дата</div>
         <div class="profile-orders__cell">Шаблон</div>
+        <div class="profile-orders__cell">Статус разработки</div>
         <div class="profile-orders__cell">Статус</div>
         <div class="profile-orders__cell">Сумма</div>
         <div class="profile-orders__cell">Действия</div>
       </div>
-
       <template v-for="(order, idx) in orders" :key="order.id ?? `order-${idx}`">
-        <div v-if="order" class="profile-orders__row">
-          <div class="profile-orders__cell profile-orders__cell--date">{{ order.date }}</div>
+        <!-- desktop / tablet: одна линия (grid) -->
+        <div v-if="order" class="profile-orders__row profile-orders__row--data" role="row" :aria-label="`Заказ ${order.id}`">
+          <div class="profile-orders__cell profile-orders__cell--date" :title="order.date">{{ order.date }}</div>
 
           <div class="profile-orders__cell profile-orders__cell--template">
             <div class="profile-orders__template">
               <img
-                v-if="order.raw.template.preview"
+                v-if="order.raw?.template?.preview"
                 :src="order.raw.template.preview"
                 class="profile-orders__thumb"
                 @error="(e)=>{ e.target.style.display = 'none' }"
+                :alt="order.template || 'preview'"
               />
               <div v-else class="profile-orders__thumb profile-orders__thumb--placeholder" />
-              <div class="profile-orders__template-info">
-                <div class="profile-orders__template-title">{{ order.raw?.domain?.fqdn ?? order.template }}</div>
+              <div class="profile-orders__template-info" @click="openLink(order.raw?.domain?.fqdn)">
+                <div class="profile-orders__template-title" :title="order.raw?.domain?.fqdn ?? order.template">
+                  {{ order.raw?.domain?.fqdn ?? order.template }}
+                </div>
+
+                <openIcon class="open__svg"/>
+
               </div>
             </div>
           </div>
+          <div class="profile-orders__cell profile-orders__cell--status" :title="getDeployStatusTitle(order.raw.deploy_status)">
+            <span :class="['profile-orders__status', `profile-orders__status--${order.statusCode}`]">
+              {{ getDeployStatusTitle(order.raw.deploy_status) }}
+            </span>
+          </div>
 
-          <div class="profile-orders__cell profile-orders__cell--status">
+          <div class="profile-orders__cell profile-orders__cell--status" :title="getStatusTitle(order.status)">
             <span :class="['profile-orders__status', `profile-orders__status--${order.statusCode}`]">
               {{ getStatusTitle(order.status) }}
             </span>
           </div>
 
-          <div class="profile-orders__cell profile-orders__cell--price">{{ formatPriceForDisplay(order) }}</div>
+          <div class="profile-orders__cell profile-orders__cell--price" :title="formatPriceForDisplay(order)">{{ formatPriceForDisplay(order) }}</div>
 
           <div class="profile-orders__cell profile-orders__cell--actions">
             <button
@@ -354,14 +386,15 @@ async function goToPayment(order) {
           </div>
         </div>
 
-        <div v-if="order && paymentErrors[order.id]" :key="`err-${order.id}`" class="profile-orders__row" style="background:#fff7f7;">
-          <div class="profile-orders__cell" style="grid-column:1 / -1; color:#b91c1c;">
+        <!-- error row -->
+        <div v-if="order && paymentErrors[order.id]" :key="`err-${order.id}`" class="profile-orders__row profile-orders__row--error" style="background:#fff7f7;">
+          <div class="profile-orders__cell profile-orders__cell--error" style="grid-column:1 / -1; color:#b91c1c;">
             Ошибка оплаты ({{ order.id }}): {{ paymentErrors[order.id] }}
           </div>
         </div>
       </template>
 
-      <div class="profile-orders__row" style="border-top:none;">
+      <div class="profile-orders__row profile-orders__row--footer" style="border-top:none;">
         <div class="profile-orders__cell" style="grid-column:1 / -1; display:flex; justify-content:center; padding:20px;">
           <div v-if="loadingMore" class="profile-orders__loading">Загрузка...</div>
           <div v-else-if="noMore" class="profile-orders__loading">Больше заказов нет</div>
@@ -375,43 +408,220 @@ async function goToPayment(order) {
 
 <style scoped>
 .profile-orders__title { font-size: 1.8rem; margin-bottom: 20px; color: var(--dark); }
-.profile-orders__table { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
-.profile-orders__row { display: grid; grid-template-columns: 1fr 3fr 1fr 1fr 1fr; align-items: center; gap: 12px; background-color: white; }
-.profile-orders__row--header { background: #f8fafc; font-weight: 600; color: var(--dark); }
+
+/* контейнер таблицы: при узком экране — горизонтальный скролл (если нужно),
+   но для телефонной версии мы переключаемся на карточный вид */
+.profile-orders__table {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow-x: auto; /* horizontal scroll if needed on tablet/desktop */
+  background: white;
+}
+
+/* desktop/tablet: grid строка с 6 колонками */
+.profile-orders__row {
+  display: grid;
+  grid-template-columns: 14% 33% 13% 11% 10% 16%;
+  align-items: center;
+  gap: 12px;
+  background-color: white;
+  min-height: 64px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  padding: 0 12px;
+}
+
+/* header */
+.profile-orders__row--header {
+  background: #f8fafc;
+  font-weight: 600;
+  color: var(--dark);
+  padding: 12px;
+}
+
+/* разделители между строками */
 .profile-orders__row:not(.profile-orders__row--header) { border-top: 1px solid #e2e8f0; }
-.profile-orders__cell { padding: 14px; min-height: 1px; text-wrap: nowrap; }
-.profile-orders__cell--template .profile-orders__template { display: flex; align-items: center; }
-.profile-orders__thumb { width: 140px; height: 100px; object-fit: cover; border-radius: 8px; margin-right: 14px; background: #f3f4f6; flex-shrink: 0; box-shadow: 0 1px 4px rgba(16,24,40,0.04); }
-.profile-orders__thumb--placeholder { display: inline-block; width: 140px; height: 100px; border-radius: 8px; background: linear-gradient(90deg,#f3f4f6,#eef2f6); margin-right: 14px; flex-shrink: 0; }
-.profile-orders__template-info { display: flex; flex-direction: column; gap: 6px; }
-.profile-orders__template-title { font-weight: 700; color: var(--dark); font-size: 1rem; line-height: 1.2; }
-.profile-orders__status { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; }
+
+/* ячейки: однострочные, обрезка с многоточием */
+.profile-orders__cell {
+  padding: 12px 8px;
+  min-height: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* шаблон: картинка + текст, текст ограничен и с ellipsis */
+.profile-orders__cell--template .profile-orders__template {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.profile-orders__thumb {
+  width: 30%;
+  height: 7rem;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f3f4f6;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(16,24,40,0.04);
+}
+
+.profile-orders__thumb--placeholder {
+  display: inline-block;
+  width: 84px;
+  height: 56px;
+  border-radius: 8px;
+  background: linear-gradient(90deg,#f3f4f6,#eef2f6);
+  flex-shrink: 0;
+}
+
+.nuxt-icon--fill, .nuxt-icon--fill * {
+  fill: revert-layer;
+}
+
+.profile-orders__template-info {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  min-width: 0; /* для ellipsis */
+  flex: 1;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  transition: 0.3s ease all;
+}
+
+.profile-orders__template-info:hover {
+
+  .profile-orders__template-title, .open__svg {
+    color: #2663eb !important;
+  }
+}
+
+.profile-orders__template-title {
+  font-weight: 700;
+  color: var(--dark);
+  font-size: 1rem;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+  transition: 0.3s ease all;
+}
+
+/* статусы */
+.profile-orders__status {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .profile-orders__status--completed { background: #dcfce7; color: #166534; }
 .profile-orders__status--in_progress { background: #fffbeb; color: #854d0e; }
 .profile-orders__status--pending_payment { background: #fee2e2; color: #b91c1c; }
 .profile-orders__status--pending_yookassa_payment { background: #2663eb; color: #ffffff; }
 
+/* загрузки и пустое состояние */
+.profile-orders__loading, .profile-orders__empty {
+  text-align:center;
+  padding:40px;
+  color:var(--gray);
+  font-size:1.05rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:1rem;
+}
 
-.profile-orders__loading, .profile-orders__empty { text-align:center; padding:40px; color:var(--gray); font-size:1.05rem; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:1rem; }
-.profile-orders__action { background:none; border:1px solid transparent; color:var(--primary); cursor:pointer; font-weight:600; padding:8px 12px; border-radius:8px; transition:background .15s ease; }
-.profile-orders__pay { padding:0.7rem 1.2rem; font-size:1rem; border-radius:1.5rem; font-weight:600; letter-spacing:-0.03em; text-align:center; color:#fff; background: linear-gradient(133deg, #1c4eff 0%, #bfa1ff 100%); border:none; outline:none; line-height:1; height:fit-content; cursor:pointer; }
+/* кнопки и действия */
+.profile-orders__action { background:none; border:1px solid transparent; color:var(--primary); cursor:pointer; font-weight:600; padding:8px 12px; border-radius:8px; transition:background .15s ease; white-space:nowrap; }
+.profile-orders__pay { padding:0.6rem 1.1rem; font-size:1rem; border-radius:1.5rem; font-weight:600; letter-spacing:-0.03em; text-align:center; color:#fff; background: linear-gradient(133deg, #1c4eff 0%, #bfa1ff 100%); border:none; outline:none; line-height:1; height:fit-content; cursor:pointer; white-space:nowrap; }
 .profile-orders__pay[disabled] { opacity:0.7; cursor:not-allowed; filter:grayscale(0.03); }
 .primary__button { background-color:var(--primary); color:var(--white); display:inline-block; padding:12px 28px; border-radius:8px; font-weight:600; cursor:pointer; transition:all 0.3s ease; border:none; font-size:1rem; }
 .next-cirlce__svg { margin-bottom:0.1rem; }
-.profile-orders__cell--actions { display:flex; flex-direction:row; flex-wrap:nowrap; gap:0.5rem; }
-@media (max-width:1200px) { .profile-orders__thumb, .profile-orders__thumb--placeholder { width:120px; height:86px; } .profile-orders__row { grid-template-columns: 1fr 2.5fr 1fr 1fr 1fr; } }
-@media (max-width:900px) {
-  .profile-orders__row { display:block; padding:12px 14px; }
-  .profile-orders__row--header { display:none; }
-  .profile-orders__cell { display:flex; align-items:center; gap:12px; padding:8px 0; border:none; }
-  .profile-orders__cell--template { padding-bottom:10px; }
-  .profile-orders__cell--date { font-size:0.95rem; color:var(--gray); margin-bottom:6px; }
-  .profile-orders__thumb, .profile-orders__thumb--placeholder { width:96px; height:68px; }
+
+.open__svg {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  transition: 0.3s ease all;
+}
+
+/* действия: не переносятся */
+.profile-orders__cell--actions { display:flex; flex-direction:row; flex-wrap: wrap; gap:0.5rem; justify-content: center; }
+
+/* сообщение об ошибке: другой фон */
+.profile-orders__row--error { background: #fff7f7; }
+.profile-orders__cell--error { color: #b91c1c; }
+
+/* footer */
+.profile-orders__row--footer { background: transparent; }
+
+/* responsive: tablet */
+@media (max-width:1200px) {
+  .profile-orders__row { grid-template-columns: 14% 22% 20% 16% 11% 11%; }
+  .profile-orders__thumb, .profile-orders__thumb--placeholder { width:72px; height:48px; }
+  .profile-orders__cell { padding:10px; }
+}
+
+/* PHONE: <=700px — переключаемся на карточный (вертикальный) макет,
+   чтобы всё было читаемо и ничего не "скрывалось" */
+@media (max-width:768px) {
+  .profile-orders__table { overflow-x: visible; padding:8px; }
+  .profile-orders__row {
+    display: block;
+    padding: 12px;
+    border-radius: 10px;
+    margin: 8px 0;
+    box-shadow: 0 1px 2px rgba(2,6,23,0.035);
+    border: 1px solid #eef2f6;
+  }
+
+  .profile-orders__row--header { display: none; } /* header скрываем в карточном виде */
+
+  .profile-orders__cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .profile-orders__cell--template .profile-orders__template { gap:10px; }
+  .profile-orders__thumb, .profile-orders__thumb--placeholder { width:72px; height:48px; flex-shrink:0; }
+
+  /* расположение полей в карточке: дата + действия в верхнем ряду, затем шаблон и т.д. */
+  .profile-orders__cell--date { font-size:0.95rem; color:var(--gray); font-weight:600; }
   .profile-orders__template-info { gap:4px; }
-  .profile-orders__cell--status, .profile-orders__cell--price, .profile-orders__cell--actions { margin-top:8px; }
-  .profile-orders__cell--status { justify-content:flex-start; }
-  .profile-orders__cell--price { font-weight:700; }
-  .profile-orders__cell--actions { justify-content:flex-start; }
-  .profile-orders__row:not(.profile-orders__row--header) { border-top:1px solid #eef2f6; }
+  .profile-orders__template-title { font-size:1rem; font-weight:700; line-height:1.1; }
+
+  .profile-orders__cell--status,
+  .profile-orders__cell--price {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+  }
+
+  .profile-orders__cell--actions {
+    margin-top: 10px;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .profile-orders__row--error { margin-top:6px; }
+  .profile-orders__cell--error { padding:8px 0; display:block; color:#b91c1c; }
 }
 </style>

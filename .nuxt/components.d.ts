@@ -61,6 +61,7 @@ interface _GlobalComponents {
     'SvgoLogo': typeof import("../assets/icons/logo")['default']
     'SvgoNextCircle': typeof import("../assets/icons/next-circle")['default']
     'SvgoOpenNext': typeof import("../assets/icons/open-next")['default']
+    'SvgoOpen': typeof import("../assets/icons/open")['default']
     'SvgoTg': typeof import("../assets/icons/tg")['default']
     'SvgoUser': typeof import("../assets/icons/user")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -137,6 +138,7 @@ interface _GlobalComponents {
     'LazySvgoLogo': LazyComponent<typeof import("../assets/icons/logo")['default']>
     'LazySvgoNextCircle': LazyComponent<typeof import("../assets/icons/next-circle")['default']>
     'LazySvgoOpenNext': LazyComponent<typeof import("../assets/icons/open-next")['default']>
+    'LazySvgoOpen': LazyComponent<typeof import("../assets/icons/open")['default']>
     'LazySvgoTg': LazyComponent<typeof import("../assets/icons/tg")['default']>
     'LazySvgoUser': LazyComponent<typeof import("../assets/icons/user")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
@@ -219,6 +221,7 @@ export const SvgoLogoWhite: typeof import("../assets/icons/logo-white")['default
 export const SvgoLogo: typeof import("../assets/icons/logo")['default']
 export const SvgoNextCircle: typeof import("../assets/icons/next-circle")['default']
 export const SvgoOpenNext: typeof import("../assets/icons/open-next")['default']
+export const SvgoOpen: typeof import("../assets/icons/open")['default']
 export const SvgoTg: typeof import("../assets/icons/tg")['default']
 export const SvgoUser: typeof import("../assets/icons/user")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -295,6 +298,7 @@ export const LazySvgoLogoWhite: LazyComponent<typeof import("../assets/icons/log
 export const LazySvgoLogo: LazyComponent<typeof import("../assets/icons/logo")['default']>
 export const LazySvgoNextCircle: LazyComponent<typeof import("../assets/icons/next-circle")['default']>
 export const LazySvgoOpenNext: LazyComponent<typeof import("../assets/icons/open-next")['default']>
+export const LazySvgoOpen: LazyComponent<typeof import("../assets/icons/open")['default']>
 export const LazySvgoTg: LazyComponent<typeof import("../assets/icons/tg")['default']>
 export const LazySvgoUser: LazyComponent<typeof import("../assets/icons/user")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
