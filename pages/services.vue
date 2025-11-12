@@ -446,14 +446,14 @@ function sectionTitleTag(child: any) {
 <style scoped>
 /* Default classes (статические) */
 .services-container {
-  max-width: 1800px;
+  max-width: 2100px;
   margin: 0 auto;
   padding: 1rem;
   padding-bottom: 5rem;
   padding-top: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 3rem;
 }
 
 /* block title */
@@ -690,7 +690,8 @@ function sectionTitleTag(child: any) {
   .about__container-web {
     width: 114%;
     word-break: break-word;
-    font-size: 11rem;
+    font-size: 9rem;
+    height: fit-content;
     text-align: left;
     color: #f97315;
     display: flex;
@@ -701,6 +702,7 @@ function sectionTitleTag(child: any) {
   }
   .about__container-design {
     width: 142%;
+    height: fit-content;
     word-break: break-word;
     font-size: 11rem;
     text-align: left;
@@ -717,6 +719,7 @@ function sectionTitleTag(child: any) {
     text-align: left;
     color: #f97315;
     display: flex;
+    height: fit-content;
     align-items: center;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -742,7 +745,7 @@ function sectionTitleTag(child: any) {
     font-size: 5rem;
   }
   .about__container-design-3d {
-    width: 30%;
+    width: 33%;
     font-size: 5rem;
   }
 }

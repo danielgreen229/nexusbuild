@@ -88,7 +88,7 @@ function getStatusTitle(status) {
   if (!status) return '—'
   if (status === 'pending_payment' || status === 'pending_yookassa_payment') return 'Ожидает оплаты'
   if (status === 'in_progress') return 'В разработке'
-  if (status === 'completed') return 'Завершен'
+  if (status === 'completed') return 'Оплачен'
   if (status === 'cancelled') return 'Отменен'
   return status
 }
@@ -343,7 +343,7 @@ async function goToPayment(order) {
           <div class="profile-orders__cell profile-orders__cell--actions">
             <button
               class="profile-orders__pay"
-              :disabled="paymentLoading === order.id || order.status === 'completed' || order.status === 'in_progress'"
+              v-if="!(paymentLoading === order.id || order.status === 'completed' || order.status === 'in_progress')"
               @click="goToPayment(order)"
             >
               <span v-if="paymentLoading === order.id">Переход к оплате...</span>

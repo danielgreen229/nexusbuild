@@ -83,7 +83,7 @@ function getStatusTitle (status) {
   if(status == 'pending_payment') return 'Ожидает оплаты'
   else if(status == 'pending_yookassa_payment') return 'Ожидает оплаты'
   else if(status == 'in_progress') return 'В разработке'
-  else if(status == 'completed') return 'Завершен'
+  else if(status == 'completed') return 'Оплачен'
   else if(status == 'cancelled') return 'Отменен'
   else return status
 }
