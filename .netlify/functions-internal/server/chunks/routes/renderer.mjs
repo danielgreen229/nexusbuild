@@ -33,7 +33,7 @@ function createHead(options = {}) {
   return head;
 }
 
-const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=yes"}],"link":[],"style":[],"script":[{"children":"(function(){try{document.documentElement.style.setProperty('--app-scale','0.8')}catch(e){}})();"}],"noscript":[]};
+const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5\""},{"name":"msapplication-TileColor","content":"#ffffff"},{"name":"msapplication-config","content":"/favicons/browserconfig.xml"},{"name":"theme-color","content":"#ffffff"}],"link":[{"rel":"icon","type":"image/x-icon","href":"/favicons/favicon.ico"},{"rel":"icon","type":"image/png","sizes":"32x32","href":"/favicons/favicon-32x32.png"},{"rel":"icon","type":"image/png","sizes":"16x16","href":"/favicons/favicon-16x16.png"},{"rel":"apple-touch-icon","sizes":"180x180","href":"/favicons/apple-touch-icon.png"},{"rel":"manifest","href":"/favicons/site.webmanifest"},{"rel":"shortcut icon","href":"/favicons/favicon.ico"}],"style":[],"script":[{"children":"(function(){try{document.documentElement.style.setProperty('--app-scale','0.8')}catch(e){}})();"}],"noscript":[]};
 
 const appRootTag = "div";
 

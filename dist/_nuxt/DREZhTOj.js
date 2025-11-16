@@ -1,0 +1,1 @@
+import{_ as t,c as n,o,a as s}from"./iHL_0Qvu.js";const r={},c={class:"container"};function a(l,e){return o(),n("div",c,e[0]||(e[0]=[s("h1",null,"Регистрация",-1),s("p",null,"Создайте новый аккаунт",-1)]))}const i=t(r,[["render",a]]);export{i as default};

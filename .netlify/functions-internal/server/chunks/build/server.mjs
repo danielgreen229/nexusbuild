@@ -1,8 +1,8 @@
-import { hasInjectionContext, inject, ref, watchEffect, getCurrentInstance, onBeforeUnmount, onDeactivated, onActivated, defineComponent, shallowRef, h, resolveComponent, provide, cloneVNode, createElementBlock, createVNode, resolveDynamicComponent, mergeProps, computed, defineAsyncComponent, Suspense, Fragment, useSSRContext, createApp, shallowReactive, watch, nextTick, openBlock, createElementVNode, toRef, onErrorCaptured, onServerPrefetch, unref, reactive, effectScope, isReadonly, isRef, isShallow, isReactive, toRaw, getCurrentScope, withCtx, createTextVNode, toDisplayString } from 'vue';
+import { hasInjectionContext, inject, ref, watchEffect, getCurrentInstance, onBeforeUnmount, onDeactivated, onActivated, defineComponent, shallowRef, h, resolveComponent, provide, cloneVNode, createElementBlock, createVNode, resolveDynamicComponent, mergeProps, watch, reactive, computed, unref, openBlock, createStaticVNode, defineAsyncComponent, Suspense, Fragment, useSSRContext, createApp, shallowReactive, nextTick, createElementVNode, toRef, onErrorCaptured, onServerPrefetch, effectScope, isReadonly, isRef, isShallow, isReactive, toRaw, getCurrentScope, withCtx, createTextVNode, toDisplayString } from 'vue';
 import { i as parseQuery, j as hasProtocol, k as isScriptProtocol, l as joinURL, w as withQuery, s as sanitizeStatusCode, m as withTrailingSlash, n as withoutTrailingSlash, o as getContext, $ as $fetch, q as baseURL, r as createHooks, t as executeAsync, e as createError$1, v as toRouteMatcher, x as createRouter$1, y as defu } from '../nitro/nitro.mjs';
 import { defineStore, createPinia, setActivePinia, shouldHydrate } from 'pinia';
 import { RouterView, useRoute as useRoute$1, createMemoryHistory, createRouter, START_LOCATION, useRouter as useRouter$1 } from 'vue-router';
-import { ssrRenderVNode, ssrRenderAttrs, ssrInterpolate, ssrRenderAttr, ssrIncludeBooleanAttr, ssrRenderComponent, ssrRenderSuspense, ssrRenderStyle, ssrRenderList, ssrRenderClass, ssrRenderTeleport } from 'vue/server-renderer';
+import { ssrRenderVNode, ssrRenderTeleport, ssrRenderAttr, ssrInterpolate, ssrRenderComponent, ssrIncludeBooleanAttr, ssrRenderAttrs, ssrRenderSuspense, ssrRenderStyle, ssrRenderClass, ssrRenderList } from 'vue/server-renderer';
 import { walkResolver } from 'unhead/utils';
 import { h as headSymbol, V as VueResolver } from '../routes/renderer.mjs';
 import 'node:http';
@@ -469,7 +469,7 @@ const _routes = [
   {
     name: "about",
     path: "/about",
-    component: () => import('./about-CkPQb906.mjs')
+    component: () => import('./about-BBE0aF0g.mjs')
   },
   {
     name: "admin",
@@ -479,7 +479,7 @@ const _routes = [
   {
     name: "index",
     path: "/",
-    component: () => import('./index-CfIMDQFg.mjs')
+    component: () => import('./index-C5dyHjp2.mjs')
   },
   {
     name: "login",
@@ -489,12 +489,12 @@ const _routes = [
   {
     name: "submit",
     path: "/submit",
-    component: () => import('./submit-CAhWBu4t.mjs')
+    component: () => import('./submit-DZEOWWg7.mjs')
   },
   {
     name: "confirm",
     path: "/confirm",
-    component: () => import('./confirm-ChOHEVyE.mjs')
+    component: () => import('./confirm-TitJmQnJ.mjs')
   },
   {
     name: "pricing",
@@ -502,9 +502,14 @@ const _routes = [
     component: () => import('./pricing-CGfPLUgK.mjs')
   },
   {
-    name: "profile",
-    path: "/profile",
-    component: () => import('./profile-FSa1BLs1.mjs')
+    name: "privacy",
+    path: "/privacy",
+    component: () => import('./privacy-3M8CgYcN.mjs')
+  },
+  {
+    name: "success",
+    path: "/success",
+    component: () => import('./success-DEexdFVI.mjs')
   },
   {
     name: "contacts",
@@ -519,32 +524,47 @@ const _routes = [
   {
     name: "services",
     path: "/services",
-    component: () => import('./services-CYKomQDV.mjs')
+    component: () => import('./services-DshSlPvE.mjs')
+  },
+  {
+    name: "acception",
+    path: "/acception",
+    component: () => import('./acception-FD9Ggfil.mjs')
   },
   {
     name: "templates",
     path: "/templates",
-    component: () => import('./templates-Ct_ujbsJ.mjs')
+    component: () => import('./templates-38okd0OF.mjs')
   },
   {
     name: "buy-domain",
     path: "/buy-domain",
-    component: () => import('./buy-domain-CZSXPBJ2.mjs')
+    component: () => import('./buy-domain-BP7tw5ut.mjs')
+  },
+  {
+    name: "profile",
+    path: "/profile",
+    component: () => import('./index-Mln9Hlzr.mjs')
   },
   {
     name: "reset-password",
     path: "/reset-password",
-    component: () => import('./reset-password-BIb5A0ww.mjs')
+    component: () => import('./reset-password-Bbzj7Gq0.mjs')
   },
   {
     name: "buy-template-id",
     path: "/buy-template/:id()",
-    component: () => import('./_id_-UOeqcRjD.mjs')
+    component: () => import('./_id_-DZtv1EOn.mjs')
   },
   {
     name: "buy-template",
     path: "/buy-template",
     component: () => import('./index-DO0UmPdz.mjs')
+  },
+  {
+    name: "profile-orders-id",
+    path: "/profile/orders/:id()",
+    component: () => import('./_id_-Bu2PgYw4.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -1230,9 +1250,11 @@ const LazySvgoLandingBlockBg = defineAsyncComponent(() => import('./block-bg-Cpt
 const LazySvgoLandingBlockBg1 = defineAsyncComponent(() => import('./block-bg1-DoeVrfTz.mjs').then((r) => r["default"] || r.default || r));
 const LazySvgoLandingBlockBg2 = defineAsyncComponent(() => import('./block-bg2-BjLeHx_o.mjs').then((r) => r["default"] || r.default || r));
 const LazySvgoLandingMouse = defineAsyncComponent(() => import('./mouse-DbvaMCeI.mjs').then((r) => r["default"] || r.default || r));
-const LazySvgoLogo = defineAsyncComponent(() => Promise.resolve().then(() => logo$1).then((r) => r["default"] || r.default || r));
+const LazySvgoLogoWhite = defineAsyncComponent(() => import('./logo-white-jSwUzxXt.mjs').then((r) => r["default"] || r.default || r));
+const LazySvgoLogo = defineAsyncComponent(() => Promise.resolve().then(() => logo).then((r) => r["default"] || r.default || r));
 const LazySvgoNextCircle = defineAsyncComponent(() => import('./next-circle-CvWlHJEr.mjs').then((r) => r["default"] || r.default || r));
 const LazySvgoOpenNext = defineAsyncComponent(() => import('./open-next-Bh2lDVNL.mjs').then((r) => r["default"] || r.default || r));
+const LazySvgoOpen = defineAsyncComponent(() => import('./open-DusRF1eb.mjs').then((r) => r["default"] || r.default || r));
 const LazySvgoTg = defineAsyncComponent(() => Promise.resolve().then(() => tg).then((r) => r["default"] || r.default || r));
 const LazySvgoUser = defineAsyncComponent(() => import('./user-Tg2Xnev4.mjs').then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
@@ -1245,9 +1267,11 @@ const lazyGlobalComponents = [
   ["SvgoLandingBlockBg1", LazySvgoLandingBlockBg1],
   ["SvgoLandingBlockBg2", LazySvgoLandingBlockBg2],
   ["SvgoLandingMouse", LazySvgoLandingMouse],
+  ["SvgoLogoWhite", LazySvgoLogoWhite],
   ["SvgoLogo", LazySvgoLogo],
   ["SvgoNextCircle", LazySvgoNextCircle],
   ["SvgoOpenNext", LazySvgoOpenNext],
+  ["SvgoOpen", LazySvgoOpen],
   ["SvgoTg", LazySvgoTg],
   ["SvgoUser", LazySvgoUser]
 ];
@@ -1358,7 +1382,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$c = {
+const _sfc_main$d = {
   props: {
     filled: {
       type: Boolean,
@@ -1388,15 +1412,15 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
     }
   }, _attrs), null), _parent);
 }
-const _sfc_setup$c = _sfc_main$c.setup;
-_sfc_main$c.setup = (props, ctx) => {
+const _sfc_setup$d = _sfc_main$d.setup;
+_sfc_main$d.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("node_modules/nuxt-svgo/dist/runtime/components/nuxt-icon.vue");
-  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
+  return _sfc_setup$d ? _sfc_setup$d(props, ctx) : void 0;
 };
-const NuxtIcon = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["ssrRender", _sfc_ssrRender]]);
+const NuxtIcon = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["ssrRender", _sfc_ssrRender]]);
 const API = {
-  currentBuild: "base",
+  currentBuild: "dev",
   // 'dev' или 'base'
   base: {
     protocol: "https",
@@ -1503,7 +1527,12 @@ const useUserStore = defineStore("user", {
       this.loading = true;
       this.error = null;
       try {
-        const { res, parsed } = await this._post("/user/login", payload);
+        const domain = false ? (void 0).location.origin : null;
+        const payloadWithDomain = {
+          ...payload,
+          domain
+        };
+        const { res, parsed } = await this._post("/user/login", payloadWithDomain);
         if (!res.ok) {
           const errMsg = _extractMessageFromBody(parsed) || "Ошибка авторизации";
           this.error = errMsg;
@@ -1738,7 +1767,7 @@ const useUserStore = defineStore("user", {
     }
   }
 });
-const _sfc_main$b = {
+const _sfc_main$c = {
   __name: "RegisterModal",
   __ssrInlineRender: true,
   props: { visible: Boolean },
@@ -1803,14 +1832,14 @@ const _sfc_main$b = {
     };
   }
 };
-const _sfc_setup$b = _sfc_main$b.setup;
-_sfc_main$b.setup = (props, ctx) => {
+const _sfc_setup$c = _sfc_main$c.setup;
+_sfc_main$c.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/profile/Modals/RegisterModal.vue");
-  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
+  return _sfc_setup$c ? _sfc_setup$c(props, ctx) : void 0;
 };
-const RegisterModal = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["__scopeId", "data-v-ad94c45a"]]);
-const _sfc_main$a = {
+const RegisterModal = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["__scopeId", "data-v-ad94c45a"]]);
+const _sfc_main$b = {
   __name: "ForgotPasswordModal",
   __ssrInlineRender: true,
   props: {
@@ -1878,14 +1907,14 @@ const _sfc_main$a = {
     };
   }
 };
-const _sfc_setup$a = _sfc_main$a.setup;
-_sfc_main$a.setup = (props, ctx) => {
+const _sfc_setup$b = _sfc_main$b.setup;
+_sfc_main$b.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/profile/Modals/ForgotPasswordModal.vue");
-  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
+  return _sfc_setup$b ? _sfc_setup$b(props, ctx) : void 0;
 };
-const ForgotPasswordModal = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-35bfaefb"]]);
-const _sfc_main$9 = {
+const ForgotPasswordModal = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["__scopeId", "data-v-35bfaefb"]]);
+const _sfc_main$a = {
   __name: "LoginModal",
   __ssrInlineRender: true,
   props: {
@@ -1984,265 +2013,20 @@ const _sfc_main$9 = {
     };
   }
 };
-const _sfc_setup$9 = _sfc_main$9.setup;
-_sfc_main$9.setup = (props, ctx) => {
+const _sfc_setup$a = _sfc_main$a.setup;
+_sfc_main$a.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/profile/Modals/LoginModal.vue");
-  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
+  return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
 };
-const LoginModal = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["__scopeId", "data-v-9c5b72d0"]]);
-const _sfc_main$8 = {
-  __name: "Header",
-  __ssrInlineRender: true,
-  setup(__props) {
-    const userStore = useUserStore();
-    useRouter$1();
-    const headerRef = ref(null);
-    const isUserMenuOpen = ref(false);
-    const isMobileMenuOpen = ref(false);
-    const isLoginModalOpen = ref(false);
-    const isAuthenticated = computed(() => !!userStore.isAuthenticated);
-    const user = computed(() => userStore.user || null);
-    const displayName = computed(() => {
-      if (!user.value) return "";
-      return user.value.fullname || user.value.username || (user.value.email ? user.value.email.split("@")[0] : "");
-    });
-    const initials = computed(() => {
-      const name = displayName.value;
-      if (!name) return "👤";
-      const parts = name.split(" ").filter(Boolean);
-      if (parts.length === 1) return parts[0].slice(0, 1).toUpperCase();
-      return (parts[0].slice(0, 1) + parts[1].slice(0, 1)).toUpperCase();
-    });
-    const avatarUrl = computed(() => {
-      const av = user.value && user.value.avatar;
-      if (!av) return null;
-      if (typeof av === "string") return av;
-      return null;
-    });
-    function onLoginEvent(userData) {
-      isLoginModalOpen.value = false;
-      isUserMenuOpen.value = false;
-    }
-    function closeUserMenu() {
-      isUserMenuOpen.value = false;
-    }
-    function closeMobileMenu() {
-      isMobileMenuOpen.value = false;
-    }
-    const primaryPages = [
-      { path: "/", title: "Главная" },
-      { path: "/templates", title: "Шаблоны" },
-      { path: "/services", title: "Услуги" }
-    ];
-    const secondaryPages = [
-      { path: "/contacts", title: "Контакты" },
-      { path: "/blog", title: "Блог" },
-      { path: "/about", title: "О нас" },
-      { path: "/faq", title: "FAQ" }
-    ];
-    return (_ctx, _push, _parent, _attrs) => {
-      const _component_NuxtLink = __nuxt_component_0$1;
-      _push(`<header${ssrRenderAttrs(mergeProps({
-        ref_key: "headerRef",
-        ref: headerRef,
-        class: "app-header"
-      }, _attrs))} data-v-af32f420><div class="container app-header__container" data-v-af32f420><div class="app-header__top" data-v-af32f420>`);
-      _push(ssrRenderComponent(_component_NuxtLink, {
-        to: "/",
-        class: "app-header__logo"
-      }, {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<span class="app-header__logo-text" data-v-af32f420${_scopeId}>SITE.BY</span><span class="app-header__logo-badge" data-v-af32f420${_scopeId}>PRO</span>`);
-          } else {
-            return [
-              createVNode("span", { class: "app-header__logo-text" }, "SITE.BY"),
-              createVNode("span", { class: "app-header__logo-badge" }, "PRO")
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(`<nav class="app-nav app-nav--primary" data-v-af32f420><ul class="app-nav__list" data-v-af32f420><!--[-->`);
-      ssrRenderList(primaryPages, (page) => {
-        _push(`<li class="app-nav__item" data-v-af32f420>`);
-        _push(ssrRenderComponent(_component_NuxtLink, {
-          to: page.path,
-          class: "app-nav__link",
-          "exact-active-class": "app-nav__link--active"
-        }, {
-          default: withCtx((_, _push2, _parent2, _scopeId) => {
-            if (_push2) {
-              _push2(`${ssrInterpolate(page.title)}`);
-            } else {
-              return [
-                createTextVNode(toDisplayString(page.title), 1)
-              ];
-            }
-          }),
-          _: 2
-        }, _parent));
-        _push(`</li>`);
-      });
-      _push(`<!--]--></ul></nav><div class="app-header__actions" data-v-af32f420>`);
-      if (isAuthenticated.value && user.value) {
-        _push(`<div class="app-header__profile" data-v-af32f420><button class="app-header__profile-toggle" data-v-af32f420><div class="app-header__avatar" data-v-af32f420>`);
-        if (avatarUrl.value) {
-          _push(`<img${ssrRenderAttr("src", avatarUrl.value)} alt="avatar" class="app-header__avatar-img" data-v-af32f420>`);
-        } else {
-          _push(`<!--[-->${ssrInterpolate(initials.value)}<!--]-->`);
-        }
-        _push(`</div><span class="app-header__user-name" data-v-af32f420>${ssrInterpolate(displayName.value)}</span></button>`);
-        if (isUserMenuOpen.value) {
-          _push(`<div class="user-menu" data-v-af32f420><div class="user-menu__header" data-v-af32f420><div class="user-menu__avatar" data-v-af32f420>${ssrInterpolate(initials.value)}</div><div class="user-menu__info" data-v-af32f420><div class="user-menu__name" data-v-af32f420>${ssrInterpolate(displayName.value)}</div><div class="user-menu__email" data-v-af32f420>${ssrInterpolate(user.value.email)}</div></div></div><ul class="user-menu__list" data-v-af32f420><li class="user-menu__item" data-v-af32f420>`);
-          _push(ssrRenderComponent(_component_NuxtLink, {
-            to: "/profile?tab=orders",
-            class: "user-menu__link",
-            onClick: closeUserMenu
-          }, {
-            default: withCtx((_, _push2, _parent2, _scopeId) => {
-              if (_push2) {
-                _push2(`Мои заказы`);
-              } else {
-                return [
-                  createTextVNode("Мои заказы")
-                ];
-              }
-            }),
-            _: 1
-          }, _parent));
-          _push(`</li><li class="user-menu__item" data-v-af32f420>`);
-          _push(ssrRenderComponent(_component_NuxtLink, {
-            to: "/profile",
-            class: "user-menu__link",
-            onClick: closeUserMenu
-          }, {
-            default: withCtx((_, _push2, _parent2, _scopeId) => {
-              if (_push2) {
-                _push2(`Мой профиль`);
-              } else {
-                return [
-                  createTextVNode("Мой профиль")
-                ];
-              }
-            }),
-            _: 1
-          }, _parent));
-          _push(`</li><li class="user-menu__item" data-v-af32f420>`);
-          _push(ssrRenderComponent(_component_NuxtLink, {
-            to: "/profile?tab=settings",
-            class: "user-menu__link",
-            onClick: closeUserMenu
-          }, {
-            default: withCtx((_, _push2, _parent2, _scopeId) => {
-              if (_push2) {
-                _push2(`Настройки`);
-              } else {
-                return [
-                  createTextVNode("Настройки")
-                ];
-              }
-            }),
-            _: 1
-          }, _parent));
-          _push(`</li></ul><div class="user-menu__footer" data-v-af32f420><button class="user-menu__logout" data-v-af32f420>Выйти из аккаунта</button></div></div>`);
-        } else {
-          _push(`<!---->`);
-        }
-        _push(`</div>`);
-      } else {
-        _push(`<div data-v-af32f420><button class="button button--primary" data-v-af32f420>Войти</button></div>`);
-      }
-      _push(`<button class="app-header__menu-toggle" data-v-af32f420><span class="${ssrRenderClass([{ "app-header__menu-icon--active": isMobileMenuOpen.value }, "app-header__menu-icon"])}" data-v-af32f420></span></button></div></div><div class="app-header__bottom" data-v-af32f420><nav class="app-nav app-nav--secondary" data-v-af32f420><ul class="app-nav__list" data-v-af32f420><!--[-->`);
-      ssrRenderList(secondaryPages, (page) => {
-        _push(`<li class="app-nav__item" data-v-af32f420>`);
-        _push(ssrRenderComponent(_component_NuxtLink, {
-          to: page.path,
-          class: "app-nav__link",
-          "active-class": "app-nav__link--active"
-        }, {
-          default: withCtx((_, _push2, _parent2, _scopeId) => {
-            if (_push2) {
-              _push2(`${ssrInterpolate(page.title)}`);
-            } else {
-              return [
-                createTextVNode(toDisplayString(page.title), 1)
-              ];
-            }
-          }),
-          _: 2
-        }, _parent));
-        _push(`</li>`);
-      });
-      _push(`<!--]--></ul></nav></div></div><div class="${ssrRenderClass([{ "app-mobile-menu--active": isMobileMenuOpen.value }, "app-mobile-menu"])}" data-v-af32f420><div class="app-mobile-menu__content" data-v-af32f420><nav class="app-mobile-nav" data-v-af32f420><div class="app-mobile-nav__section" data-v-af32f420><h3 class="app-mobile-nav__title" data-v-af32f420>Основные</h3><ul class="app-mobile-nav__list" data-v-af32f420><!--[-->`);
-      ssrRenderList(primaryPages, (page) => {
-        _push(`<li class="app-mobile-nav__item" data-v-af32f420>`);
-        _push(ssrRenderComponent(_component_NuxtLink, {
-          to: page.path,
-          class: "app-mobile-nav__link",
-          onClick: closeMobileMenu,
-          "exact-active-class": "app-mobile-nav__link--active"
-        }, {
-          default: withCtx((_, _push2, _parent2, _scopeId) => {
-            if (_push2) {
-              _push2(`${ssrInterpolate(page.title)}`);
-            } else {
-              return [
-                createTextVNode(toDisplayString(page.title), 1)
-              ];
-            }
-          }),
-          _: 2
-        }, _parent));
-        _push(`</li>`);
-      });
-      _push(`<!--]--></ul></div><div class="app-mobile-nav__section" data-v-af32f420><h3 class="app-mobile-nav__title" data-v-af32f420>Дополнительные</h3><ul class="app-mobile-nav__list" data-v-af32f420><!--[-->`);
-      ssrRenderList(secondaryPages, (page) => {
-        _push(`<li class="app-mobile-nav__item" data-v-af32f420>`);
-        _push(ssrRenderComponent(_component_NuxtLink, {
-          to: page.path,
-          class: "app-mobile-nav__link",
-          onClick: closeMobileMenu,
-          "active-class": "app-mobile-nav__link--active"
-        }, {
-          default: withCtx((_, _push2, _parent2, _scopeId) => {
-            if (_push2) {
-              _push2(`${ssrInterpolate(page.title)}`);
-            } else {
-              return [
-                createTextVNode(toDisplayString(page.title), 1)
-              ];
-            }
-          }),
-          _: 2
-        }, _parent));
-        _push(`</li>`);
-      });
-      _push(`<!--]--></ul></div></nav></div></div>`);
-      _push(ssrRenderComponent(LoginModal, {
-        visible: isLoginModalOpen.value,
-        "onUpdate:visible": ($event) => isLoginModalOpen.value = $event,
-        onLogin: onLoginEvent
-      }, null, _parent));
-      _push(`</header>`);
-    };
-  }
-};
-const _sfc_setup$8 = _sfc_main$8.setup;
-_sfc_main$8.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/layout/Header.vue");
-  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
-};
-const Header = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["__scopeId", "data-v-af32f420"]]);
-const _hoisted_1$1 = {
+const LoginModal = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["__scopeId", "data-v-9c5b72d0"]]);
+const _hoisted_1$2 = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   viewBox: "0 0 156 34"
 };
-function render$1(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1$1, _cache[0] || (_cache[0] = [
+function render$2(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$2, _cache[0] || (_cache[0] = [
     createElementVNode("path", {
       fill: "#0040C1",
       d: "M9.893 32.308c-3.08 0-6.059-1.061-8.66-3.457l2.396-2.979c1.78 1.61 3.765 2.842 6.298 2.842 2.294 0 3.766-1.267 3.766-3.047v-.034c0-1.506-.787-2.5-4.587-3.903-4.553-1.711-6.915-3.389-6.915-7.223v-.068c0-3.937 3.15-6.71 7.6-6.71 2.772 0 5.34.89 7.53 2.807l-2.259 3.047c-1.643-1.335-3.457-2.26-5.374-2.26-2.157 0-3.492 1.199-3.492 2.773v.035c0 1.677.89 2.567 4.964 4.142 4.45 1.711 6.504 3.56 6.504 7.052v.068c0 4.21-3.286 6.915-7.77 6.915M20.74 32V8.037h3.97V32zm12.95 0V11.734h-6.3V8.037h16.57v3.697h-6.3V32zm12.797 0V8.037h15.097v3.595h-11.16v6.504h9.893v3.594h-9.893v6.676h11.33V32zm17.71 0v-4.553h4.382V32zm7.841 0V8.037h8.559c2.601 0 4.792.72 6.127 2.054 1.061 1.061 1.61 2.396 1.61 4.04v.102c0 2.944-1.712 4.485-3.527 5.375 2.636.924 4.553 2.499 4.553 5.717v.137c0 4.21-3.423 6.538-8.524 6.538zm12.324-17.15v-.069c0-2.02-1.472-3.184-4.04-3.184H75.94v6.641h4.142c2.602 0 4.28-1.163 4.28-3.388m1.027 10.132c0-2.088-1.609-3.389-4.621-3.389H75.94v6.847h4.998c2.739 0 4.45-1.198 4.45-3.39zM97.188 32v-9.55l-8.08-14.413h4.554l5.545 10.373 5.58-10.373h4.416l-8.045 14.378V32z"
@@ -2261,21 +2045,21 @@ function render$1(_ctx, _cache) {
     }, null, -1)
   ]));
 }
-const logo = { render() {
-  return h(NuxtIcon, { icon: { render: render$1 }, name: "logo" });
+const Logo = { render() {
+  return h(NuxtIcon, { icon: { render: render$2 }, name: "logo" });
 } };
-const logo$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const logo = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: logo,
-  render: render$1
+  default: Logo,
+  render: render$2
 }, Symbol.toStringTag, { value: "Module" }));
-const _hoisted_1 = {
+const _hoisted_1$1 = {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   viewBox: "0 0 30 30"
 };
-function render(_ctx, _cache) {
-  return openBlock(), createElementBlock("svg", _hoisted_1, _cache[0] || (_cache[0] = [
+function render$1(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$1, _cache[0] || (_cache[0] = [
     createElementVNode("path", {
       fill: "#4A63C4",
       d: "m27.458 5.717-4.553 18.47c-.214.87-1.205 1.317-2.018.904l-5.758-2.925-2.723 4.384c-.741 1.195-2.616.677-2.616-.72v-4.886c0-.378.16-.738.437-1.001L21.45 9.398c-.01-.132-.152-.246-.295-.15L7.763 18.422l-4.5-2.284c-1.053-.536-1.008-2.039.081-2.504L25.53 4.118c1.062-.457 2.205.483 1.928 1.6"
@@ -2283,14 +2067,14 @@ function render(_ctx, _cache) {
   ]));
 }
 const IconTg = { render() {
-  return h(NuxtIcon, { icon: { render }, name: "tg" });
+  return h(NuxtIcon, { icon: { render: render$1 }, name: "tg" });
 } };
 const tg = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: IconTg,
-  render
+  render: render$1
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$7 = {
+const _sfc_main$9 = {
   __name: "SideMenu",
   __ssrInlineRender: true,
   props: {
@@ -2321,7 +2105,7 @@ const _sfc_main$7 = {
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_0$1;
       ssrRenderTeleport(_push, (_push2) => {
-        _push2(`<div class="${ssrRenderClass([{ "app-mobile-menu--active": __props.visible }, "app-mobile-menu"])}" data-v-27e846b9><div class="app-mobile-menu__content" data-v-27e846b9><div class="app-mobile-menu__mobile-header" data-v-27e846b9>`);
+        _push2(`<div class="${ssrRenderClass([{ "app-mobile-menu--active": __props.visible }, "app-mobile-menu"])}" data-v-34a2ac68><div class="app-mobile-menu__content" data-v-34a2ac68><div class="app-mobile-menu__mobile-header" data-v-34a2ac68>`);
         _push2(ssrRenderComponent(_component_NuxtLink, {
           to: "/",
           class: "app-mobile-menu__logo",
@@ -2329,13 +2113,13 @@ const _sfc_main$7 = {
         }, {
           default: withCtx((_, _push3, _parent2, _scopeId) => {
             if (_push3) {
-              _push3(ssrRenderComponent(unref(logo), {
+              _push3(ssrRenderComponent(unref(Logo), {
                 class: "app-mobile-menu__logo-svg",
                 filled: ""
               }, null, _parent2, _scopeId));
             } else {
               return [
-                createVNode(unref(logo), {
+                createVNode(unref(Logo), {
                   class: "app-mobile-menu__logo-svg",
                   filled: ""
                 })
@@ -2344,9 +2128,9 @@ const _sfc_main$7 = {
           }),
           _: 1
         }, _parent));
-        _push2(`<button class="app-mobile-menu__close" aria-label="Закрыть меню" data-v-27e846b9>✕</button></div><nav class="app-mobile-nav" data-v-27e846b9><div class="app-mobile-nav__section" data-v-27e846b9><h3 class="app-mobile-nav__title" data-v-27e846b9>Основные</h3><ul class="app-mobile-nav__list" data-v-27e846b9><!--[-->`);
+        _push2(`<button class="app-mobile-menu__close" aria-label="Закрыть меню" data-v-34a2ac68>✕</button></div><nav class="app-mobile-nav" data-v-34a2ac68><div class="app-mobile-nav__section" data-v-34a2ac68><h3 class="app-mobile-nav__title" data-v-34a2ac68>Основные</h3><ul class="app-mobile-nav__list" data-v-34a2ac68><!--[-->`);
         ssrRenderList(__props.primaryPages, (page) => {
-          _push2(`<li class="app-mobile-nav__item" data-v-27e846b9>`);
+          _push2(`<li class="app-mobile-nav__item" data-v-34a2ac68>`);
           _push2(ssrRenderComponent(_component_NuxtLink, {
             to: page.path,
             class: "app-mobile-nav__link",
@@ -2366,9 +2150,9 @@ const _sfc_main$7 = {
           }, _parent));
           _push2(`</li>`);
         });
-        _push2(`<!--]--></ul></div><div class="app-mobile-nav__section" data-v-27e846b9><h3 class="app-mobile-nav__title" data-v-27e846b9>Дополнительные</h3><ul class="app-mobile-nav__list" data-v-27e846b9><!--[-->`);
+        _push2(`<!--]--></ul></div><div class="app-mobile-nav__section" data-v-34a2ac68><h3 class="app-mobile-nav__title" data-v-34a2ac68>Дополнительные</h3><ul class="app-mobile-nav__list" data-v-34a2ac68><!--[-->`);
         ssrRenderList(__props.secondaryPages, (page) => {
-          _push2(`<li class="app-mobile-nav__item" data-v-27e846b9>`);
+          _push2(`<li class="app-mobile-nav__item" data-v-34a2ac68>`);
           _push2(ssrRenderComponent(_component_NuxtLink, {
             to: page.path,
             class: "app-mobile-nav__link",
@@ -2388,7 +2172,7 @@ const _sfc_main$7 = {
           }, _parent));
           _push2(`</li>`);
         });
-        _push2(`<!--]--></ul></div></nav><div class="app-mobile-menu__footer" data-v-27e846b9>`);
+        _push2(`<!--]--></ul></div></nav><div class="app-mobile-menu__footer" data-v-34a2ac68>`);
         _push2(ssrRenderComponent(_component_NuxtLink, {
           to: "/templates",
           class: "button button--primary app-mobile-menu__btn-order",
@@ -2405,56 +2189,158 @@ const _sfc_main$7 = {
           }),
           _: 1
         }, _parent));
-        _push2(`<a href="https://t.me/dozer_stoun" target="_blank" rel="noopener noreferrer" class="button button--outline app-mobile-menu__btn-tg" data-v-27e846b9>`);
+        _push2(`<a href="https://t.me/dozer_stoun" target="_blank" rel="noopener noreferrer" class="button button--outline app-mobile-menu__btn-tg" data-v-34a2ac68>`);
         _push2(ssrRenderComponent(unref(IconTg), { class: "tg__icon" }, null, _parent));
         _push2(` Написать в тг </a></div></div></div>`);
       }, "body", false, _parent);
     };
   }
 };
-const _sfc_setup$7 = _sfc_main$7.setup;
-_sfc_main$7.setup = (props, ctx) => {
+const _sfc_setup$9 = _sfc_main$9.setup;
+_sfc_main$9.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/Modal/SideMenu.vue");
-  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
+  return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
-const SideMenu = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["__scopeId", "data-v-27e846b9"]]);
-const _sfc_main$6 = {
-  __name: "LandingHeader",
+const SideMenu = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["__scopeId", "data-v-34a2ac68"]]);
+const _sfc_main$8 = {
+  __name: "ProfileHeader",
   __ssrInlineRender: true,
-  setup(__props) {
+  emits: ["open-login"],
+  setup(__props, { emit: __emit }) {
+    const route = useRoute$1();
+    const isHome = computed(() => route.path === "/");
+    const profileRef = ref(null);
+    const isUserMenuOpen = ref(false);
     const userStore = useUserStore();
     useRouter$1();
-    ref(null);
-    const isUserMenuOpen = ref(false);
-    const isMobileMenuOpen = ref(false);
-    const isLoginModalOpen = ref(false);
-    computed(() => !!userStore.isAuthenticated);
+    const isAuthenticated = computed(() => !!userStore.isAuthenticated);
     const user = computed(() => userStore.user || null);
     const displayName = computed(() => {
       if (!user.value) return "";
       return user.value.fullname || user.value.username || (user.value.email ? user.value.email.split("@")[0] : "");
     });
-    computed(() => {
+    const initials = computed(() => {
       const name = displayName.value;
       if (!name) return "👤";
       const parts = name.split(" ").filter(Boolean);
       if (parts.length === 1) return parts[0].slice(0, 1).toUpperCase();
       return (parts[0].slice(0, 1) + parts[1].slice(0, 1)).toUpperCase();
     });
-    computed(() => {
+    const avatarUrl = computed(() => {
       const av = user.value && user.value.avatar;
       if (!av) return null;
       if (typeof av === "string") return av;
       return null;
     });
+    function closeUserMenu() {
+      isUserMenuOpen.value = false;
+    }
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_NuxtLink = __nuxt_component_0$1;
+      _push(`<div${ssrRenderAttrs(mergeProps({
+        class: "app-header__profile",
+        ref_key: "profileRef",
+        ref: profileRef
+      }, _attrs))} data-v-3b7a45b0>`);
+      if (isAuthenticated.value && user.value) {
+        _push(`<div data-v-3b7a45b0><button class="app-header__profile-toggle"${ssrRenderAttr("aria-expanded", isUserMenuOpen.value)} data-v-3b7a45b0><div class="app-header__avatar" data-v-3b7a45b0>`);
+        if (avatarUrl.value) {
+          _push(`<img${ssrRenderAttr("src", avatarUrl.value)} alt="avatar" class="app-header__avatar-img" data-v-3b7a45b0>`);
+        } else {
+          _push(`<!--[-->${ssrInterpolate(initials.value)}<!--]-->`);
+        }
+        _push(`</div><span class="app-header__user-name" data-v-3b7a45b0>${ssrInterpolate(displayName.value)}</span></button>`);
+        if (isUserMenuOpen.value) {
+          _push(`<div class="user-menu" role="menu" aria-label="Меню пользователя" data-v-3b7a45b0><div class="user-menu__header" data-v-3b7a45b0><div class="user-menu__avatar" data-v-3b7a45b0>${ssrInterpolate(initials.value)}</div><div class="user-menu__info" data-v-3b7a45b0><div class="user-menu__name" data-v-3b7a45b0>${ssrInterpolate(displayName.value)}</div><div class="user-menu__email" data-v-3b7a45b0>${ssrInterpolate(user.value.email)}</div></div></div><ul class="user-menu__list" data-v-3b7a45b0><li class="user-menu__item" data-v-3b7a45b0>`);
+          _push(ssrRenderComponent(_component_NuxtLink, {
+            to: "/profile?tab=orders",
+            class: "user-menu__link",
+            onClick: closeUserMenu
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`Мои заказы`);
+              } else {
+                return [
+                  createTextVNode("Мои заказы")
+                ];
+              }
+            }),
+            _: 1
+          }, _parent));
+          _push(`</li><li class="user-menu__item" data-v-3b7a45b0>`);
+          _push(ssrRenderComponent(_component_NuxtLink, {
+            to: "/profile",
+            class: "user-menu__link",
+            onClick: closeUserMenu
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`Мой профиль`);
+              } else {
+                return [
+                  createTextVNode("Мой профиль")
+                ];
+              }
+            }),
+            _: 1
+          }, _parent));
+          _push(`</li><li class="user-menu__item" data-v-3b7a45b0>`);
+          _push(ssrRenderComponent(_component_NuxtLink, {
+            to: "/profile?tab=settings",
+            class: "user-menu__link",
+            onClick: closeUserMenu
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`Настройки`);
+              } else {
+                return [
+                  createTextVNode("Настройки")
+                ];
+              }
+            }),
+            _: 1
+          }, _parent));
+          _push(`</li></ul><div class="user-menu__footer" data-v-3b7a45b0><button class="user-menu__logout" data-v-3b7a45b0>Выйти из аккаунта</button></div></div>`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`</div>`);
+      } else {
+        _push(`<div data-v-3b7a45b0><button class="${ssrRenderClass([{ "main-button--primary": !isHome.value }, "button button--primary"])}" data-v-3b7a45b0>Войти</button></div>`);
+      }
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup$8 = _sfc_main$8.setup;
+_sfc_main$8.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/profile/ProfileHeader.vue");
+  return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
+};
+const ProfileHeader = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["__scopeId", "data-v-3b7a45b0"]]);
+const _sfc_main$7 = {
+  __name: "LandingHeader",
+  __ssrInlineRender: true,
+  setup(__props) {
+    useRouter$1();
+    const route = useRoute();
+    const isHome = computed(() => route.path === "/");
+    ref(null);
+    const isMobileMenuOpen = ref(false);
+    const isLoginModalOpen = ref(false);
+    function openLogin() {
+      isLoginModalOpen.value = true;
+    }
     function onMobileLogin() {
       isLoginModalOpen.value = true;
       closeMobileMenu();
     }
     function onLoginEvent(userData) {
       isLoginModalOpen.value = false;
-      isUserMenuOpen.value = false;
     }
     function closeMobileMenu() {
       isMobileMenuOpen.value = false;
@@ -2463,6 +2349,7 @@ const _sfc_main$6 = {
       { path: "/templates", title: "шаблоны" },
       { path: "/services", title: "услуги" },
       { path: "/services", title: "3D-модели" }
+      // исправленный путь
     ];
     const secondaryPages = [
       { path: "/contacts", title: "Контакты" },
@@ -2470,35 +2357,38 @@ const _sfc_main$6 = {
     ];
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_0$1;
-      _push(`<!--[--><header class="app-header" data-v-1d5de54d><div class="app-header__container" data-v-1d5de54d><div class="app-header__top" data-v-1d5de54d>`);
+      _push(`<!--[--><header class="${ssrRenderClass([{ "main-header": !unref(isHome) }, "app-header"])}" data-v-87a78d2d><div class="${ssrRenderClass([{ "main-header__container": !unref(isHome) }, "app-header__container"])}" data-v-87a78d2d><div class="app-header__top" data-v-87a78d2d>`);
       _push(ssrRenderComponent(_component_NuxtLink, {
         to: "/",
-        class: "app-header__logo"
+        class: ["app-header__logo", { "main-header__logo": !unref(isHome) }],
+        "aria-label": "Перейти на Главную страницу"
       }, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(ssrRenderComponent(unref(logo), {
-              class: "app-header__logo-svg",
+            _push2(ssrRenderComponent(unref(Logo), {
+              class: ["app-header__logo-svg", { "main-header__logo-svg": !unref(isHome) }],
               filled: ""
             }, null, _parent2, _scopeId));
           } else {
             return [
-              createVNode(unref(logo), {
-                class: "app-header__logo-svg",
+              createVNode(unref(Logo), {
+                class: ["app-header__logo-svg", { "main-header__logo-svg": !unref(isHome) }],
                 filled: ""
-              })
+              }, null, 8, ["class"])
             ];
           }
         }),
         _: 1
       }, _parent));
-      _push(`<nav class="app-nav app-nav--primary" data-v-1d5de54d><ul class="app-nav__list" data-v-1d5de54d><!--[-->`);
+      _push(`<nav aria-label="Главное меню" class="${ssrRenderClass([{ "main-nav--primary": !unref(isHome) }, "app-nav app-nav--primary"])}" data-v-87a78d2d><ul class="${ssrRenderClass([{ "main-nav__list": !unref(isHome) }, "app-nav__list"])}" data-v-87a78d2d><!--[-->`);
       ssrRenderList(primaryPages, (page) => {
-        _push(`<li class="app-nav__item" data-v-1d5de54d>`);
+        _push(`<li class="app-nav__item" data-v-87a78d2d>`);
         _push(ssrRenderComponent(_component_NuxtLink, {
           to: page.path,
-          class: "app-nav__link",
-          "exact-active-class": "app-nav__link--active"
+          class: ["app-nav__link", { "main-nav__link": !unref(isHome) }],
+          "exact-active-class": "app-nav__link--active",
+          "aria-label": `Перейти на страницу ${page.title}`,
+          "aria-current": _ctx.$route.path === page.path ? "page" : null
         }, {
           default: withCtx((_, _push2, _parent2, _scopeId) => {
             if (_push2) {
@@ -2513,28 +2403,25 @@ const _sfc_main$6 = {
         }, _parent));
         _push(`</li>`);
       });
-      _push(`<!--]--></ul></nav><div class="app-header__actions" data-v-1d5de54d>`);
-      _push(ssrRenderComponent(_component_NuxtLink, {
-        to: "/templates",
-        class: "nuxt-link__a"
-      }, {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<div class="goto__template" data-v-1d5de54d${_scopeId}>заказать</div>`);
-          } else {
-            return [
-              createVNode("div", { class: "goto__template" }, "заказать")
-            ];
-          }
-        }),
-        _: 1
-      }, _parent));
-      _push(`<div class="burger-mobile__container" role="button" aria-label="Открыть меню" data-v-1d5de54d><div class="burger-stick" data-v-1d5de54d></div><div class="burger-stick" data-v-1d5de54d></div><div class="burger-stick" data-v-1d5de54d></div></div></div></div></div>`);
-      _push(ssrRenderComponent(LoginModal, {
-        visible: isLoginModalOpen.value,
-        "onUpdate:visible": ($event) => isLoginModalOpen.value = $event,
-        onLogin: onLoginEvent
-      }, null, _parent));
+      _push(`<!--]--></ul></nav><div class="${ssrRenderClass([{ "main-header__actions": !unref(isHome) }, "app-header__actions"])}" data-v-87a78d2d>`);
+      if (unref(isHome)) {
+        _push(`<a href="#" class="nuxt-link__a" aria-label="Перейти к форме заказа" data-v-87a78d2d><div class="goto__template" data-v-87a78d2d>заказать</div></a>`);
+      } else {
+        _push(`<!---->`);
+      }
+      if (!unref(isHome)) {
+        _push(ssrRenderComponent(ProfileHeader, { onOpenLogin: openLogin }, null, _parent));
+      } else {
+        _push(`<!---->`);
+      }
+      _push(`<div class="${ssrRenderClass([{ "main-burger-mobile__container": !unref(isHome) }, "burger-mobile__container"])}" role="button" aria-label="Открыть меню" data-v-87a78d2d><div class="burger-stick" data-v-87a78d2d></div><div class="burger-stick" data-v-87a78d2d></div><div class="burger-stick" data-v-87a78d2d></div></div></div></div></div>`);
+      ssrRenderTeleport(_push, (_push2) => {
+        _push2(ssrRenderComponent(LoginModal, {
+          visible: isLoginModalOpen.value,
+          "onUpdate:visible": ($event) => isLoginModalOpen.value = $event,
+          onLogin: onLoginEvent
+        }, null, _parent));
+      }, "body", false, _parent);
       _push(`</header>`);
       _push(ssrRenderComponent(SideMenu, {
         visible: isMobileMenuOpen.value,
@@ -2547,79 +2434,27 @@ const _sfc_main$6 = {
     };
   }
 };
-const _sfc_setup$6 = _sfc_main$6.setup;
-_sfc_main$6.setup = (props, ctx) => {
+const _sfc_setup$7 = _sfc_main$7.setup;
+_sfc_main$7.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/Nav/LandingHeader.vue");
-  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
+  return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
-const LandingHeader = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-1d5de54d"]]);
-const title = "Нужен уникальный дизайн?";
-const subtitle = "Разработаем эксклюзивный сайт специально для вас";
-const _sfc_main$5 = {
-  __name: "PortfolioCTA",
-  __ssrInlineRender: true,
-  setup(__props) {
-    return (_ctx, _push, _parent, _attrs) => {
-      _push(`<section${ssrRenderAttrs(mergeProps({ class: "portfolio-cta" }, _attrs))} data-v-f329e64b><div class="portfolio-cta__container container" data-v-f329e64b><div class="portfolio-cta__content" data-v-f329e64b><h2 class="portfolio-cta__title" data-v-f329e64b>${ssrInterpolate(title)}</h2><p class="portfolio-cta__subtitle" data-v-f329e64b>${ssrInterpolate(subtitle)}</p><button class="portfolio-cta__button button button--primary" data-v-f329e64b> Заказать дизайн </button></div></div></section>`);
-    };
-  }
+const LandingHeader = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["__scopeId", "data-v-87a78d2d"]]);
+const shapeSrc = "" + __buildAssetsURL("shape.BN2sWH-d.png");
+const _hoisted_1 = {
+  xmlns: "http://www.w3.org/2000/svg",
+  fill: "none",
+  viewBox: "0 0 24 24"
 };
-const _sfc_setup$5 = _sfc_main$5.setup;
-_sfc_main$5.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/portfolio/PortfolioCTA.vue");
-  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
-};
-const PortfolioCTA = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-f329e64b"]]);
-const _sfc_main$4 = {
-  __name: "Footer",
-  __ssrInlineRender: true,
-  setup(__props) {
-    const route = useRoute$1();
-    const excludedPages = [
-      "/login",
-      "/thank-you",
-      "/private/*"
-      // все пути, начинающиеся с /private/
-    ];
-    const isExcluded = (r) => {
-      const path = r.path || "";
-      const name = r.name != null ? String(r.name) : "";
-      return excludedPages.some((pattern) => {
-        if (!pattern) return false;
-        if (pattern.startsWith("name:")) {
-          const expectedName = pattern.slice(5);
-          return expectedName === name;
-        }
-        if (pattern.endsWith("*")) {
-          const prefix = pattern.slice(0, -1);
-          return path.startsWith(prefix);
-        }
-        return path === pattern;
-      });
-    };
-    const showCTA = computed(() => !isExcluded(route));
-    const telegramLink = ref("https://t.me/dozer_stoun");
-    const currentYear = ref((/* @__PURE__ */ new Date()).getFullYear());
-    return (_ctx, _push, _parent, _attrs) => {
-      _push(`<footer${ssrRenderAttrs(mergeProps({ class: "footer" }, _attrs))} data-v-221f761d>`);
-      if (showCTA.value) {
-        _push(ssrRenderComponent(PortfolioCTA, null, null, _parent));
-      } else {
-        _push(`<!---->`);
-      }
-      _push(`<div class="footer__container container" data-v-221f761d><div class="footer__brand" data-v-221f761d><div class="footer__logo" data-v-221f761d>SiteByPro</div><p class="footer__tagline" data-v-221f761d>Быстрые сайты для быстрых денег</p><a${ssrRenderAttr("href", telegramLink.value)} class="footer__telegram" target="_blank" rel="noopener" aria-label="Наш Telegram" data-v-221f761d><span class="footer__telegram-icon" data-v-221f761d>✈️</span><span class="footer__telegram-text" data-v-221f761d>Пишите в Telegram</span></a></div><div class="footer__nav" data-v-221f761d><h4 class="footer__title" data-v-221f761d>Навигация</h4><ul class="footer__list" data-v-221f761d><li data-v-221f761d><a href="#" class="footer__link" data-v-221f761d>Главная</a></li><li data-v-221f761d><a href="#" class="footer__link" data-v-221f761d>Портфолио</a></li><li data-v-221f761d><a href="#" class="footer__link" data-v-221f761d>Тарифы</a></li><li data-v-221f761d><a href="#" class="footer__link" data-v-221f761d>Блог</a></li></ul></div><div class="footer__services" data-v-221f761d><h4 class="footer__title" data-v-221f761d>Услуги</h4><ul class="footer__list" data-v-221f761d><li data-v-221f761d><a href="#" class="footer__link" data-v-221f761d>Лендинги</a></li><li data-v-221f761d><a href="#" class="footer__link" data-v-221f761d>Корпоративные сайты</a></li><li data-v-221f761d><a href="#" class="footer__link" data-v-221f761d>Интернет-магазины</a></li><li data-v-221f761d><a href="#" class="footer__link" data-v-221f761d>SEO-оптимизация</a></li></ul></div></div><div class="footer__bottom" data-v-221f761d><div class="container" data-v-221f761d><div class="footer__copyright" data-v-221f761d> © ${ssrInterpolate(currentYear.value)} sitebypro. Продажа сайтов. <span class="footer__highlight" data-v-221f761d>Быстрые сайты.</span></div></div></div></footer>`);
-    };
-  }
-};
-const _sfc_setup$4 = _sfc_main$4.setup;
-_sfc_main$4.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/layout/Footer.vue");
-  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
-};
-const Footer = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-221f761d"]]);
+function render(_ctx, _cache) {
+  return openBlock(), createElementBlock("svg", _hoisted_1, _cache[0] || (_cache[0] = [
+    createStaticVNode('<rect width="24" height="24" fill="url(#i-1537174313__a)" rx="12"></rect><path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16.667 8.5-6.417 6.417L7.333 12"></path><defs><linearGradient id="i-1537174313__a" x1="0" x2="24" y1="24" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#0017E4"></stop><stop offset="1" stop-color="#3793FF"></stop></linearGradient></defs>', 3)
+  ]));
+}
+const itemCheckbox = { render() {
+  return h(NuxtIcon, { icon: { render }, name: "checkbox" });
+} };
 const useAlertStore = defineStore("alert", {
   state: () => ({
     alerts: []
@@ -2661,6 +2496,971 @@ const useAlertStore = defineStore("alert", {
     }
   }
 });
+const base = `${API.fullUrl}/order`;
+function safeParseInt(v, fallback = null) {
+  const n = Number(v);
+  return Number.isInteger(n) ? n : fallback;
+}
+function normalizeOrderUpdate(body = {}) {
+  const map = {
+    paymentMethod: "payment_method",
+    payment_method: "payment_method",
+    netlifyUrl: "netlify_url",
+    netlify_url: "netlify_url",
+    adminUrl: "admin_url",
+    admin_url: "admin_url",
+    completedAt: "completed_at",
+    completed_at: "completed_at",
+    price: "price",
+    status: "status",
+    orderExternalUid: "order_externals_uid",
+    order_externals_uid: "order_externals_uid"
+  };
+  const out = {};
+  Object.keys(body).forEach((k) => {
+    if (map[k]) out[map[k]] = body[k];
+  });
+  return out;
+}
+const useOrdersStore = defineStore("orders", {
+  state: () => ({
+    loading: false,
+    error: null,
+    orders: [],
+    page: 1,
+    perPage: 20,
+    totalCount: 0,
+    currentOrder: null,
+    adminOrders: [],
+    adminStats: null,
+    lastCreated: null
+  }),
+  actions: {
+    /**
+     * Отправка простой заявки/контактной формы.
+     * Ожидаемый payload: { fio, company, email, phone, description }
+     *
+     * Возвращает { success: true, data } при успехе.
+     * В случае ошибки бросает Error с текстом (чтобы компонент мог поймать).
+     */
+    async sendRequest(payload = {}) {
+      this.loading = true;
+      this.error = null;
+      try {
+        if (!payload || typeof payload !== "object") {
+          const msg = "Неверные данные заявки";
+          this.error = msg;
+          throw new Error(msg);
+        }
+        if (!payload.email) {
+          const msg = "Email обязателен";
+          this.error = msg;
+          throw new Error(msg);
+        }
+        if (!payload.description || String(payload.description).trim().length < 3) {
+          const msg = "Короткое описание заявки";
+          this.error = msg;
+          throw new Error(msg);
+        }
+        const body = { ...payload };
+        const got = await this._doFetch(`${base}/request`, {
+          method: "POST",
+          body: JSON.stringify(body)
+        });
+        if (!got.success) {
+          const msg = got.message || "Ошибка отправки заявки";
+          this.error = msg;
+          throw new Error(msg);
+        }
+        const data = got.data ?? got.raw ?? null;
+        this.lastCreated = data;
+        return { success: true, data };
+      } catch (err) {
+        console.error("sendRequest error", err);
+        this.error = (err == null ? void 0 : err.message) || "Сетевая ошибка";
+        throw err;
+      } finally {
+        this.loading = false;
+      }
+    },
+    clearError() {
+      this.error = null;
+    },
+    reset() {
+      this.loading = false;
+      this.error = null;
+      this.orders = [];
+      this.page = 1;
+      this.perPage = 20;
+      this.totalCount = 0;
+      this.currentOrder = null;
+      this.adminOrders = [];
+      this.adminStats = null;
+      this.lastCreated = null;
+    },
+    _extractData(json) {
+      if (!json) return null;
+      return json.data ?? json;
+    },
+    /**
+     * _doFetch: всегда добавляет поле user:
+     * - для GET: добавляет query param `user=<encoded JSON>`
+     * - для non-GET: добавляет в тело поле `user` (если FormData — добавляет как JSON строку)
+     *
+     * Не использует credentials (credentials: 'omit'), но при наличии токена ставит Authorization.
+     */
+    async _doFetch(url, opts = {}) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const userStore = useUserStore();
+        const user = userStore && userStore.user ? userStore.user : false ? JSON.parse(localStorage.getItem("user") || "null") : null;
+        const token = userStore && userStore.token ? userStore.token : false ? localStorage.getItem("token") : null;
+        const method = (opts.method || "GET").toUpperCase();
+        const headers = Object.assign({}, opts.headers || {});
+        const fetchOpts = Object.assign({}, opts, { method, headers, credentials: "omit" });
+        let finalUrl = url;
+        if (method === "GET" && user) {
+          const userParam = encodeURIComponent(JSON.stringify(user));
+          finalUrl += (finalUrl.includes("?") ? "&" : "?") + `user=${userParam}`;
+        }
+        if (method !== "GET") {
+          let body = fetchOpts.body;
+          if (body instanceof FormData) {
+            if (user) body.append("user", JSON.stringify(user));
+            delete fetchOpts.headers["Content-Type"];
+            fetchOpts.body = body;
+          } else {
+            let parsed = null;
+            if (typeof body === "string" && body.length > 0) {
+              try {
+                parsed = JSON.parse(body);
+              } catch (e) {
+                parsed = null;
+              }
+            } else if (typeof body === "object" && body !== null) {
+              parsed = body;
+            } else {
+              parsed = {};
+            }
+            if (user) parsed.user = user;
+            fetchOpts.headers["Content-Type"] = fetchOpts.headers["Content-Type"] || "application/json";
+            fetchOpts.body = JSON.stringify(parsed);
+          }
+        }
+        if (token && !fetchOpts.headers.Authorization) {
+          fetchOpts.headers.Authorization = `Bearer ${token}`;
+        }
+        if (!fetchOpts.headers.Accept) fetchOpts.headers.Accept = "application/json";
+        const res = await fetch(finalUrl, fetchOpts);
+        const text = await res.text().catch(() => null);
+        let json = null;
+        try {
+          json = text ? JSON.parse(text) : null;
+        } catch (e) {
+          json = null;
+        }
+        const data = this._extractData(json);
+        if (!res.ok) {
+          const msg = data && (data.message || data.error) || `HTTP ${res.status}`;
+          this.error = msg;
+          return { success: false, status: res.status, data: null, message: msg, raw: json ?? text };
+        }
+        return { success: true, status: res.status, data, raw: json ?? text };
+      } catch (err) {
+        console.error("_doFetch error", err);
+        this.error = err.message || "Network error";
+        return { success: false, data: null, message: this.error };
+      } finally {
+        this.loading = false;
+      }
+    },
+    /* ---------------- API methods ---------------- */
+    async fetchUserOrders(options = {}) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const page = safeParseInt(options.page, 1) || 1;
+        const perPage = safeParseInt(options.perPage, 20) || 20;
+        const params = new URLSearchParams();
+        params.set("page", String(page));
+        params.set("perPage", String(perPage));
+        if (options.status) params.set("status", options.status);
+        if (options.joinExternal) params.set("joinExternal", "1");
+        const got = await this._doFetch(`${base}?${params.toString()}`, { method: "GET" });
+        if (!got.success)
+          return {
+            success: false,
+            message: got.data || "Ошибка получения заказов",
+            data: null
+          };
+        const payload = got.data ?? got.raw;
+        const rows = payload.rows ?? payload.orders ?? [];
+        const respPage = payload.page ?? page;
+        const respPerPage = payload.perPage ?? perPage;
+        const respTotal = payload.totalCount ?? payload.total ?? 0;
+        this.orders = rows;
+        this.page = respPage;
+        this.perPage = respPerPage;
+        this.totalCount = respTotal;
+        return { success: true, data: { rows, page: respPage, perPage: respPerPage, totalCount: respTotal } };
+      } catch (err) {
+        console.error("fetchUserOrders error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async fetchOrderById(orderId, options = {}) {
+      if (!orderId) return { success: false, message: "orderId required", data: null };
+      this.loading = true;
+      this.error = null;
+      try {
+        const params = new URLSearchParams();
+        if (options.joinExternal) params.set("joinExternal", "1");
+        const q = params.toString() ? `?${params.toString()}` : "";
+        const got = await this._doFetch(`${base}/${encodeURIComponent(orderId)}${q}`, { method: "GET" });
+        if (!got.success) return { success: false, message: got.message || "Ошибка получения заказа", data: null };
+        this.currentOrder = got.data;
+        return { success: true, data: got.data };
+      } catch (err) {
+        console.error("fetchOrderById error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async createOrder(payload = {}) {
+      this.loading = true;
+      this.error = null;
+      try {
+        if (!payload.templateId || isNaN(Number(payload.templateId))) {
+          const msg = "Выберите шаблон еще раз";
+          this.error = msg;
+          return { success: false, message: msg, data: null };
+        }
+        if (typeof payload.price === "undefined" || isNaN(Number(payload.price))) {
+          const msg = "Не возможно расчитать стоимость";
+          this.error = msg;
+          return { success: false, message: msg, data: null };
+        }
+        const body = {
+          templateId: Number(payload.templateId),
+          price: Number(payload.price),
+          payment_method: payload.paymentMethod ?? payload.payment_method ?? "yookassa",
+          status: payload.status ?? "pending_payment"
+        };
+        if (payload.external && typeof payload.external === "object") body.external = payload.external;
+        else if (payload.order_externals_uid || payload.orderExternalUid) body.order_externals_uid = payload.order_externals_uid ?? payload.orderExternalUid;
+        body.domain = payload.domain;
+        const got = await this._doFetch(base, { method: "POST", body: JSON.stringify(body) });
+        if (!got.success) return { success: false, message: got.message || "Ошибка создания", data: null };
+        const data = got.data;
+        this.lastCreated = data;
+        if (data) this.orders = [data, ...this.orders];
+        return { success: true, data };
+      } catch (err) {
+        console.error("createOrder error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async updateOrder(orderId, body = {}) {
+      if (!orderId) return { success: false, message: "orderId required", data: null };
+      const update = normalizeOrderUpdate(body);
+      if (Object.keys(update).length === 0) return { success: false, message: "No fields to update", data: null };
+      this.loading = true;
+      this.error = null;
+      try {
+        const got = await this._doFetch(`${base}/${encodeURIComponent(orderId)}`, { method: "PUT", body: JSON.stringify(update) });
+        if (!got.success) return { success: false, message: got.message || "Ошибка обновления", data: null };
+        const data = got.data;
+        if (this.currentOrder && this.currentOrder.id === data.id) this.currentOrder = data;
+        this.orders = this.orders.map((r) => r.id === data.id ? data : r);
+        this.adminOrders = this.adminOrders.map((r) => r.id === data.id ? data : r);
+        return { success: true, data };
+      } catch (err) {
+        console.error("updateOrder error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async updateOrderStatus(orderId, { status, completedAt = null } = {}) {
+      if (!orderId) return { success: false, message: "orderId required", data: null };
+      if (!status) return { success: false, message: "status required", data: null };
+      this.loading = true;
+      this.error = null;
+      try {
+        const payload = { status };
+        if (completedAt) payload.completedAt = completedAt;
+        const got = await this._doFetch(`${base}/${encodeURIComponent(orderId)}/status`, { method: "PATCH", body: JSON.stringify(payload) });
+        if (!got.success) return { success: false, message: got.message || "Ошибка обновления статуса", data: null };
+        const data = got.data;
+        if (this.currentOrder && this.currentOrder.id === data.id) this.currentOrder = data;
+        this.orders = this.orders.map((r) => r.id === data.id ? data : r);
+        this.adminOrders = this.adminOrders.map((r) => r.id === data.id ? data : r);
+        return { success: true, data };
+      } catch (err) {
+        console.error("updateOrderStatus error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async deleteOrder(orderId) {
+      if (!orderId) return { success: false, message: "orderId required", data: null };
+      this.loading = true;
+      this.error = null;
+      try {
+        const got = await this._doFetch(`${base}/${encodeURIComponent(orderId)}`, { method: "DELETE" });
+        if (!got.success) return { success: false, message: got.message || "Ошибка удаления", data: null };
+        this.orders = this.orders.filter((r) => r.id !== orderId);
+        this.adminOrders = this.adminOrders.filter((r) => r.id !== orderId);
+        if (this.currentOrder && this.currentOrder.id === orderId) this.currentOrder = null;
+        return { success: true, data: got.data ?? got.raw };
+      } catch (err) {
+        console.error("deleteOrder error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async fetchAdminAll(options = {}) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const params = new URLSearchParams();
+        if (options.status) params.set("status", options.status);
+        if (options.userId) params.set("userId", options.userId);
+        if (options.userUid) params.set("userUid", options.userUid);
+        if (options.templateId) params.set("templateId", options.templateId);
+        if (options.dateFrom) params.set("dateFrom", options.dateFrom);
+        if (options.dateTo) params.set("dateTo", options.dateTo);
+        if (typeof options.limit !== "undefined") params.set("limit", String(options.limit));
+        if (options.joinExternal) params.set("joinExternal", "1");
+        const url = `${base}/admin/all?${params.toString()}`;
+        const got = await this._doFetch(url, { method: "GET" });
+        if (!got.success) return { success: false, message: got.message || "Ошибка получения админ-списка", data: null };
+        const payload = got.data ?? got.raw;
+        this.adminOrders = payload.orders ?? payload.rows ?? [];
+        this.totalCount = payload.totalCount ?? this.totalCount;
+        return { success: true, data: { orders: this.adminOrders, totalCount: this.totalCount } };
+      } catch (err) {
+        console.error("fetchAdminAll error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async fetchAdminStats() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const got = await this._doFetch(`${base}/admin/stats`, { method: "GET" });
+        if (!got.success) return { success: false, message: got.message || "Ошибка получения статистики", data: null };
+        const payload = got.data ?? got.raw;
+        this.adminStats = payload.stats ?? payload;
+        this.totalCount = payload.totalCount ?? this.totalCount;
+        return { success: true, data: { totalCount: this.totalCount, stats: this.adminStats } };
+      } catch (err) {
+        console.error("fetchAdminStats error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async linkOrderToExternal(orderId, externalUid) {
+      if (!orderId) return { success: false, message: "orderId required", data: null };
+      if (!externalUid) return { success: false, message: "externalUid required", data: null };
+      this.loading = true;
+      this.error = null;
+      try {
+        const got = await this._doFetch(`${base}/${encodeURIComponent(orderId)}/link-external`, {
+          method: "POST",
+          body: JSON.stringify({ externalUid })
+        });
+        if (!got.success) return { success: false, message: got.message || "Ошибка привязки", data: null };
+        const data = got.data;
+        if (this.currentOrder && this.currentOrder.id === data.id) this.currentOrder = data;
+        this.orders = this.orders.map((r) => r.id === data.id ? data : r);
+        this.adminOrders = this.adminOrders.map((r) => r.id === data.id ? data : r);
+        return { success: true, data };
+      } catch (err) {
+        console.error("linkOrderToExternal error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async fetchAdminExternal(uid) {
+      if (!uid) return { success: false, message: "uid required", data: null };
+      this.loading = true;
+      this.error = null;
+      try {
+        const got = await this._doFetch(`${base}/admin/external/${encodeURIComponent(uid)}`, { method: "GET" });
+        if (!got.success) return { success: false, message: got.message || "Ошибка получения external", data: null };
+        return { success: true, data: got.data };
+      } catch (err) {
+        console.error("fetchAdminExternal error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async createAdminExternal(payload = {}) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const body = { ...payload };
+        const got = await this._doFetch(`${base}/admin/external`, { method: "POST", body: JSON.stringify(body) });
+        if (!got.success) return { success: false, message: got.message || "Ошибка создания external", data: null };
+        return { success: true, data: got.data };
+      } catch (err) {
+        console.error("createAdminExternal error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async updateAdminExternal(uid, payload = {}) {
+      if (!uid) return { success: false, message: "uid required", data: null };
+      this.loading = true;
+      this.error = null;
+      try {
+        const body = { ...payload };
+        const got = await this._doFetch(`${base}/admin/external/${encodeURIComponent(uid)}`, { method: "PUT", body: JSON.stringify(body) });
+        if (!got.success) return { success: false, message: got.message || "Ошибка обновления external", data: null };
+        return { success: true, data: got.data };
+      } catch (err) {
+        console.error("updateAdminExternal error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    },
+    async deleteAdminExternal(uid) {
+      if (!uid) return { success: false, message: "uid required", data: null };
+      this.loading = true;
+      this.error = null;
+      try {
+        const got = await this._doFetch(`${base}/admin/external/${encodeURIComponent(uid)}`, { method: "DELETE" });
+        if (!got.success) return { success: false, message: got.message || "Ошибка удаления external", data: null };
+        return { success: true, data: got.data ?? got.raw };
+      } catch (err) {
+        console.error("deleteAdminExternal error", err);
+        this.error = err.message || "Ошибка";
+        return { success: false, message: this.error, data: null };
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
+});
+const INITIAL_LIFT_VW = -15;
+const TOP_OFFSET_VW = 30;
+const _sfc_main$6 = {
+  __name: "Request",
+  __ssrInlineRender: true,
+  props: { modelValue: { type: Boolean, default: false } },
+  emits: ["update:modelValue", "open", "close", "opened", "closed"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    const alertStore = useAlertStore();
+    const ordersStore = useOrdersStore();
+    const props = __props;
+    const emit = __emit;
+    const visible = ref(!!props.modelValue);
+    watch(() => props.modelValue, (val) => {
+      visible.value = !!val;
+      if (val) {
+        emit("open");
+        setTimeout(() => emit("opened"), 220);
+      } else {
+        emit("close");
+        setTimeout(() => emit("closed"), 220);
+      }
+    });
+    watch(visible, (v) => {
+      try {
+        (void 0).documentElement.style.scrollBehavior = v ? "auto" : "";
+      } catch (e) {
+      }
+      (void 0).body.style.overflow = v ? "hidden" : "";
+    });
+    function openModal() {
+      emit("update:modelValue", true);
+    }
+    function closeModal() {
+      try {
+        visible.value = false;
+      } catch (e) {
+      }
+      emit("update:modelValue", false);
+    }
+    const request = reactive({ FIO: "", company: "", email: "", phone: "", description: "" });
+    const sending = ref(false);
+    const errorMessage = ref("");
+    const successMessage = ref("");
+    function isValidEmail(email = "") {
+      if (!email) return false;
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(String(email).toLowerCase());
+    }
+    async function sendRequest() {
+      errorMessage.value = "";
+      successMessage.value = "";
+      if (!isValidEmail(request.email)) {
+        errorMessage.value = "Введите корректный email.";
+        return;
+      }
+      if (!request.description || request.description.trim().length < 5) {
+        errorMessage.value = "Опишите, пожалуйста, задачу (минимум 5 символов).";
+        return;
+      }
+      const payload = {
+        fio: request.FIO || null,
+        company: request.company || null,
+        email: request.email,
+        phone: request.phone || null,
+        description: request.description
+      };
+      sending.value = true;
+      try {
+        const res = await ordersStore.sendRequest(payload);
+        alertStore.showAlert({
+          title: "Заявка отправлена",
+          message: `Спасибо! Ваша заявка отправлена. Мы свяжемся в ближайшее время.`,
+          type: "success",
+          typeClass: "alert-success",
+          background: "#d4edda",
+          color: "#155724",
+          autoClose: { enabled: true, delay: 4e3 }
+        });
+        request.FIO = "";
+        request.company = "";
+        request.email = "";
+        request.phone = "";
+        request.description = "";
+        emit("close");
+        successMessage.value = "Ваша заявка отправлена.";
+      } catch (err) {
+        console.error("sendRequest error", err);
+        errorMessage.value = (err == null ? void 0 : err.message) || "Сетевая ошибка. Попробуйте позже.";
+      } finally {
+        sending.value = false;
+      }
+    }
+    const root = ref(null);
+    const left = ref(null);
+    const shape = ref(null);
+    const modalContent = ref(null);
+    const state = reactive({ shapeWidthVw: 40, shapeHeightVw: 40, shapeMaxWidthVw: 40, translateVw: INITIAL_LIFT_VW, mode: "before" });
+    function pxToVw(px) {
+      return px / (void 0).innerWidth * 100;
+    }
+    function vwToPx(vw) {
+      return vw / 100 * (void 0).innerWidth;
+    }
+    function getDocumentOffset(el) {
+      const rect = el.getBoundingClientRect();
+      const scrollTop = (void 0).scrollY || (void 0).pageYOffset;
+      const scrollLeft = (void 0).scrollX || (void 0).pageXOffset;
+      return { top: rect.top + scrollTop, left: rect.left + scrollLeft, width: rect.width, height: rect.height, rect };
+    }
+    function onImageLoad() {
+      if (!shape.value || !left.value) return;
+      const naturalW = shape.value.naturalWidth || shape.value.width || 400;
+      const naturalH = shape.value.naturalHeight || shape.value.height || 400;
+      const leftOffset = getDocumentOffset(left.value);
+      const leftColWidthPx = leftOffset.width || (void 0).innerWidth * 0.4;
+      const wantedWidthPx = Math.min(naturalW, leftColWidthPx);
+      state.shapeWidthVw = pxToVw(wantedWidthPx);
+      state.shapeHeightVw = pxToVw(wantedWidthPx / naturalW * naturalH);
+      state.shapeMaxWidthVw = pxToVw(leftColWidthPx);
+      state.translateVw = INITIAL_LIFT_VW;
+      update();
+    }
+    function update() {
+      if (!root.value || !left.value || !shape.value) return;
+      const scrollY = (void 0).scrollY || (void 0).pageYOffset;
+      const viewportHeight = (void 0).innerHeight;
+      const rootOffset = getDocumentOffset(root.value);
+      const leftOffset = getDocumentOffset(left.value);
+      const containerBottomPx = rootOffset.top + rootOffset.height;
+      const shapeHeightPx = vwToPx(state.shapeHeightVw);
+      const initialLiftPx = vwToPx(INITIAL_LIFT_VW);
+      const shapeTopInitialPx = leftOffset.top + initialLiftPx;
+      const shapeCenterInitialPx = shapeTopInitialPx + shapeHeightPx / 2;
+      const viewportCenterPx = scrollY + viewportHeight / 2;
+      const centerReached = shapeCenterInitialPx <= viewportCenterPx;
+      const stickyEndPx = containerBottomPx - shapeHeightPx;
+      if (!centerReached) {
+        state.mode = "before";
+        state.translateVw = INITIAL_LIFT_VW;
+        return;
+      }
+      const topOffsetPx = vwToPx(TOP_OFFSET_VW);
+      const targetTopDocPx = scrollY + topOffsetPx + initialLiftPx;
+      if (targetTopDocPx < stickyEndPx) {
+        const translatePx = targetTopDocPx - leftOffset.top;
+        state.mode = "sticky";
+        state.translateVw = pxToVw(translatePx);
+      } else {
+        const translatePx = containerBottomPx - shapeHeightPx - leftOffset.top;
+        state.mode = "after";
+        state.translateVw = pxToVw(translatePx);
+      }
+    }
+    const shapeStyle = computed(() => {
+      const translateX = "-50%";
+      const translateY = `${state.translateVw}vw`;
+      const width = Math.min(state.shapeWidthVw, state.shapeMaxWidthVw) + "vw";
+      return {
+        width,
+        height: "auto",
+        transform: `translate(${translateX}, ${translateY})`,
+        willChange: "transform",
+        position: "absolute",
+        top: "0",
+        left: "50%",
+        zIndex: 2,
+        pointerEvents: "none",
+        transition: "transform 220ms ease-out"
+      };
+    });
+    const titleId = `modal-request-title-${Math.random().toString(36).slice(2, 9)}`;
+    __expose({ openModal, closeModal, toggleModal: () => emit("update:modelValue", !visible.value), visible, modalContent, shapeSrc, itemCheckbox, request, sending, errorMessage, successMessage, sendRequest, root, left, shape, onImageLoad, shapeStyle });
+    return (_ctx, _push, _parent, _attrs) => {
+      ssrRenderTeleport(_push, (_push2) => {
+        if (visible.value) {
+          _push2(`<div class="modal-overlay" data-v-ae600587><div class="modal-content" role="dialog" aria-modal="true"${ssrRenderAttr("aria-labelledby", titleId)} data-v-ae600587><button type="button" class="modal-close" aria-label="Закрыть" data-v-ae600587>×</button><div class="modal-request" data-v-ae600587><div class="modal-request__right" data-v-ae600587><div class="modal-request__form" data-v-ae600587><div class="modal-request__info" data-v-ae600587><h2${ssrRenderAttr("id", titleId)} class="b1__main-h2" data-v-ae600587><span class="b1__main-h2-colored" data-v-ae600587>Делайте сайт с командой,</span><br data-v-ae600587> которой доверяют </h2><p class="b1__main-p" data-v-ae600587>Опишите задачу — мы оценим и пришлём понятный план с бюджетом и сроками. Поддержка и доработка включены.</p></div><form class="modal-request__form-input" data-v-ae600587><div class="modal-request__input-top" data-v-ae600587><input class="modal-request__input"${ssrRenderAttr("value", request.FIO)} placeholder="ФИО" autocomplete="name" data-v-ae600587><input class="modal-request__input"${ssrRenderAttr("value", request.company)} placeholder="Компания" autocomplete="organization" data-v-ae600587></div><div class="modal-request__input-top" data-v-ae600587><input class="modal-request__input"${ssrRenderAttr("value", request.email)} placeholder="Email*" type="email" autocomplete="email" required data-v-ae600587><input class="modal-request__input"${ssrRenderAttr("value", request.phone)} placeholder="+7 (000) 000-00-00" type="tel" autocomplete="tel" data-v-ae600587></div><textarea class="modal-request__textarea" placeholder="Краткое описание" required data-v-ae600587>${ssrInterpolate(request.description)}</textarea><div class="modal-request__form-input-bottom" data-v-ae600587><div class="modal-request__item-checkbox" data-v-ae600587><label class="modal-request__p-checkbox" data-v-ae600587>`);
+          _push2(ssrRenderComponent(unref(itemCheckbox), { class: "modal-request__p-checkbox-img" }, null, _parent));
+          _push2(`<span data-v-ae600587>Согласен(а) на обработку персональных данных — с ссылкой на политику — (обязательное)</span></label></div><button class="modal-request__send-button" type="submit"${ssrIncludeBooleanAttr(sending.value) ? " disabled" : ""} data-v-ae600587>`);
+          if (!sending.value) {
+            _push2(`<span data-v-ae600587>Отправить</span>`);
+          } else {
+            _push2(`<span data-v-ae600587>Отправка...</span>`);
+          }
+          _push2(`</button></div><div class="modal-request__messages" data-v-ae600587>`);
+          if (errorMessage.value) {
+            _push2(`<p class="modal-request__message modal-request__message--error" data-v-ae600587>${ssrInterpolate(errorMessage.value)}</p>`);
+          } else {
+            _push2(`<!---->`);
+          }
+          if (successMessage.value) {
+            _push2(`<p class="modal-request__message modal-request__message--success" data-v-ae600587>${ssrInterpolate(successMessage.value)}</p>`);
+          } else {
+            _push2(`<!---->`);
+          }
+          _push2(`</div></form></div></div></div></div></div>`);
+        } else {
+          _push2(`<!---->`);
+        }
+      }, "body", false, _parent);
+    };
+  }
+};
+const _sfc_setup$6 = _sfc_main$6.setup;
+_sfc_main$6.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/Modal/Request.vue");
+  return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
+};
+const RequestModal = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["__scopeId", "data-v-ae600587"]]);
+const title = "Нужен уникальный дизайн?";
+const subtitle = "Разработаем эксклюзивный сайт специально для вас";
+const _sfc_main$5 = {
+  __name: "PortfolioCTA",
+  __ssrInlineRender: true,
+  setup(__props) {
+    const showForm = ref(false);
+    function onOpen() {
+    }
+    function onClose() {
+      showForm.value = false;
+    }
+    function onOpened() {
+    }
+    function onClosed() {
+    }
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(`<section${ssrRenderAttrs(mergeProps({ class: "portfolio-cta" }, _attrs))} data-v-87cfc025><div class="portfolio-cta__container container" data-v-87cfc025><div class="portfolio-cta__content" data-v-87cfc025><h2 class="portfolio-cta__title" data-v-87cfc025>${ssrInterpolate(title)}</h2><p class="portfolio-cta__subtitle" data-v-87cfc025>${ssrInterpolate(subtitle)}</p><button class="portfolio-cta__button button button--primary" data-v-87cfc025> Заказать дизайн </button></div></div>`);
+      _push(ssrRenderComponent(RequestModal, {
+        modelValue: showForm.value,
+        "onUpdate:modelValue": ($event) => showForm.value = $event,
+        onOpen,
+        onClose,
+        onOpened,
+        onClosed
+      }, null, _parent));
+      _push(`</section>`);
+    };
+  }
+};
+const _sfc_setup$5 = _sfc_main$5.setup;
+_sfc_main$5.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/portfolio/PortfolioCTA.vue");
+  return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
+};
+const PortfolioCTA = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-87cfc025"]]);
+const _sfc_main$4 = {
+  __name: "Footer",
+  __ssrInlineRender: true,
+  setup(__props) {
+    const route = useRoute$1();
+    const showForm = ref(false);
+    function onOpen() {
+    }
+    function onClose() {
+      showForm.value = false;
+    }
+    function onOpened() {
+    }
+    function onClosed() {
+    }
+    const excludedPages = [
+      "/login",
+      "/thank-you",
+      "/private/*"
+      // все пути, начинающиеся с /private/
+    ];
+    const isExcluded = (r) => {
+      const path = r.path || "";
+      const name = r.name != null ? String(r.name) : "";
+      return excludedPages.some((pattern) => {
+        if (!pattern) return false;
+        if (pattern.startsWith("name:")) {
+          const expectedName = pattern.slice(5);
+          return expectedName === name;
+        }
+        if (pattern.endsWith("*")) {
+          const prefix = pattern.slice(0, -1);
+          return path.startsWith(prefix);
+        }
+        return path === pattern;
+      });
+    };
+    const showCTA = computed(() => !isExcluded(route));
+    ref("https://t.me/dozer_stoun");
+    ref((/* @__PURE__ */ new Date()).getFullYear());
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_NuxtLink = __nuxt_component_0$1;
+      _push(`<footer${ssrRenderAttrs(mergeProps({
+        class: "footer",
+        role: "contentinfo"
+      }, _attrs))} data-v-c10be50c>`);
+      if (showCTA.value) {
+        _push(ssrRenderComponent(PortfolioCTA, null, null, _parent));
+      } else {
+        _push(`<!---->`);
+      }
+      _push(`<div class="footer__container container" data-v-c10be50c><div class="footer__brand" data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        to: "/",
+        class: "app-header__logo",
+        "aria-label": "Перейти на Главную страницу"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(unref(Logo), {
+              class: "app-header__logo-svg",
+              filled: ""
+            }, null, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(unref(Logo), {
+                class: "app-header__logo-svg",
+                filled: ""
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`<a href="https://t.me/dozer_stoun" target="_blank" rel="noopener noreferrer" class="button button--outline app-mobile-menu__btn-tg" data-v-c10be50c>`);
+      _push(ssrRenderComponent(unref(IconTg), { class: "tg__icon" }, null, _parent));
+      _push(` Написать в тг </a></div><nav class="footer__nav" aria-label="Навигация по сайту в футере" data-v-c10be50c><h3 class="footer__title" data-v-c10be50c>Навигация</h3><ul class="footer__list" data-v-c10be50c><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        to: "/",
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Главная`);
+          } else {
+            return [
+              createTextVNode("Главная")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        to: "/templates",
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Шаблоны`);
+          } else {
+            return [
+              createTextVNode("Шаблоны")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        to: "/about",
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Контакты`);
+          } else {
+            return [
+              createTextVNode("Контакты")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li></ul></nav><section class="footer__services" aria-label="Услуги в футере" data-v-c10be50c><h3 class="footer__title" data-v-c10be50c>Услуги</h3><ul class="footer__list" data-v-c10be50c><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        to: "/templates",
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Лэндинги`);
+          } else {
+            return [
+              createTextVNode("Лэндинги")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        onClick: ($event) => showForm.value = true,
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Интернет-магазины`);
+          } else {
+            return [
+              createTextVNode("Интернет-магазины")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        onClick: ($event) => showForm.value = true,
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`SEO-оптимизация`);
+          } else {
+            return [
+              createTextVNode("SEO-оптимизация")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li></ul></section><section class="footer__services" aria-label="Услуги в футере" data-v-c10be50c><h3 class="footer__title" data-v-c10be50c>О нас</h3><ul class="footer__list" data-v-c10be50c><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        to: "/about",
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Контакты`);
+          } else {
+            return [
+              createTextVNode("Контакты")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li><li data-v-c10be50c><a href="https://vk.com/club233841249" class="footer__link" target="_blank" rel="noopener noreferrer" data-v-c10be50c> группа ВК </a></li><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        to: "/acception",
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Политикой<br data-v-c10be50c${_scopeId}>конфиденциальности`);
+          } else {
+            return [
+              createTextVNode("Политикой"),
+              createVNode("br"),
+              createTextVNode("конфиденциальности")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li><li data-v-c10be50c>`);
+      _push(ssrRenderComponent(_component_NuxtLink, {
+        to: "/privacy",
+        class: "footer__link"
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`Правовая<br data-v-c10be50c${_scopeId}>информация`);
+          } else {
+            return [
+              createTextVNode("Правовая"),
+              createVNode("br"),
+              createTextVNode("информация")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</li></ul></section></div><div class="footer__bottom" data-v-c10be50c><div class="container" data-v-c10be50c><div class="footer__copyright" data-v-c10be50c> © 2020 sitebypro. Сайты на заказ. </div></div></div>`);
+      _push(ssrRenderComponent(RequestModal, {
+        modelValue: showForm.value,
+        "onUpdate:modelValue": ($event) => showForm.value = $event,
+        onOpen,
+        onClose,
+        onOpened,
+        onClosed
+      }, null, _parent));
+      _push(`</footer>`);
+    };
+  }
+};
+const _sfc_setup$4 = _sfc_main$4.setup;
+_sfc_main$4.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/layout/Footer.vue");
+  return _sfc_setup$4 ? _sfc_setup$4(props, ctx) : void 0;
+};
+const Footer = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-c10be50c"]]);
 const _sfc_main$3 = {
   __name: "Alert",
   __ssrInlineRender: true,
@@ -2721,24 +3521,103 @@ _sfc_main$3.setup = (props, ctx) => {
 const AlertsContainer = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-e238137d"]]);
 const SITE_NAME = "sitebypro";
 const SITE_URL = "https://sitebypro.com";
+const DEFAULT_OG_IMAGE = SITE_URL + "/files/store/preview.png";
 const defaultHead = {
   title: "Главная",
-  titleTemplate: "%s — " + SITE_NAME,
+  // оставляем titleTemplate — Nuxt / useHead применит его один раз
+  titleTemplate: "%s | " + SITE_NAME,
   meta: [
-    { name: "description", content: "Краткое описание сайта", vmid: "description" },
+    { name: "description", content: "SiteByPro — создаём сайты для всех: онлайн-магазины, лендинги, портфолио и корпоративные порталы. Красиво, быстро, эффективно.", vmid: "description" },
     { name: "robots", content: "index,follow", vmid: "robots" },
     // Open Graph
     { property: "og:site_name", content: SITE_NAME, vmid: "og:site_name" },
     { property: "og:type", content: "website", vmid: "og:type" },
     { property: "og:locale", content: "ru_RU", vmid: "og:locale" },
-    // twitter
-    { name: "twitter:card", content: "summary_large_image", vmid: "twitter:card" }
+    { property: "og:url", content: SITE_URL, vmid: "og:url" },
+    { property: "og:image", content: DEFAULT_OG_IMAGE, vmid: "og:image" },
+    { property: "og:image:alt", content: SITE_NAME, vmid: "og:image:alt" },
+    // Twitter
+    { name: "twitter:card", content: "summary_large_image", vmid: "twitter:card" },
+    { name: "twitter:image", content: DEFAULT_OG_IMAGE, vmid: "twitter:image" },
+    { name: "twitter:image:alt", content: SITE_NAME, vmid: "twitter:image:alt" },
+    // универсальная картинка (на всякий случай)
+    { name: "image", content: DEFAULT_OG_IMAGE, vmid: "image" },
+    // Рекомендуемые размеры (можно заменить, если нужно другое)
+    { property: "og:image:width", content: "1200", vmid: "og:image:width" },
+    { property: "og:image:height", content: "630", vmid: "og:image:height" },
+    { property: "og:image:secure_url", content: DEFAULT_OG_IMAGE, vmid: "og:image:secure_url" },
+    // тип по умолчанию (при необходимости можно переопределить)
+    { property: "og:image:type", content: "image/png", vmid: "og:image:type" }
   ],
   link: [
     { rel: "canonical", href: SITE_URL, vmid: "canonical" }
   ]
-  // можно добавить jsonLd или другие поля при необходимости
 };
+function keyOf(item) {
+  return (item == null ? void 0 : item.vmid) ?? (item == null ? void 0 : item.name) ?? (item == null ? void 0 : item.property) ?? JSON.stringify(item);
+}
+function mergeLists(defaultList, overrideList) {
+  const map = /* @__PURE__ */ new Map();
+  if (defaultList) {
+    for (const it of defaultList) map.set(keyOf(it), { ...it });
+  }
+  if (overrideList) {
+    for (const it of overrideList) {
+      const k = keyOf(it);
+      const prev = map.get(k) ?? {};
+      map.set(k, { ...prev, ...it });
+    }
+  }
+  return Array.from(map.values());
+}
+function findMetaByProp(list, prop) {
+  if (!list) return void 0;
+  return list.find((m) => m.property === prop || m.name === prop);
+}
+function hasMeta(list, prop) {
+  return !!findMetaByProp(list, prop);
+}
+function buildHead(overrides = {}) {
+  var _a;
+  const titleTemplate = overrides.titleTemplate ?? defaultHead.titleTemplate;
+  const rawTitle = overrides.title ?? defaultHead.title;
+  const title2 = rawTitle;
+  const mergedMeta = mergeLists(defaultHead.meta, overrides.meta);
+  const mergedLink = mergeLists(defaultHead.link, overrides.link);
+  const ogImageEntry = mergedMeta.find((m) => m.property === "og:image" || m.name === "og:image");
+  const ogImageUrl = ogImageEntry == null ? void 0 : ogImageEntry.content;
+  if (ogImageUrl) {
+    const ext = ((_a = ogImageUrl.split("?")[0].split(".").pop()) == null ? void 0 : _a.toLowerCase()) ?? "";
+    const guessedType = ext === "png" ? "image/png" : ext === "jpg" || ext === "jpeg" ? "image/jpeg" : ext === "webp" ? "image/webp" : "image/*";
+    if (!hasMeta(mergedMeta, "twitter:image")) {
+      mergedMeta.push({ name: "twitter:image", content: ogImageUrl, vmid: "twitter:image" });
+    }
+    if (!hasMeta(mergedMeta, "image")) {
+      mergedMeta.push({ name: "image", content: ogImageUrl, vmid: "image" });
+    }
+    if (!hasMeta(mergedMeta, "og:image:secure_url")) {
+      mergedMeta.push({ property: "og:image:secure_url", content: ogImageUrl, vmid: "og:image:secure_url" });
+    }
+    if (!hasMeta(mergedMeta, "og:image:width")) {
+      mergedMeta.push({ property: "og:image:width", content: "1200", vmid: "og:image:width" });
+    }
+    if (!hasMeta(mergedMeta, "og:image:height")) {
+      mergedMeta.push({ property: "og:image:height", content: "630", vmid: "og:image:height" });
+    }
+    if (!hasMeta(mergedMeta, "og:image:type")) {
+      mergedMeta.push({ property: "og:image:type", content: guessedType, vmid: "og:image:type" });
+    }
+  }
+  const result = {
+    ...defaultHead,
+    ...overrides,
+    title: title2,
+    titleTemplate,
+    meta: mergedMeta,
+    link: mergedLink
+  };
+  return result;
+}
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "app",
   __ssrInlineRender: true,
@@ -2746,17 +3625,48 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     useHead(defaultHead);
     const userStore = useUserStore();
     const route = useRoute$1();
-    const isHome = computed(() => route.path === "/");
+    computed(() => route.path === "/");
     computed(() => !!userStore.isAuthenticated);
     computed(() => userStore.user || null);
+    const lang = ref("ru");
+    function resolveLang() {
+      const routeLang = route.meta && route.meta.lang || void 0;
+      const storeLang = userStore.lang || userStore.locale || userStore.settings && userStore.settings.lang || void 0;
+      const docLang = void 0;
+      const navLang = void 0;
+      return routeLang || storeLang || docLang || navLang || "ru";
+    }
+    function applyLang(nextLang) {
+      lang.value = nextLang;
+      useHead({
+        htmlAttrs: {
+          lang: nextLang
+        }
+      });
+    }
+    watch(
+      () => route.fullPath,
+      () => {
+        const newLang = resolveLang();
+        if (newLang !== lang.value) {
+          applyLang(newLang);
+        }
+      }
+    );
+    watch(
+      () => [userStore.lang, userStore.locale, userStore.settings],
+      () => {
+        const newLang = resolveLang();
+        if (newLang !== lang.value) {
+          applyLang(newLang);
+        }
+      },
+      { deep: true }
+    );
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtPage = __nuxt_component_0;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "main__container" }, _attrs))}>`);
-      if (isHome.value) {
-        _push(ssrRenderComponent(LandingHeader, null, null, _parent));
-      } else {
-        _push(ssrRenderComponent(Header, null, null, _parent));
-      }
+      _push(ssrRenderComponent(LandingHeader, null, null, _parent));
       _push(ssrRenderComponent(AlertsContainer, null, null, _parent));
       _push(ssrRenderComponent(_component_NuxtPage, { class: "main__body" }, null, _parent));
       _push(ssrRenderComponent(Footer, null, null, _parent));
@@ -2874,5 +3784,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { API as A, LoginModal as L, NuxtIcon as N, _export_sfc as _, __nuxt_component_0$1 as a, __nuxt_component_0$2 as b, useUserStore as c, useAlertStore as d, entry$1 as default, navigateTo as n, useHead as u };
+export { API as A, LoginModal as L, NuxtIcon as N, RequestModal as R, _export_sfc as _, __nuxt_component_0$1 as a, __nuxt_component_0$2 as b, useAlertStore as c, useOrdersStore as d, entry$1 as default, useUserStore as e, buildHead as f, itemCheckbox as i, navigateTo as n, shapeSrc as s, useHead as u };
 //# sourceMappingURL=server.mjs.map
