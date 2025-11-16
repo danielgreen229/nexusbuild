@@ -20,7 +20,8 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../plugins/axios.client.js")> &
   InjectionType<typeof import("../../plugins/pinia-init.client")> &
   InjectionType<typeof import("../../plugins/scale.client")> &
-  InjectionType<typeof import("../../plugins/vue3-tel-input.client")>
+  InjectionType<typeof import("../../plugins/vue3-tel-input.client")> &
+  InjectionType<typeof import("../../node_modules/nuxt/dist/pages/runtime/plugins/prerender.server.js")>
 
 declare module '#app' {
   interface NuxtApp extends NuxtAppInjections { }
