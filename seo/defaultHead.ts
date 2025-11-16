@@ -1,15 +1,10 @@
 // src/seo/defaultHead.ts
 export const SITE_NAME = 'sitebypro';
-
-// Дефолтный публичный URL сайта (можно переопределить при вызове buildHead)
 export const SITE_URL = 'https://sitebypro.com';
 
-// Желаемый дефолт для Open Graph (ваш конкретный URL)
-export const FALLBACK_OG_IMAGE = 'https://sitebypro-server.ru/static/files/store/preview.png';
+// дефолтная картинка (в Nuxt папка static/ отдается из корня — поэтому в URL не должно быть `/static`)
+export const DEFAULT_OG_IMAGE = SITE_URL + '/files/store/preview.png';
 
-/**
- * Типы для meta/link и итогового head
- */
 export type MetaEntry = {
   vmid?: string;
   name?: string;
@@ -30,43 +25,59 @@ export type HeadObject = {
   titleTemplate?: string | null;
   meta?: MetaEntry[];
   link?: LinkEntry[];
-  [k: string]: any; // произвольные дополнительные поля (jsonLd и т.д.)
+  // допускаем произвольные дополнительные поля (jsonLd и т.д.)
+  [k: string]: any;
 };
 
-/**
- * Базовый дефолтный head — используется если не передать overrides или runtime.
- * Поля, основанные на DEFAULT_OG_IMAGE, будут синхронизированы в buildHead.
- */
 export const defaultHead: HeadObject = {
   title: 'Главная',
+  // оставляем titleTemplate — Nuxt / useHead применит его один раз
   titleTemplate: '%s | ' + SITE_NAME,
   meta: [
     { name: 'description', content: 'SiteByPro — создаём сайты для всех: онлайн-магазины, лендинги, портфолио и корпоративные порталы. Красиво, быстро, эффективно.', vmid: 'description' },
     { name: 'robots', content: 'index,follow', vmid: 'robots' },
 
-    // Open Graph (ограничимся базовыми полями — url/image будет установлено в buildHead)
+    // Open Graph
     { property: 'og:site_name', content: SITE_NAME, vmid: 'og:site_name' },
     { property: 'og:type', content: 'website', vmid: 'og:type' },
     { property: 'og:locale', content: 'ru_RU', vmid: 'og:locale' },
+    { property: 'og:url', content: SITE_URL, vmid: 'og:url' },
+    { property: 'og:image', content: DEFAULT_OG_IMAGE, vmid: 'og:image' },
+    { property: 'og:image:alt', content: SITE_NAME, vmid: 'og:image:alt' },
 
     // Twitter
     { name: 'twitter:card', content: 'summary_large_image', vmid: 'twitter:card' },
+    { name: 'twitter:image', content: DEFAULT_OG_IMAGE, vmid: 'twitter:image' },
+    { name: 'twitter:image:alt', content: SITE_NAME, vmid: 'twitter:image:alt' },
 
-    // универсальная картинка — при отсутствии будет подставлена в buildHead
-    { name: 'image', content: '', vmid: 'image' },
+    // универсальная картинка (на всякий случай)
+    { name: 'image', content: DEFAULT_OG_IMAGE, vmid: 'image' },
+
+    // Рекомендуемые размеры (можно заменить, если нужно другое)
+    { property: 'og:image:width', content: '1200', vmid: 'og:image:width' },
+    { property: 'og:image:height', content: '630', vmid: 'og:image:height' },
+    { property: 'og:image:secure_url', content: DEFAULT_OG_IMAGE, vmid: 'og:image:secure_url' },
+    // тип по умолчанию (при необходимости можно переопределить)
+    { property: 'og:image:type', content: 'image/png', vmid: 'og:image:type' },
   ],
   link: [
     { rel: 'canonical', href: SITE_URL, vmid: 'canonical' }
-  ]
+  ],
 };
 
 /**
- * Утилиты
+ * Вспомогательная функция: ключ для элемента meta/link — vmid, или name, или property,
+ * иначе JSON-строка (гарантирует уникальный ключ).
  */
 function keyOf(item: any) {
   return item?.vmid ?? item?.name ?? item?.property ?? JSON.stringify(item);
 }
 
+/**
+ * Глубокое (по спискам) слияние дефолтных и пользовательских meta/link:
+ * - элементы с одинаковым ключом (vmid/name/property) перезаписываются override-ом,
+ * - новые элементы добавляются.
+ */
 function mergeLists<T extends Record<string, any>>(defaultList: T[] | undefined, overrideList: T[] | undefined): T[] {
   const map = new Map<string, T>();
   if (defaultList) {
@@ -82,6 +93,9 @@ function mergeLists<T extends Record<string, any>>(defaultList: T[] | undefined,
   return Array.from(map.values());
 }
 
+/**
+ * Утилиты для работы со списком meta
+ */
 function findMetaByProp(list: MetaEntry[] | undefined, prop: string) {
   if (!list) return undefined;
   return list.find(m => m.property === prop || m.name === prop);
@@ -91,95 +105,59 @@ function hasMeta(list: MetaEntry[] | undefined, prop: string) {
 }
 
 /**
- * helper: попытка угадать mime type по расширению
- */
-function guessMimeTypeByUrl(url: string | undefined): string {
-  if (!url) return 'image/*';
-  const clean = url.split('?')[0];
-  const ext = clean.split('.').pop()?.toLowerCase() ?? '';
-  if (ext === 'png') return 'image/png';
-  if (ext === 'jpg' || ext === 'jpeg') return 'image/jpeg';
-  if (ext === 'webp') return 'image/webp';
-  if (ext === 'svg') return 'image/svg+xml';
-  return 'image/*';
-}
-
-/**
- * Основная функция: строит head, применяя overrides и runtime-параметры.
+ * Основная функция: берём defaultHead и применяем overrides.
+ * ВАЖНО: НЕ ПОДСТАВЛЯЕМ titleTemplate в title (чтобы избежать двойной подстановки
+ * — Nuxt / useHead применят шаблон самостоятельно).
  *
- * @param overrides — пользовательские meta/link/title и т.д.
- * @param runtime — опционально можно передать { siteUrl, defaultOgImage } (например из useRuntimeConfig)
- *
- * Использование:
- *   import { buildHead } from '~/src/seo/defaultHead';
- *   const head = buildHead({ title: 'О магазине' }, { siteUrl: process.env.SITE_URL, defaultOgImage: process.env.DEFAULT_OG_IMAGE });
+ * Дополнительно: если задан og:image (в default или overrides), то
+ * автоматически добавим / синхронизируем недостающие поля:
+ * - twitter:image (если не задан),
+ * - image (если не задан),
+ * - og:image:secure_url, og:image:width, og:image:height, og:image:type (если не заданы).
+ * Все поля можно переопределить через overrides.meta — при совпадающем vmid/name/property override победит.
  */
-export function buildHead(overrides: HeadObject = {}, runtime?: { siteUrl?: string; defaultOgImage?: string }): HeadObject {
-  const siteUrl = runtime?.siteUrl ?? SITE_URL;
-  const defaultOgImageRaw = runtime?.defaultOgImage ?? FALLBACK_OG_IMAGE;
-
-  // если пользователь передал относительный путь в defaultOgImage — приводим к абсолютному
-  const defaultOgImage = defaultOgImageRaw.startsWith('http') ? defaultOgImageRaw : (siteUrl.replace(/\/$/, '') + '/' + defaultOgImageRaw.replace(/^\//, ''));
-
-  // Начинаем с defaultHead + overrides
+export function buildHead(overrides: HeadObject = {}): HeadObject {
+  // оставляем titleTemplate передаваемым как есть — framework применит его
   const titleTemplate = overrides.titleTemplate ?? defaultHead.titleTemplate;
+  // rawTitle — не изменяем, не подставляем шаблон внутрь строки
   const rawTitle = overrides.title ?? defaultHead.title;
-  const title = rawTitle; // не подставляем шаблон внутрь, это сделает фреймворк
+  const title = rawTitle;
 
   const mergedMeta = mergeLists(defaultHead.meta, overrides.meta);
   const mergedLink = mergeLists(defaultHead.link, overrides.link);
 
-  // Обеспечим, что canonical соответствует siteUrl, если не переопределено
-  if (!mergedLink.find(l => l.rel === 'canonical')) {
-    mergedLink.push({ rel: 'canonical', href: siteUrl, vmid: 'canonical' });
-  } else {
-    const canLink = mergedLink.find(l => l.rel === 'canonical');
-    if (canLink && !canLink.href) canLink.href = siteUrl;
+  // --- синхронизация image-полей ---
+  // находим og:image (с учётом того, что ключи могли быть переопределены)
+  const ogImageEntry = mergedMeta.find(m => (m.property === 'og:image') || (m.name === 'og:image'));
+  const ogImageUrl = ogImageEntry?.content;
+
+  if (ogImageUrl) {
+    // helper — определить mime-type по расширению (ориентировочно)
+    const ext = ogImageUrl.split('?')[0].split('.').pop()?.toLowerCase() ?? '';
+    const guessedType = ext === 'png' ? 'image/png' : (ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : (ext === 'webp' ? 'image/webp' : 'image/*'));
+
+    // добавляем только если отсутствуют (чтобы не перезаписать overrides)
+    if (!hasMeta(mergedMeta, 'twitter:image')) {
+      mergedMeta.push({ name: 'twitter:image', content: ogImageUrl, vmid: 'twitter:image' });
+    }
+    if (!hasMeta(mergedMeta, 'image')) {
+      mergedMeta.push({ name: 'image', content: ogImageUrl, vmid: 'image' });
+    }
+    if (!hasMeta(mergedMeta, 'og:image:secure_url')) {
+      mergedMeta.push({ property: 'og:image:secure_url', content: ogImageUrl, vmid: 'og:image:secure_url' });
+    }
+    if (!hasMeta(mergedMeta, 'og:image:width')) {
+      mergedMeta.push({ property: 'og:image:width', content: '1200', vmid: 'og:image:width' });
+    }
+    if (!hasMeta(mergedMeta, 'og:image:height')) {
+      mergedMeta.push({ property: 'og:image:height', content: '630', vmid: 'og:image:height' });
+    }
+    if (!hasMeta(mergedMeta, 'og:image:type')) {
+      mergedMeta.push({ property: 'og:image:type', content: guessedType, vmid: 'og:image:type' });
+    }
   }
 
-  // --- Синхронизация OG/Twitter/Image полей ---
-  const explicitOgImage = findMetaByProp(mergedMeta, 'og:image')?.content;
-  const ogImageUrl = explicitOgImage || defaultOgImage;
-
-  // Установим/перепроверим og:url
-  if (!hasMeta(mergedMeta, 'og:url')) {
-    mergedMeta.push({ property: 'og:url', content: siteUrl, vmid: 'og:url' });
-  } else {
-    const ogUrl = findMetaByProp(mergedMeta, 'og:url');
-    if (ogUrl && !ogUrl.content) ogUrl.content = siteUrl;
-  }
-
-  // Подставим og:image если нет
-  if (!hasMeta(mergedMeta, 'og:image')) {
-    mergedMeta.push({ property: 'og:image', content: ogImageUrl, vmid: 'og:image' });
-  }
-
-  // Синхронизируем доп. поля, только если они не заданы явно (чтобы override всегда побеждал)
-  if (!hasMeta(mergedMeta, 'twitter:image')) {
-    mergedMeta.push({ name: 'twitter:image', content: ogImageUrl, vmid: 'twitter:image' });
-  }
-  if (!hasMeta(mergedMeta, 'twitter:image:alt')) {
-    mergedMeta.push({ name: 'twitter:image:alt', content: SITE_NAME, vmid: 'twitter:image:alt' });
-  }
-  if (!hasMeta(mergedMeta, 'image')) {
-    mergedMeta.push({ name: 'image', content: ogImageUrl, vmid: 'image' });
-  }
-  if (!hasMeta(mergedMeta, 'og:image:secure_url')) {
-    mergedMeta.push({ property: 'og:image:secure_url', content: ogImageUrl, vmid: 'og:image:secure_url' });
-  }
-  if (!hasMeta(mergedMeta, 'og:image:width')) {
-    mergedMeta.push({ property: 'og:image:width', content: '1200', vmid: 'og:image:width' });
-  }
-  if (!hasMeta(mergedMeta, 'og:image:height')) {
-    mergedMeta.push({ property: 'og:image:height', content: '630', vmid: 'og:image:height' });
-  }
-  if (!hasMeta(mergedMeta, 'og:image:type')) {
-    mergedMeta.push({ property: 'og:image:type', content: guessMimeTypeByUrl(ogImageUrl), vmid: 'og:image:type' });
-  }
-  if (!hasMeta(mergedMeta, 'og:image:alt')) {
-    mergedMeta.push({ property: 'og:image:alt', content: SITE_NAME, vmid: 'og:image:alt' });
-  }
-
+  // Собираем итог — приоритет у overrides для прочих полей (например jsonLd)
   const result: HeadObject = {
     ...defaultHead,
     ...overrides,
@@ -191,8 +169,3 @@ export function buildHead(overrides: HeadObject = {}, runtime?: { siteUrl?: stri
 
   return result;
 }
-
-/**
- * Экспортируем makeHead для удобства (альтернатива buildHead)
- */
-export const makeHead = buildHead;
