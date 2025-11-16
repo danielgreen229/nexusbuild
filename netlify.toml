@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && npm run generate"
+  command = "npm ci && npm run generate && cp -a public/. dist/"
   publish = "dist"
   environment = { NODE_VERSION = "20" }
 
