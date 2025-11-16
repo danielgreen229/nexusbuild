@@ -3,7 +3,7 @@ export const SITE_NAME = 'sitebypro';
 export const SITE_URL = 'https://sitebypro.com';
 
 // дефолтная картинка (в Nuxt папка static/ отдается из корня — поэтому в URL не должно быть `/static`)
-export const DEFAULT_OG_IMAGE = SITE_URL + '/files/store/preview.png';
+export const DEFAULT_OG_IMAGE = 'https://sitebypro-server.ru/static/files/store/preview.png'
 
 export type MetaEntry = {
   vmid?: string;
