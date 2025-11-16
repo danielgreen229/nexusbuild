@@ -24,14 +24,16 @@
           <div class="od-info">
             <h1 class="od-title">{{ orderLocal.raw.domain.fqdn ?? '—' }}</h1>
             <div class="od-meta">Дата: {{ formatDate(orderLocal.raw) }}</div>
-            <div class="od-meta" :class="[
-	            'profile-orders__status',
-	            `profile-orders__status--${orderLocal.statusCode}`
-	          ]">Статус: {{ getStatusTitle(orderLocal.status) }}</div>
+            <div class="order-status__container">
+              <p>Статус:</p>
+              <div class="od-meta" :class="[
+  	            'profile-orders__status',
+  	            `profile-orders__status--${orderLocal.raw.deploy_status}`
+  	          ]">{{ getDeployStatusTitle(orderLocal.raw.deploy_status) }}</div>
+            </div>
             <div class="od-price">{{ orderLocal.price }}</div>
           </div>
         </div>
-
         <section class="od-section">
           <h2 class="od-section-title">Детали заказа</h2>
 
@@ -43,6 +45,57 @@
           </div>
 
 
+        </section>
+
+        <section class="od-section">
+          <h2 class="od-section-title">Этапы разработки</h2>
+          <div class="od-section__steps">
+
+            <div class="payment__container" :class="{'step-active': orderLocal.raw.deploy_status === 'pending_payment' || orderLocal.raw.deploy_status === 'pending_yookassa_payment'}">
+              <div class="info__block">
+                <payment class="image__container"/>
+                <div class="info__about">
+                  <h3>Ожидает оплаты</h3>
+                  <p>Заказ создан, но оплата ещё не прошла</p>
+                </div>
+              </div>
+              <vector class="vector-right__svg"/>
+            </div>
+
+            <div class="coding__container" :class="{'step-active': orderLocal.raw.deploy_status === 'in_progress'}">
+              <div class="info__block">
+                <coding class="image__container"/>
+                <div class="info__about">
+                  <h3>В разработке</h3>
+                  <p>Проект в работе — наши разработчики готовят сайт</p>
+                </div>
+              </div>
+              <vector class="vector-right__svg"/>
+            </div>
+
+            <div class="domain__container" :class="{'step-active': orderLocal.raw.deploy_status === 'deploying_domain'}">
+              <div class="info__block">
+                <domain class="image__container"/>
+                <div class="info__about">
+                  <h3>Подключение домена</h3>
+                  <p>Привязываем домен и настраиваем доступ по адресу</p>
+                </div>
+              </div>
+
+              <vector class="vector-right__svg"/>
+            </div>
+
+            <div class="succeed__container" :class="{'step-active': orderLocal.raw.deploy_status === 'completed' || orderLocal.raw.deploy_status === 'succeed'}">
+              <div class="info__block">
+                <succeed class="image__container"/>
+                <div class="info__about">
+                  <h3>Все готово</h3>
+                  <p>Сайт опубликован и доступен в сети</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </section>
 
         
@@ -58,6 +111,12 @@
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useOrdersStore } from '~/stores/order'
+
+import payment from '@/components/ui/icons/payments.vue';
+import coding from '@/components/ui/icons/coding.vue';
+import domain from '@/components/ui/icons/domain.vue';
+import succeed from '@/components/ui/icons/succeed.vue';
+import vector from '@/assets/icons/vector-right.svg';
 
 const route = useRoute()
 const router = useRouter()
@@ -83,9 +142,20 @@ function getStatusTitle (status) {
   if(status == 'pending_payment') return 'Ожидает оплаты'
   else if(status == 'pending_yookassa_payment') return 'Ожидает оплаты'
   else if(status == 'in_progress') return 'В разработке'
-  else if(status == 'completed') return 'Оплачен'
+  else if(status == 'deploying_domain') return 'Подключение домена'
+  else if(status == 'completed') return 'Проект запущен'
   else if(status == 'cancelled') return 'Отменен'
-  else return status
+  else return 'В разработке'
+}
+
+function getDeployStatusTitle(status) {
+  if(status == 'pending_payment') return 'Ожидает оплаты'
+  else if(status == 'pending_yookassa_payment') return 'Ожидает оплаты'
+  else if(status == 'in_progress') return 'В разработке'
+  else if(status == 'deploying_domain') return 'Подключение домена'
+  else if(status == 'completed') return 'Проект запущен'
+  else if(status == 'cancelled') return 'Отменен'
+  else return 'В разработке'
 }
 
 async function loadOrder() {
@@ -273,13 +343,95 @@ const formattedRaw = computed(() => {
 }
 
 .profile-orders__status { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; }
-.profile-orders__status--completed { background: #dcfce7; color: #166534; }
+.profile-orders__status--succeed { background: #dcfce7; color: #166534; }
+.profile-orders__status--completed { background: #dcfce7; color: #4c3ce1; }
 .profile-orders__status--in_progress { background: #fffbeb; color: #854d0e; }
 .profile-orders__status--pending_payment { background: #fee2e2; color: #b91c1c; }
 .profile-orders__status--pending_yookassa_payment { background: #2663eb; color: #ffffff; }
+.profile-orders__status--deploying_domain { background: #9256da; color: #ffffff; }
+
+.payment__container, .succeed__container, .domain__container, .coding__container {
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  opacity: 0.4;
+}
+
+.image__container {
+  z-index: -1;
+}
+.od-section__steps {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.step-active {
+  opacity: 1;
+}
+
+.vector-right__svg {
+  min-width: 3rem;
+  min-height: 3rem;
+}
+.info__block {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  z-index: 1;
+}
+
+.profile-orders__status--completed { background: #dcfce7; color: #166534; }
+.profile-orders__status--succeed { background: #dcfce7; color: #166534; }
+.profile-orders__status--in_progress {     background: #7cbeff;
+    color: #ffffff; }
+.profile-orders__status--pending_payment { background: #ff714c; color: white; }
+.profile-orders__status--pending_yookassa_payment { background: #ff714c; color: #ffffff; }
+.profile-orders__status--deploying_domain { background: #628dff; color: #ffffff; }
+
+
+.order-status__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  align-items: center;
+}
 
 @media (max-width: 768px) {
   .od-top { flex-direction: column }
   .od-thumb { width: 7.5rem; height: 5.25rem }
+  .od-container {
+    padding-top: 1rem;
+  }
+  .od-section__steps {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1rem;
+  }
+  .payment__container, .succeed__container, .domain__container, .coding__container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+  .info__block > .image__container {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .info__block {
+    width: 100%;
+  }
+  .vector-right__svg {
+    transform: rotate(90deg);
+  }
 }
 </style>

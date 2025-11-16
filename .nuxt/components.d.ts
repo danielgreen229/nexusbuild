@@ -48,6 +48,10 @@ interface _GlobalComponents {
     'UiPromoCard': typeof import("../components/ui/PromoCard.vue")['default']
     'UiServiceCard': typeof import("../components/ui/ServiceCard.vue")['default']
     'UiBlocksCorner': typeof import("../components/ui/blocks/corner.vue")['default']
+    'UiIconsCoding': typeof import("../components/ui/icons/coding.vue")['default']
+    'UiIconsDomain': typeof import("../components/ui/icons/domain.vue")['default']
+    'UiIconsPayments': typeof import("../components/ui/icons/payments.vue")['default']
+    'UiIconsSucceed': typeof import("../components/ui/icons/succeed.vue")['default']
     'SvgoBigEmail': typeof import("../assets/icons/big-email")['default']
     'SvgoIconClick': typeof import("../assets/icons/icon-click")['default']
     'SvgoLandingCone': typeof import("../assets/icons/landing/Cone")['default']
@@ -64,6 +68,7 @@ interface _GlobalComponents {
     'SvgoOpen': typeof import("../assets/icons/open")['default']
     'SvgoTg': typeof import("../assets/icons/tg")['default']
     'SvgoUser': typeof import("../assets/icons/user")['default']
+    'SvgoVectorRight': typeof import("../assets/icons/vector-right")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
     'NuxtLayout': typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
     'NuxtErrorBoundary': typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -125,6 +130,10 @@ interface _GlobalComponents {
     'LazyUiPromoCard': LazyComponent<typeof import("../components/ui/PromoCard.vue")['default']>
     'LazyUiServiceCard': LazyComponent<typeof import("../components/ui/ServiceCard.vue")['default']>
     'LazyUiBlocksCorner': LazyComponent<typeof import("../components/ui/blocks/corner.vue")['default']>
+    'LazyUiIconsCoding': LazyComponent<typeof import("../components/ui/icons/coding.vue")['default']>
+    'LazyUiIconsDomain': LazyComponent<typeof import("../components/ui/icons/domain.vue")['default']>
+    'LazyUiIconsPayments': LazyComponent<typeof import("../components/ui/icons/payments.vue")['default']>
+    'LazyUiIconsSucceed': LazyComponent<typeof import("../components/ui/icons/succeed.vue")['default']>
     'LazySvgoBigEmail': LazyComponent<typeof import("../assets/icons/big-email")['default']>
     'LazySvgoIconClick': LazyComponent<typeof import("../assets/icons/icon-click")['default']>
     'LazySvgoLandingCone': LazyComponent<typeof import("../assets/icons/landing/Cone")['default']>
@@ -141,6 +150,7 @@ interface _GlobalComponents {
     'LazySvgoOpen': LazyComponent<typeof import("../assets/icons/open")['default']>
     'LazySvgoTg': LazyComponent<typeof import("../assets/icons/tg")['default']>
     'LazySvgoUser': LazyComponent<typeof import("../assets/icons/user")['default']>
+    'LazySvgoVectorRight': LazyComponent<typeof import("../assets/icons/vector-right")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
     'LazyNuxtLayout': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
     'LazyNuxtErrorBoundary': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>
@@ -208,6 +218,10 @@ export const UiNavLandingHeader: typeof import("../components/ui/Nav/LandingHead
 export const UiPromoCard: typeof import("../components/ui/PromoCard.vue")['default']
 export const UiServiceCard: typeof import("../components/ui/ServiceCard.vue")['default']
 export const UiBlocksCorner: typeof import("../components/ui/blocks/corner.vue")['default']
+export const UiIconsCoding: typeof import("../components/ui/icons/coding.vue")['default']
+export const UiIconsDomain: typeof import("../components/ui/icons/domain.vue")['default']
+export const UiIconsPayments: typeof import("../components/ui/icons/payments.vue")['default']
+export const UiIconsSucceed: typeof import("../components/ui/icons/succeed.vue")['default']
 export const SvgoBigEmail: typeof import("../assets/icons/big-email")['default']
 export const SvgoIconClick: typeof import("../assets/icons/icon-click")['default']
 export const SvgoLandingCone: typeof import("../assets/icons/landing/Cone")['default']
@@ -224,6 +238,7 @@ export const SvgoOpenNext: typeof import("../assets/icons/open-next")['default']
 export const SvgoOpen: typeof import("../assets/icons/open")['default']
 export const SvgoTg: typeof import("../assets/icons/tg")['default']
 export const SvgoUser: typeof import("../assets/icons/user")['default']
+export const SvgoVectorRight: typeof import("../assets/icons/vector-right")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
 export const NuxtLayout: typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']
 export const NuxtErrorBoundary: typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']
@@ -285,6 +300,10 @@ export const LazyUiNavLandingHeader: LazyComponent<typeof import("../components/
 export const LazyUiPromoCard: LazyComponent<typeof import("../components/ui/PromoCard.vue")['default']>
 export const LazyUiServiceCard: LazyComponent<typeof import("../components/ui/ServiceCard.vue")['default']>
 export const LazyUiBlocksCorner: LazyComponent<typeof import("../components/ui/blocks/corner.vue")['default']>
+export const LazyUiIconsCoding: LazyComponent<typeof import("../components/ui/icons/coding.vue")['default']>
+export const LazyUiIconsDomain: LazyComponent<typeof import("../components/ui/icons/domain.vue")['default']>
+export const LazyUiIconsPayments: LazyComponent<typeof import("../components/ui/icons/payments.vue")['default']>
+export const LazyUiIconsSucceed: LazyComponent<typeof import("../components/ui/icons/succeed.vue")['default']>
 export const LazySvgoBigEmail: LazyComponent<typeof import("../assets/icons/big-email")['default']>
 export const LazySvgoIconClick: LazyComponent<typeof import("../assets/icons/icon-click")['default']>
 export const LazySvgoLandingCone: LazyComponent<typeof import("../assets/icons/landing/Cone")['default']>
@@ -301,6 +320,7 @@ export const LazySvgoOpenNext: LazyComponent<typeof import("../assets/icons/open
 export const LazySvgoOpen: LazyComponent<typeof import("../assets/icons/open")['default']>
 export const LazySvgoTg: LazyComponent<typeof import("../assets/icons/tg")['default']>
 export const LazySvgoUser: LazyComponent<typeof import("../assets/icons/user")['default']>
+export const LazySvgoVectorRight: LazyComponent<typeof import("../assets/icons/vector-right")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
 export const LazyNuxtLayout: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-layout")['default']>
 export const LazyNuxtErrorBoundary: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/nuxt-error-boundary.vue")['default']>

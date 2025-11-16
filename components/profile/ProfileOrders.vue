@@ -94,22 +94,25 @@ function statusCodeFrom(order) {
   return String(s).toLowerCase().replace(/\s+/g, '_') || 'unknown'
 }
 
-function getDeployStatusTitle(status) {
-  if (!status) return '—'
-  if (status === 'pending_payment' || status === 'pending_yookassa_payment') return 'Ожидает оплаты'
-  if (status === 'in_progress') return 'В разработке'
-  if (status === 'deploying_domain') return 'Подключение домена'
-  if (status === 'succeed') return 'Все готово'
-  return 'В разработке'
+function getDeployStatusTitle(status, info) {
+  console.log(info, status)
+  if(status == 'pending_payment') return 'Ожидает оплаты'
+  else if(status == 'pending_yookassa_payment') return 'Ожидает оплаты'
+  else if(status == 'in_progress') return 'В разработке'
+  else if(status == 'deploying_domain') return 'Подключение домена'
+  else if(status == 'completed') return 'Проект запущен'
+  else if(status == 'cancelled') return 'Отменен'
+  else return 'В разработке'
 }
 
 function getStatusTitle(status) {
-  if (!status) return '—'
-  if (status === 'pending_payment' || status === 'pending_yookassa_payment') return 'Ожидает оплаты'
-  if (status === 'in_progress') return 'В разработке'
-  if (status === 'completed') return 'Оплачен'
-  if (status === 'cancelled') return 'Отменен'
-  return 'В разработке'
+  if(status == 'pending_payment') return 'Ожидает оплаты'
+  else if(status == 'pending_yookassa_payment') return 'Ожидает оплаты'
+  else if(status == 'in_progress') return 'В разработке'
+  else if(status == 'deploying_domain') return 'Подключение домена'
+  else if(status == 'completed') return 'Проект запущен'
+  else if(status == 'cancelled') return 'Отменен'
+  else return 'В разработке'
 }
 
 function formatPriceForDisplay(order) {
@@ -328,7 +331,6 @@ async function goToPayment(order) {
       <div class="profile-orders__row profile-orders__row--header" role="row">
         <div class="profile-orders__cell">Дата</div>
         <div class="profile-orders__cell">Шаблон</div>
-        <div class="profile-orders__cell">Статус разработки</div>
         <div class="profile-orders__cell">Статус</div>
         <div class="profile-orders__cell">Сумма</div>
         <div class="profile-orders__cell">Действия</div>
@@ -358,17 +360,12 @@ async function goToPayment(order) {
               </div>
             </div>
           </div>
-          <div class="profile-orders__cell profile-orders__cell--status" :title="getDeployStatusTitle(order.raw.deploy_status)">
-            <span :class="['profile-orders__status', `profile-orders__status--${order.statusCode}`]">
+          <div class="profile-orders__cell profile-orders__cell--status" :title="getDeployStatusTitle(order.raw.deploy_status, order.raw)">
+            <span :class="['profile-orders__status', `profile-orders__status--${order.raw.deploy_status}`]">
               {{ getDeployStatusTitle(order.raw.deploy_status) }}
             </span>
           </div>
 
-          <div class="profile-orders__cell profile-orders__cell--status" :title="getStatusTitle(order.status)">
-            <span :class="['profile-orders__status', `profile-orders__status--${order.statusCode}`]">
-              {{ getStatusTitle(order.status) }}
-            </span>
-          </div>
 
           <div class="profile-orders__cell profile-orders__cell--price" :title="formatPriceForDisplay(order)">{{ formatPriceForDisplay(order) }}</div>
 
@@ -421,7 +418,7 @@ async function goToPayment(order) {
 /* desktop/tablet: grid строка с 6 колонками */
 .profile-orders__row {
   display: grid;
-  grid-template-columns: 14% 33% 13% 11% 10% 16%;
+  grid-template-columns: 21% auto 21% 12% 17%;
   align-items: center;
   gap: 12px;
   background-color: white;
@@ -463,7 +460,7 @@ async function goToPayment(order) {
 }
 
 .profile-orders__thumb {
-  width: 30%;
+  width: 40%;
   height: 7rem;
   object-fit: cover;
   border-radius: 8px;
@@ -527,10 +524,15 @@ async function goToPayment(order) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .profile-orders__status--completed { background: #dcfce7; color: #166534; }
-.profile-orders__status--in_progress { background: #fffbeb; color: #854d0e; }
-.profile-orders__status--pending_payment { background: #fee2e2; color: #b91c1c; }
-.profile-orders__status--pending_yookassa_payment { background: #2663eb; color: #ffffff; }
+.profile-orders__status--succeed { background: #dcfce7; color: #166534; }
+.profile-orders__status--in_progress {     background: #7cbeff;
+    color: #ffffff; }
+.profile-orders__status--pending_payment { background: #ff714c; color: white; }
+.profile-orders__status--pending_yookassa_payment { background: #ff714c; color: #ffffff; }
+.profile-orders__status--deploying_domain { background: #9256da; color: #ffffff; }
+
 
 /* загрузки и пустое состояние */
 .profile-orders__loading, .profile-orders__empty {
@@ -571,7 +573,7 @@ async function goToPayment(order) {
 
 /* responsive: tablet */
 @media (max-width:1200px) {
-  .profile-orders__row { grid-template-columns: 14% 22% 20% 16% 11% 11%; }
+  .profile-orders__row {  }
   .profile-orders__thumb, .profile-orders__thumb--placeholder { width:72px; height:48px; }
   .profile-orders__cell { padding:10px; }
 }
