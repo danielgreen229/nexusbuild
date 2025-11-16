@@ -163,7 +163,10 @@
 <script setup lang="ts">
 import RequestModal from '@/components/ui/Modal/Request.vue'
 import NextCircle from '~/assets/icons/next-circle.svg'
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
+const route = useRoute()
+import { useRoute } from 'vue-router'
+
 import BlockHeader from '@/components/ui/BlockHeader.vue'
 // статические импорты видео
 import landing from '@/assets/images/service/landing.mp4'
@@ -430,9 +433,45 @@ function onDocumentClick(e: MouseEvent) {
   }
 }
 
+function scrollToSectionById(sectionId: string) {
+  const idx = merged.value.children.findIndex(c => c.id === sectionId)
+  if (idx === -1) return
+
+  openSection(idx) // открываем секцию
+
+  nextTick(() => {
+    const btn = document.getElementById(buttonId(idx))
+    const menu = document.getElementById(listId(idx))
+    if (!btn || !menu) return
+
+    // ждем, пока transition закончится
+    const onTransitionEnd = () => {
+      btn.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      menu.removeEventListener('transitionend', onTransitionEnd)
+    }
+    menu.addEventListener('transitionend', onTransitionEnd)
+  })
+}
+
+
+watch(
+  () => route.query['3d'],
+  (val) => {
+    if (val === '1') {
+      // ждём рендера секции после перехода
+      nextTick(() => scrollToSectionById('design-3d'))
+    }
+  }
+)
+
 onMounted(() => {
   if (merged.value.closeOnOutside) document.addEventListener('click', onDocumentClick)
+
+  if (route.query['3d'] === '1') {
+    nextTick(() => scrollToSectionById('design-3d'))
+  }
 })
+
 onBeforeUnmount(() => {
   if (merged.value.closeOnOutside) document.removeEventListener('click', onDocumentClick)
 })

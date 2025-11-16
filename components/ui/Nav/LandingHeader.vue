@@ -15,7 +15,6 @@
                 exact-active-class="app-nav__link--active"
                 :aria-label="`Перейти на страницу ${page.title}`"
                 :aria-current="$route.path === page.path ? 'page' : null"
-
                 :class="{'main-nav__link': !isHome}"
               >
                 {{ page.title }}
@@ -117,7 +116,7 @@ function closeMobileMenu() {
 const primaryPages = [
   { path: '/templates', title: 'шаблоны' },
   { path: '/services', title: 'услуги' },
-  { path: '/services', title: '3D-модели' } // исправленный путь
+  { path: '/services?3d=1', title: '3D-модели' } // исправленный путь
 ]
 
 const secondaryPages = [
