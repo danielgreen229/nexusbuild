@@ -37,7 +37,7 @@ export type HeadObject = {
  * Базовый дефолтный head — используется если не передать overrides или runtime.
  * Поля, основанные на DEFAULT_OG_IMAGE, будут синхронизированы в buildHead.
  */
-const baseDefaultHead: HeadObject = {
+export const defaultHead: HeadObject = {
   title: 'Главная',
   titleTemplate: '%s | ' + SITE_NAME,
   meta: [
@@ -121,25 +121,23 @@ export function buildHead(overrides: HeadObject = {}, runtime?: { siteUrl?: stri
   // если пользователь передал относительный путь в defaultOgImage — приводим к абсолютному
   const defaultOgImage = defaultOgImageRaw.startsWith('http') ? defaultOgImageRaw : (siteUrl.replace(/\/$/, '') + '/' + defaultOgImageRaw.replace(/^\//, ''));
 
-  // Начинаем с base + overrides
-  const titleTemplate = overrides.titleTemplate ?? baseDefaultHead.titleTemplate;
-  const rawTitle = overrides.title ?? baseDefaultHead.title;
+  // Начинаем с defaultHead + overrides
+  const titleTemplate = overrides.titleTemplate ?? defaultHead.titleTemplate;
+  const rawTitle = overrides.title ?? defaultHead.title;
   const title = rawTitle; // не подставляем шаблон внутрь, это сделает фреймворк
 
-  const mergedMeta = mergeLists(baseDefaultHead.meta, overrides.meta);
-  const mergedLink = mergeLists(baseDefaultHead.link, overrides.link);
+  const mergedMeta = mergeLists(defaultHead.meta, overrides.meta);
+  const mergedLink = mergeLists(defaultHead.link, overrides.link);
 
   // Обеспечим, что canonical соответствует siteUrl, если не переопределено
   if (!mergedLink.find(l => l.rel === 'canonical')) {
     mergedLink.push({ rel: 'canonical', href: siteUrl, vmid: 'canonical' });
   } else {
-    // если есть, но пустой href — заполнить
     const canLink = mergedLink.find(l => l.rel === 'canonical');
     if (canLink && !canLink.href) canLink.href = siteUrl;
   }
 
   // --- Синхронизация OG/Twitter/Image полей ---
-  // Приоритет: 1) overrides meta og:image, 2) существующий mergedMeta, 3) defaultOgImage
   const explicitOgImage = findMetaByProp(mergedMeta, 'og:image')?.content;
   const ogImageUrl = explicitOgImage || defaultOgImage;
 
@@ -147,7 +145,6 @@ export function buildHead(overrides: HeadObject = {}, runtime?: { siteUrl?: stri
   if (!hasMeta(mergedMeta, 'og:url')) {
     mergedMeta.push({ property: 'og:url', content: siteUrl, vmid: 'og:url' });
   } else {
-    // если задан, но пустой — заполнить
     const ogUrl = findMetaByProp(mergedMeta, 'og:url');
     if (ogUrl && !ogUrl.content) ogUrl.content = siteUrl;
   }
@@ -184,7 +181,7 @@ export function buildHead(overrides: HeadObject = {}, runtime?: { siteUrl?: stri
   }
 
   const result: HeadObject = {
-    ...baseDefaultHead,
+    ...defaultHead,
     ...overrides,
     title,
     titleTemplate,
@@ -196,10 +193,6 @@ export function buildHead(overrides: HeadObject = {}, runtime?: { siteUrl?: stri
 }
 
 /**
- * Утилита для быстрого получения head с минимальной конфигурацией (удобно в рантайме).
- * Пример использования в Nuxt 3 setup():
- *
- * const config = useRuntimeConfig();
- * const head = makeHead({ title: 'Страница' }, { siteUrl: config.public.siteUrl, defaultOgImage: config.public.defaultOgImage });
+ * Экспортируем makeHead для удобства (альтернатива buildHead)
  */
-export const makeHead = buildHead; // экспорт для совместимости — можно импортировать как makeHead или buildHead
+export const makeHead = buildHead;
