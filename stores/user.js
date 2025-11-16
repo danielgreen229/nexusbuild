@@ -104,8 +104,21 @@ export const useUserStore = defineStore('user', {
     async login(payload = {}) {
       this.loading = true
       this.error = null
+
       try {
-        const { res, parsed } = await this._post('/user/login', payload)
+        // --- добавляем домен ---
+        const domain =
+          (typeof window !== 'undefined' && window.location
+            ? window.location.origin
+            : null)
+
+        const payloadWithDomain = {
+          ...payload,
+          domain
+        }
+
+        const { res, parsed } = await this._post('/user/login', payloadWithDomain)
+
         if (!res.ok) {
           const errMsg = _extractMessageFromBody(parsed) || 'Ошибка авторизации'
           this.error = errMsg
@@ -121,10 +134,12 @@ export const useUserStore = defineStore('user', {
 
         this._syncFromUserObject(data)
         return data
+
       } catch (err) {
         this.error = err.message || 'Неизвестная ошибка'
         this.isAuthenticated = !!(this.token && this.uid)
         throw err
+
       } finally {
         this.loading = false
       }

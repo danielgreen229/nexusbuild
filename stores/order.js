@@ -279,12 +279,12 @@ export const useOrdersStore = defineStore('orders', {
 
       try {
         if (!payload.templateId || isNaN(Number(payload.templateId))) {
-          const msg = 'templateId required'
+          const msg = 'Выберите шаблон еще раз'
           this.error = msg
           return { success: false, message: msg, data: null }
         }
         if (typeof payload.price === 'undefined' || isNaN(Number(payload.price))) {
-          const msg = 'price required'
+          const msg = 'Не возможно расчитать стоимость'
           this.error = msg
           return { success: false, message: msg, data: null }
         }

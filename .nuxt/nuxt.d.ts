@@ -1,6 +1,6 @@
 /// <reference types="@nuxt/image" />
-/// <reference types="@nuxt/fonts" />
 /// <reference types="@pinia/nuxt" />
+/// <reference types="@nuxt/fonts" />
 /// <reference types="@nuxt/devtools" />
 /// <reference types="nuxt-svgo" />
 /// <reference types="@nuxt/telemetry" />
