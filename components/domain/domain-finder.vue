@@ -32,7 +32,7 @@
               <th>Домен</th>
               <th>Статус</th>
               <th>Цена</th>
-              <th>ТLD</th>
+              <th>TLD</th>
               <th></th>
             </tr>
           </thead>
@@ -57,7 +57,13 @@
               <td class="td-actions">
                 <button class="btn small" @click="openWhois(item.fqdn)">Whois</button>
                 <!-- передаём весь объект item -->
-                <button class="btn primary small" :disabled="!isAvailable(item.available)" @click="chooseDomain(item)">Выбрать</button>
+                <!-- Изменено: теперь кнопка "Выбрать" disabled, если домен не доступен ИЛИ price === null/undefined -->
+                <button
+                  class="btn primary small"
+                  :disabled="!isAvailable(item.available) || item.price == null"
+                  @click="chooseDomain(item)">
+                  Выбрать
+                </button>
               </td>
             </tr>
           </tbody>

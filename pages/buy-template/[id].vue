@@ -20,21 +20,15 @@
           <h3 class="card__h3 domain__h3">Выберите домен</h3>
           <div class="domain__container">
             <div class="domain-scroll__container">
-              <!-- DomainFinder эмитит 'select-domain' (теперь объект item) -->
+              <!-- DomainFinder эмитит 'select-domain' -->
               <DomainFinder @select-domain="onDomainSelected" />
             </div>
           </div>
         </div>
-
-        <!--<div class="card__right">
-          <div class="meta">
-            <span class="price">{{ formatCurrency(template.price) }}</span>
-          </div>
-        </div>-->
       </section>
 
       <!-- RIGHT: корзина / заказ -->
-      <aside class="card sidebar">
+      <aside ref="sidebarRef" class="card sidebar">
         <h2>Ваш заказ</h2>
 
         <div class="order-lines">
@@ -53,7 +47,6 @@
             <span>{{ formatCurrency(addons.hosting.price) }}</span>
           </div>
 
-          <!-- Цена домена -->
           <div class="line" v-if="selectedDomain">
             <span>Домен ({{ selectedDomain.fqdn }})</span>
             <span>{{ formatCurrency(domainCost) }}</span>
@@ -63,10 +56,20 @@
 
           <div class="line">
             <strong>Промежуточная сумма</strong>
-            <strong>{{ formatCurrency(subtotal) }}</strong>
+            <strong>{{ formatCurrency(subtotalBeforeTemplate) }}</strong>
           </div>
 
-          <!-- INPUT для промокода прямо под промежуточной суммой -->
+          <div class="line discount" v-if="templateDiscountAmount > 0">
+            <span>Скидка шаблона {{ discountLabel }}</span>
+            <span>-{{ formatCurrency(templateDiscountAmount) }}</span>
+          </div>
+
+          <div class="line">
+            <strong>Сумма после скидки шаблона</strong>
+            <strong>{{ formatCurrency(subtotalAfterTemplate) }}</strong>
+          </div>
+
+          <!-- INPUT для промокода -->
           <div class="line" style="flex-direction:column; align-items:stretch; gap:0.5rem; padding-top:0.5rem;">
             <div style="display:flex; gap:0.5rem; align-items:center;">
               <input
@@ -82,54 +85,32 @@
                 class="btn primary"
                 @click="onApplyPromo"
                 :disabled="codesStore.loading || applyingPromo || !promoCodeTrimmed"
-                title="Нажмите, чтобы проверить и применить промокод"
+                title="Проверить и применить промокод"
               >
                 <span v-if="!applyingPromo">{{ codesStore.loading ? 'Обработка…' : 'Применить' }}</span>
                 <span v-else>Применяется…</span>
               </button>
             </div>
 
+            <div class="note" style="margin-top:0.25rem;">Промокод применяется к сумме <strong>после</strong> скидки шаблона.</div>
 
-            <!-- Ошибка / подсказка -->
             <div v-if="promoError" class="note" style="color: #b91c1c; margin-top:0.25rem;">
               {{ promoError }}
             </div>
 
-            <!-- Информация об успешном применении -->
-            <div v-if="promoAppliedExists" class="note" style="color: #064e3b; margin-top:0.25rem;">
-              Промокод «{{ appliedPromoCode }}» успешно применён — скидка {{ formatCurrency(appliedPromoDiscount) }}.
+            <div v-if="promoPreviewExists && !promoAppliedExists" class="note" style="color:#064e3b; margin-top:0.25rem;">
+              Превью промокода «{{ promoPreviewCode || promoCodeInput }}»: скидка {{ formatCurrency(promoPreviewDiscount) }} на сумму {{ formatCurrency(promoPreviewFinal) }}.
+            </div>
+
+            <div v-if="promoAppliedExists" class="note" style="color:#064e3b; margin-top:0.25rem;">
+              Промокод «{{ appliedPromoCode }}» применён — скидка {{ formatCurrency(appliedPromoDiscount) }}.
             </div>
           </div>
 
-          <!-- Превью промокода (не применён) - показываем также как линию скидки -->
-          <div class="line discount" v-if="promoPreviewExists && !promoAppliedExists">
-            <span>Промокод: {{ promoPreviewCode || promoCodeInput }}</span>
-            <span>-{{ formatCurrency(promoPreviewDiscount) }}</span>
-          </div>
-
-          <!-- Окончательно применённый промокод -->
-          <div class="line discount" v-if="promoAppliedExists">
-            <span>Промокод: {{ appliedPromoCode }}</span>
-            <span>-{{ formatCurrency(appliedPromoDiscount) }}</span>
-          </div>
-
-          <!-- Существующая скидка шаблона -->
-          <div class="line discount" v-if="templateDiscountAmount > 0">
-            <span>Скидка шаблона {{ discountLabel }}</span>
-            <span>-{{ formatCurrency(templateDiscountAmount) }}</span>
-          </div>
-
-          <!-- Выбранный домен (с кнопкой сброса) -->
-          <div class="line" v-if="selectedDomain">
-            <span>Выбран домен</span>
-            <span style="display:flex; gap:0.5rem; align-items:center;">
-              <strong>{{ selectedDomain.fqdn }}</strong>
-              <button class="btn ghost" @click="clearSelectedDomain" title="Сбросить выбор домена">Сбросить</button>
-            </span>
-          </div>
+         
 
           <div class="line total">
-            <strong>Итого</strong>
+            <strong>Итого к оплате</strong>
             <strong>{{ formatCurrency(finalTotal) }}</strong>
           </div>
         </div>
@@ -152,14 +133,13 @@
 
           <template v-else>
             <div class="login-row">
-              Необходимо 
+              Необходимо
               <button class="btn-link" @click="openLogin">Войти</button>
               или
               <button class="btn-link" @click="openRegister">Зарегистрироваться</button>
             </div>
           </template>
 
-          <!-- Кнопка доступна только если пользователь авторизован и выбран домен -->
           <button class="btn primary" :disabled="placing || !canPlaceOrder" @click="placeOrder">
             {{ placing ? 'Оформление…' : 'Оформить заказ' }}
           </button>
@@ -176,25 +156,24 @@
       </aside>
     </div>
 
-    <LoginModal 
-      v-model:visible="isLoginModalOpen" 
-      @login="onLoginEvent" 
+    <LoginModal
+      v-model:visible="isLoginModalOpen"
+      @login="onLoginEvent"
       :startWithRegister="startWithRegister"
     />
   </div>
 </template>
 
 <script setup>
-/* Full rewrite: Buy/order component with robust promo application & alert store integration */
-import { onMounted, ref, computed, watch } from 'vue'
+import { ref, computed, onMounted, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTemplateStore } from '~/stores/template'
 import { useUserStore } from '~/stores/user'
 import { useCodesStore } from '~/stores/promocodes'
 import { useOrdersStore } from '~/stores/order'
+import { useAlertStore } from '~/stores/alert'
 import LoginModal from '~/components/profile/Modals/LoginModal.vue'
 import DomainFinder from '@/components/domain/domain-finder.vue'
-import { useAlertStore } from '~/stores/alert'
 
 const route = useRoute()
 const router = useRouter()
@@ -210,50 +189,79 @@ const startWithRegister = ref(false)
 const id = route.params.id
 
 onMounted(async () => {
-  if (id) {
+  if (id && typeof templateStore.getTemplateById === 'function') {
     try { await templateStore.getTemplateById(id) } catch (e) { /* ignore */ }
   }
   if (typeof userStore.init === 'function') {
     try { await userStore.init() } catch (e) { /* ignore */ }
   }
 
-  // Очистим возможный stale preview в codesStore, чтобы лишний preview не блокировал оформление
   try { await _clearCodesPreviewIfAny() } catch (e) { /* ignore */ }
 })
 
-
 function openLogin () { startWithRegister.value = false; isLoginModalOpen.value = true }
 function openRegister () { startWithRegister.value = true; isLoginModalOpen.value = true }
-function onLoginEvent(userData) { isLoginModalOpen.value = false }
+function onLoginEvent () { isLoginModalOpen.value = false }
 
-/* Selected domain object */
+/* Selected domain */
 const selectedDomain = ref(null)
+const sidebarRef = ref(null)
 
-function onDomainSelected(domainOrItem) {
+function onDomainSelected (domainOrItem) {
   if (!domainOrItem) return
   if (typeof domainOrItem === 'string') {
     selectedDomain.value = { fqdn: domainOrItem, price: 0, price_currency: 'RUB', available: true }
-  } else if (typeof domainOrItem === 'object') {
+  } else {
     selectedDomain.value = {
       fqdn: domainOrItem.fqdn,
-      price: domainOrItem.price ?? 0,
-      price_currency: domainOrItem.price_currency ?? (domainOrItem.priceCurrency ?? 'RUB'),
-      available: domainOrItem.available,
+      price: Number(domainOrItem.price || 0),
+      price_currency: domainOrItem.price_currency || domainOrItem.priceCurrency || 'RUB',
+      available: domainOrItem.available ?? true,
       id: domainOrItem.id ?? domainOrItem.domainId ?? null,
       raw: domainOrItem
     }
   }
-}
 
-/* Utilities */
-function clearSelectedDomain() { selectedDomain.value = null }
+  // Плавная прокрутка к сайдбару — только на мобильных (ширина экрана <= 768px)
+  try {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      // Подождём обновления DOM (например, чтобы появился выбранный домен в сайдбаре)
+      nextTick(() => {
+        // Небольшая задержка чтобы гарантированно убрать фокус/клавиатуру на мобильных
+        setTimeout(() => {
+          if (sidebarRef.value && typeof sidebarRef.value.scrollIntoView === 'function') {
+            // Прокрутка так, чтобы заголовок сайдбара был вверху экрана
+            sidebarRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          } else {
+            // запасной вариант: прокрутить окно к координате сайдбара
+            const el = sidebarRef.value && sidebarRef.value.$el ? sidebarRef.value.$el : sidebarRef.value
+            if (el && el.getBoundingClientRect) {
+              const top = (el.getBoundingClientRect().top + window.scrollY) - 12
+              window.scrollTo({ top, behavior: 'smooth' })
+            }
+          }
+        }, 120)
+      })
+    }
+  } catch (e) {
+    // игнорируем ошибки прокрутки
+  }
+}
+function clearSelectedDomain () { selectedDomain.value = null }
 const domainCost = computed(() => Number(selectedDomain.value?.price || 0))
 
 /* Template & pricing */
-const template = computed(() => templateStore.current || {
-  id: null, title: '', price: 0, image: '', description: '', pages: [], preview: '', discount_percent: 0, discount_amount: 0
-})
+const template = computed(() => templateStore.current || { id: null, title: '', price: 0, discount_percent: 0, discount_amount: 0 })
 const basePrice = computed(() => Number(template.value.price || 0))
+
+// Новое: человек жаловался на undefined — добавляем discountLabel
+const discountLabel = computed(() => {
+  const pct = Number(template.value.discount_percent || 0)
+  const amt = Number(template.value.discount_amount || 0)
+  if (pct > 0) return `${pct}%`
+  if (amt > 0) return formatCurrency(amt)
+  return ''
+})
 
 const addons = ref({
   extraPage: { enabled: false, price: 1000, count: 0 },
@@ -262,170 +270,135 @@ const addons = ref({
   hosting: { enabled: false, price: 1000 }
 })
 
-
 const buyer = ref({ name: '', contact: '' })
 const placing = ref(false)
 const applyingPromo = ref(false)
 
+const promoCodeInput = ref('')
+const promoError = ref(null)
 const promoCodeTrimmed = computed(() => (promoCodeInput.value || '').trim())
 
-/* Costs */
+/* Kosten */
 const extraPagesCost = computed(() => {
   const c = Number(addons.value.extraPage.count || 0)
-  const price = Number(addons.value.extraPage.price || 0)
-  return (addons.value.extraPage.enabled && c > 0) ? (c * price) : 0
+  return (addons.value.extraPage.enabled && c > 0) ? (c * Number(addons.value.extraPage.price || 0)) : 0
 })
 const customizationCost = computed(() => {
   const h = Number(addons.value.customization.hours || 0)
-  const rate = Number(addons.value.customization.pricePerHour || 0)
-  return (addons.value.customization.enabled && h > 0) ? (h * rate) : 0
+  return (addons.value.customization.enabled && h > 0) ? (h * Number(addons.value.customization.pricePerHour || 0)) : 0
 })
 const priorityCost = computed(() => addons.value.priority.enabled ? Number(addons.value.priority.price || 0) : 0)
 const hostingCost = computed(() => addons.value.hosting.enabled ? Number(addons.value.hosting.price || 0) : 0)
 
-const subtotal = computed(() => {
-  const parts = [ basePrice.value, extraPagesCost.value, customizationCost.value, priorityCost.value, hostingCost.value, domainCost.value ]
-  return parts.reduce((acc, v) => acc + Number(v || 0), 0)
+/* Основная логика: считаем промо относительно суммы после скидки шаблона */
+const subtotalBeforeTemplate = computed(() => {
+  return [basePrice.value, extraPagesCost.value, customizationCost.value, priorityCost.value, hostingCost.value, domainCost.value]
+    .reduce((s, v) => s + Number(v || 0), 0)
 })
 
-/* Template discount */
 const templateDiscountAmount = computed(() => {
   const discAmount = Number(template.value.discount_amount || 0)
   const discPercent = Number(template.value.discount_percent || 0)
-  if (discAmount > 0) return Math.min(discAmount, subtotal.value)
-  if (discPercent > 0) return Math.min(Math.round((subtotal.value * discPercent) / 100), subtotal.value)
+  if (discAmount > 0) return Math.min(discAmount, subtotalBeforeTemplate.value)
+  if (discPercent > 0) return Math.min(Math.round((subtotalBeforeTemplate.value * discPercent) / 100), subtotalBeforeTemplate.value)
   return 0
 })
-const discountLabel = computed(() => {
-  const discAmount = Number(template.value.discount_amount || 0)
-  const discPercent = Number(template.value.discount_percent || 0)
-  if (discAmount > 0) return `${formatCurrency(discAmount)}`
-  if (discPercent > 0) return `${discPercent}%`
-  return ''
+
+const subtotalAfterTemplate = computed(() => {
+  const v = subtotalBeforeTemplate.value - Number(templateDiscountAmount.value || 0)
+  return v > 0 ? v : 0
 })
 
-/* Promo state (from codesStore) */
+/* Promo state from store */
 const promoPreviewExists = computed(() => !!codesStore.preview)
 const promoPreviewDiscount = computed(() => Number(codesStore.preview?.discount || 0))
-const promoPreviewFinal = computed(() => Number(codesStore.preview?.finalAmount ?? subtotal.value))
+const promoPreviewFinal = computed(() => Number(codesStore.preview?.finalAmount ?? subtotalAfterTemplate.value))
 const promoPreviewCode = computed(() => codesStore.preview?.code || promoCodeInput.value)
 
 const promoAppliedExists = computed(() => !!codesStore.lastApplied)
 const appliedPromoDiscount = computed(() => Number(codesStore.lastApplied?.discount || 0))
 const appliedPromoCode = computed(() => codesStore.lastApplied?.code || '')
 
+/* promo effective: не больше суммы после скидки шаблона */
 const promoDiscountEffective = computed(() => {
   const applied = Number(appliedPromoDiscount.value || 0)
   const preview = Number(promoPreviewDiscount.value || 0)
-
-  if (promoAppliedExists.value) {
-    return Math.min(applied, subtotal.value)
-  }
-
-  if (promoPreviewExists.value) {
-    return Math.min(preview, subtotal.value)
-  }
-
+  if (promoAppliedExists.value) return Math.min(applied, subtotalAfterTemplate.value)
+  if (promoPreviewExists.value) return Math.min(preview, subtotalAfterTemplate.value)
   return 0
 })
 
 const totalDiscount = computed(() => {
   const tpl = Number(templateDiscountAmount.value || 0)
   const promo = promoDiscountEffective.value || 0
-  return Math.min(tpl + promo, subtotal.value)
+  return Math.min(tpl + promo, subtotalBeforeTemplate.value)
 })
 
 const finalTotal = computed(() => {
-  const t = subtotal.value - totalDiscount.value
+  const t = subtotalAfterTemplate.value - promoDiscountEffective.value
   return t > 0 ? Math.round(t) : 0
 })
 
-function formatCurrency(value) {
+function formatCurrency (value) {
   try {
     const v = Number(value || 0)
     return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 }).format(Math.round(v))
   } catch (e) { return `${value} ₽` }
 }
 
-/* Promo UI */
-const promoCodeInput = ref('')
-const promoError = ref(null)
-
-
 watch(promoCodeInput, () => { promoError.value = null })
-watch(subtotal, () => { promoError.value = null })
+watch(subtotalBeforeTemplate, () => { promoError.value = null })
 
-
-/* ---------------------------
-   Новый onApplyPromo + очистка preview в codesStore при ошибке
-   --------------------------- */
-
-async function _clearCodesPreviewIfAny() {
+/* Helpers to clear preview/applied in store (tolerant) */
+async function _clearCodesPreviewIfAny () {
   const clearFns = ['clearPreview', 'clear', 'resetPreview', 'reset', 'clearApplied', 'clearAll']
   for (const fn of clearFns) {
     if (typeof codesStore[fn] === 'function') {
-      try {
-        await codesStore[fn]()
-        return
-      } catch (e) {
-        // ignore and try next
-      }
+      try { await codesStore[fn](); return } catch (e) { /* ignore */ }
     }
   }
-  // не трогаем promoCodeInput (пользовательский ввод), только стор
   try {
     if ('preview' in codesStore) codesStore.preview = null
     if ('lastApplied' in codesStore) codesStore.lastApplied = null
-  } catch (_) {}
+  } catch (e) { /* ignore */ }
 }
 
-// helper
-function _getUserUid() {
+function _getUserUid () {
   const u = userStore.user || {}
   return u.uid || u.id || u.userId || null
 }
 
-function _friendlyPromoMessage(raw) {
+function _friendlyPromoMessage (raw) {
   if (!raw) return 'Ошибка при проверке промокода'
   const s = String(raw)
-  // убираем явные HTTP штуки
   if (/http\s*400|400/i.test(s)) return 'Промокод не применён — проверьте код и попробуйте снова.'
-  if (/code\s+and\s+orderAmount|code и orderAmount|orderamount/i.test(s)) {
-    return 'Невозможно проверить промокод: сумма заказа не указана. Пожалуйста, выберите домен/товары.'
-  }
+  if (/code\s+and\s+orderAmount|code и orderAmount|orderamount/i.test(s)) return 'Невозможно проверить промокод: сумма заказа не указана.'
   return s.length < 140 ? s : 'Невозможно проверить промокод'
 }
 
-/* onApplyPromo */
-async function onApplyPromo(item) {
+/* onApplyPromo: всегда передаём сумму = subtotalAfterTemplate */
+async function onApplyPromo () {
   promoError.value = null
   const code = promoCodeTrimmed.value
-  if (!code) {
-    promoError.value = 'Введите код промокода'
-    return
-  }
+  if (!code) { promoError.value = 'Введите код промокода'; return }
 
-  // если сумма нулевая — не стоит пытаться
-  const orderAmount = Math.round(Number(subtotal.value || 0))
+  const orderAmount = Math.round(Number(subtotalAfterTemplate.value || 0))
   if (orderAmount <= 0) {
-    promoError.value = 'Выберите домен или добавьте опции, чтобы проверить промокод.'
+    promoError.value = 'Сумма для промокода равна нулю. Добавьте домен или опции.'
     return
   }
 
   applyingPromo.value = true
   try {
-    // явная очистка стора перед новой попыткой
     if (typeof codesStore.clearError === 'function') codesStore.clearError()
-    if (typeof codesStore.clearPreview === 'function') codesStore.clearPreview()
+    if (typeof codesStore.clearPreview === 'function') await codesStore.clearPreview()
     else codesStore.preview = null
 
     const previewRes = await codesStore.previewPromocode(code, orderAmount, 'RUB')
-
     if (!previewRes || previewRes.success === false) {
       promoError.value = _friendlyPromoMessage(previewRes?.message)
       return
     }
-    // success -> preview установлен в стор, показываем подсказку (component уже делает это по computed)
     promoError.value = null
   } catch (e) {
     console.error('onApplyPromo error', e)
@@ -435,257 +408,127 @@ async function onApplyPromo(item) {
   }
 }
 
-async function _ensurePromoAppliedBeforeOrder() {
-  // если нет превью или уже применён — ок
+/* Перед заказом: если есть preview и пользователь залогинен — apply на сумму subtotalAfterTemplate */
+async function _ensurePromoAppliedBeforeOrder () {
   if (!promoPreviewExists.value || promoAppliedExists.value) return { success: true }
 
   const code = (promoPreviewCode.value || promoCodeInput.value || '').trim()
-
-  // если превью есть, но код пустой — просто очистим стор и продолжим
-  if (!code) {
-    try { await _clearCodesPreviewIfAny() } catch (e) { /* ignore */ }
-    return { success: true }
-  }
+  if (!code) { try { await _clearCodesPreviewIfAny() } catch (e) {} ; return { success: true } }
 
   const uid = _getUserUid()
-  // если для применения нужен uid, но его нет — не блокируем заказ, просто очистим preview
-  if (!uid) {
-    try { await _clearCodesPreviewIfAny() } catch (e) { /* ignore */ }
-    return { success: true }
-  }
+  if (!uid) { try { await _clearCodesPreviewIfAny() } catch (e) {} ; return { success: true } }
 
   applyingPromo.value = true
   try {
     if (typeof codesStore.clearError === 'function') codesStore.clearError()
-
-    const orderAmount = Math.round(Number(subtotal.value || 0))
+    const orderAmount = Math.round(Number(subtotalAfterTemplate.value || 0))
     const res = await codesStore.applyPromocode({ code, uid, orderAmount, currency: 'RUB' })
+    if (res && (res.success === true || res.data)) return { success: true }
 
-    if (res && (res.success === true || res.data)) {
-      return { success: true }
-    }
-
-    // неудача при apply — очистим preview, но не будем блокировать оформление
     const raw = res?.message || (res && res.data && (res.data.message || res.data.error)) || null
     const friendly = _friendlyPromoMessage(raw)
-    try { await _clearCodesPreviewIfAny() } catch (e) { /* ignore */ }
+    try { await _clearCodesPreviewIfAny() } catch (e) {}
     return { success: true, message: friendly }
   } catch (e) {
     console.error('_ensurePromoAppliedBeforeOrder error', e)
-    try { await _clearCodesPreviewIfAny() } catch (ee) { /* ignore */ }
+    try { await _clearCodesPreviewIfAny() } catch (ee) {}
     return { success: true, message: 'Ошибка при применении промокода' }
-  } finally {
-    applyingPromo.value = false
-  }
+  } finally { applyingPromo.value = false }
 }
 
-/**
- * Попытка очистить/подтвердить состояние промо в store после успешного заказа.
- */
-async function _cleanupPromoStateAfterOrder() {
-  const clearFns = [
-    'consumeApplied',
-    'consumePromocode',
-    'clearApplied',
-    'resetApplied',
-    'clearPreview',
-    'reset',
-    'clear',
-    'finalizePromo'
-  ]
-
+async function _cleanupPromoStateAfterOrder () {
+  const clearFns = ['consumeApplied','consumePromocode','clearApplied','resetApplied','clearPreview','reset','clear','finalizePromo']
   for (const fn of clearFns) {
     if (typeof codesStore[fn] === 'function') {
-      try {
-        await codesStore[fn]()
-        return
-      } catch (e) {
-        // ignore and continue
-      }
+      try { await codesStore[fn](); return } catch (e) { /* ignore */ }
     }
   }
 }
 
-/* ---------------------------
-   Оформление заказа
-   --------------------------- */
+/* Order */
 const isAuthenticated = computed(() => !!userStore.isAuthenticated)
-const userName = computed(() => {
-  const u = userStore.user || {}
-  if (u.name) return u.name
-  const first = u.firstName || u.first_name || ''
-  const last = u.lastName || u.last_name || ''
-  const full = `${first} ${last}`.trim()
-  return full || ''
-})
-const userContact = computed(() => {
-  const u = userStore.user || {}
-  return u.email || u.email_address || u.phone || ''
-})
 const userInfo = computed(() => userStore.user || {})
+const canPlaceOrder = computed(() => isAuthenticated.value && !!selectedDomain.value && !!selectedDomain.value.fqdn)
 
-const canPlaceOrder = computed(() => {
-  return isAuthenticated.value && !!selectedDomain.value && !!selectedDomain.value.fqdn
-})
-
-watch(isAuthenticated, (val) => {
-  if (val) {
-    if (userName.value) buyer.value.name = userName.value
-    if (userContact.value) buyer.value.contact = userContact.value
+watch(isAuthenticated, (v) => {
+  if (v) {
+    const u = userStore.user || {}
+    if (u.name) buyer.value.name = u.name
+    if (u.email) buyer.value.contact = u.email
   }
 })
 
-async function placeOrder() {
-  if (!isAuthenticated.value) {
-    router.push({ path: '/login' })
-    return
-  }
-
+async function placeOrder () {
+  if (!isAuthenticated.value) { router.push({ path: '/login' }); return }
   if (!selectedDomain.value) {
-    alertStore.showAlert({
-      title: 'Выберите домен',
-      message: 'Пожалуйста, выберите домен перед оформлением заказа.',
-      type: 'warning',
-      typeClass: 'alert-warning',
-      background: '#fff3cd',
-      color: '#856404',
-      autoClose: { enabled: true, delay: 4000 }
-    })
+    alertStore.showAlert({ title: 'Выберите домен', message: 'Пожалуйста, выберите домен перед оформлением заказа.', type: 'warning', typeClass: 'alert-warning', background: '#fff3cd', color: '#856404', autoClose: { enabled: true, delay: 4000 } })
     return
   }
 
   placing.value = true
-
   try {
-    // 1) если есть превью-промо и оно не применено — пробуем применить
     const ensure = await _ensurePromoAppliedBeforeOrder()
     if (ensure && ensure.message) {
-      alertStore.showAlert({
-        title: 'Промокод',
-        message: ensure.message,
-        type: 'warning',
-        typeClass: 'alert-warning',
-        background: '#fff3cd',
-        color: '#856404',
-        autoClose: { enabled: true, delay: 5000 }
-      })
+      alertStore.showAlert({ title: 'Промокод', message: ensure.message, type: 'warning', typeClass: 'alert-warning', background: '#fff3cd', color: '#856404', autoClose: { enabled: true, delay: 5000 } })
     }
 
-    // 2) Формируем минимальный payload для API (store.createOrder)
     const payload = {
       templateId: template.value.id,
       price: finalTotal.value,
       paymentMethod: 'balance',
-      // добавлено поле domain — сервер получит информацию о выбранном домене
       domain: {
         fqdn: selectedDomain.value.fqdn,
         price: Number(selectedDomain.value.price || 0),
-        currency: selectedDomain.value.price_currency || selectedDomain.value.priceCurrency || 'RUB',
+        currency: selectedDomain.value.price_currency || 'RUB',
         available: !!selectedDomain.value.available,
         id: selectedDomain.value.id ?? null
       }
     }
 
-    // Если есть применённый промокод — передаём данные как external, чтобы сервер мог создать запись order_externals
     if (promoAppliedExists.value || promoPreviewExists.value) {
       const code = appliedPromoCode.value || promoPreviewCode.value || promoCodeInput.value.trim()
       payload.external = {
         promocode: code || null,
-        total_price: subtotal.value,
+        total_price: subtotalBeforeTemplate.value,
         price: finalTotal.value,
         discount: totalDiscount.value,
         user_uid: _getUserUid()
       }
-
-      // если applied содержит redemptionId / uid — можно передать его как uid, сервер создаст/использует как нужно
-      if (codesStore.lastApplied && codesStore.lastApplied.redemptionId) {
-        payload.external.uid = codesStore.lastApplied.redemptionId
-      }
+      if (codesStore.lastApplied && codesStore.lastApplied.redemptionId) payload.external.uid = codesStore.lastApplied.redemptionId
     }
 
-    // 3) Отправляем на сервер через ordersStore
     const res = await ordersStore.createOrder(payload)
-
     if (!res || res.success === false) {
-      // show message from store if any, otherwise generic
       const msg = (res && res.message) ? res.message : 'Не удалось создать заказ'
-      alertStore.showAlert({
-        title: 'Ошибка',
-        message: msg,
-        type: 'error',
-        typeClass: 'alert-error',
-        background: '#f8d7da',
-        color: '#721c24',
-        autoClose: { enabled: true, delay: 6000 }
-      })
+      alertStore.showAlert({ title: 'Ошибка', message: msg, type: 'error', typeClass: 'alert-error', background: '#f8d7da', color: '#721c24', autoClose: { enabled: true, delay: 6000 } })
       return
     }
 
-    // success
-    const created = res.data
-    alertStore.showAlert({
-      title: 'Заявка отправлена',
-      message: `Итог: ${formatCurrency(finalTotal.value)}`,
-      type: 'success',
-      typeClass: 'alert-success',
-      background: '#d4edda',
-      color: '#155724',
-      autoClose: { enabled: true, delay: 4000 }
-    })
+    alertStore.showAlert({ title: 'Заявка отправлена', message: `Итог: ${formatCurrency(finalTotal.value)}`, type: 'success', typeClass: 'alert-success', background: '#d4edda', color: '#155724', autoClose: { enabled: true, delay: 4000 } })
 
-    // обновляем локальные списки (ordersStore уже добавляет локально в момент createOrder, но можно вызвать fetchUserOrders для синхронизации)
-    
-    try { 
-      await ordersStore.fetchUserOrders({ page: 1, perPage: 20 }) 
-    } 
-    catch (e) { 
-      console.log(e, 'error') 
-    }
+    try { await ordersStore.fetchUserOrders?.({ page: 1, perPage: 20 }) } catch (e) { /* ignore */ }
 
-    // 4) clean-up promo в сторах (если store поддерживает)
     await _cleanupPromoStateAfterOrder()
-
-    // 5) Сброс локальных полей
     await resetSelections()
 
-    // Навигация на страницу заказа (если backend вернул id)
-    if (created && created.id) {
-      // используем router.push чтобы гарантировать навигацию в разных окружениях
-      try { router.push({ path: '/profile', query: { tab: 'orders' } }) } catch (_) {}
-    }
+    const created = res.data
+    if (created && created.id) { try { router.push({ path: '/profile', query: { tab: 'orders' } }) } catch (e) {} }
   } catch (e) {
     console.error(e)
-    alertStore.showAlert({
-      title: 'Ошибка',
-      message: (e && e.message) ? e.message : 'Ошибка при оформлении заказа',
-      type: 'error',
-      typeClass: 'alert-error',
-      background: '#f8d7da',
-      color: '#721c24',
-      autoClose: { enabled: true, delay: 5000 }
-    })
-  } finally {
-    placing.value = false
-  }
+    alertStore.showAlert({ title: 'Ошибка', message: (e && e.message) ? e.message : 'Ошибка при оформлении заказа', type: 'error', typeClass: 'alert-error', background: '#f8d7da', color: '#721c24', autoClose: { enabled: true, delay: 5000 } })
+  } finally { placing.value = false }
 }
 
-/* Сброс/очистка локального состояния + попытка очистить preview/lastApplied в codesStore */
-async function resetSelections() {
-  addons.value.extraPage.enabled = false
-  addons.value.extraPage.count = 0
-  addons.value.customization.enabled = false
-  addons.value.customization.hours = 0
-  addons.value.priority.enabled = false
-  addons.value.hosting.enabled = false
+async function resetSelections () {
+  addons.value.extraPage.enabled = false; addons.value.extraPage.count = 0
+  addons.value.customization.enabled = false; addons.value.customization.hours = 0
+  addons.value.priority.enabled = false; addons.value.hosting.enabled = false
   buyer.value = { name: '', contact: '' }
   selectedDomain.value = null
 
-  // Очистим preview/lastApplied в codesStore если есть API
-  const clearFns = ['clearPreview', 'clearApplied', 'resetApplied', 'reset', 'clear']
+  const clearFns = ['clearPreview','clearApplied','resetApplied','reset','clear']
   for (const fn of clearFns) {
-    if (typeof codesStore[fn] === 'function') {
-      try { await codesStore[fn]() ; break } catch (e) { /* ignore */ }
-    }
+    if (typeof codesStore[fn] === 'function') { try { await codesStore[fn](); break } catch (e) { /* ignore */ } }
   }
 
   promoCodeInput.value = ''
@@ -694,6 +537,7 @@ async function resetSelections() {
 </script>
 
 <style scoped>
+/* стиль оставлен без изменений — см. ваш предыдущий CSS */
 .buy__container {
   padding: 1rem;
   min-height: 100vh;
@@ -1025,7 +869,7 @@ a:focus {
 }
 .domain-scroll__container {
   overflow-y: scroll;
-  height: 35rem;
+  min-height: 35rem;
 }
 .domain__container {
   display: flex;
