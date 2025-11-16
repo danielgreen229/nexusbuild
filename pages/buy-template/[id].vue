@@ -99,7 +99,7 @@
             </div>
 
             <div v-if="promoPreviewExists && !promoAppliedExists" class="note" style="color:#064e3b; margin-top:0.25rem;">
-              Превью промокода «{{ promoPreviewCode || promoCodeInput }}»: скидка {{ formatCurrency(promoPreviewDiscount) }} на сумму {{ formatCurrency(promoPreviewFinal) }}.
+              Промокод применен«{{ promoPreviewCode || promoCodeInput }}»: скидка составила {{ formatCurrency(promoPreviewDiscount) }}
             </div>
 
             <div v-if="promoAppliedExists" class="note" style="color:#064e3b; margin-top:0.25rem;">
@@ -165,7 +165,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch, nextTick } from 'vue'
+import { ref, computed, onMounted, watch, nextTick, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTemplateStore } from '~/stores/template'
 import { useUserStore } from '~/stores/user'
@@ -319,24 +319,35 @@ const promoAppliedExists = computed(() => !!codesStore.lastApplied)
 const appliedPromoDiscount = computed(() => Number(codesStore.lastApplied?.discount || 0))
 const appliedPromoCode = computed(() => codesStore.lastApplied?.code || '')
 
-/* promo effective: не больше суммы после скидки шаблона */
+
+/* promo effective: не больше суммы после скидки шаблона, округлённая */
 const promoDiscountEffective = computed(() => {
-  const applied = Number(appliedPromoDiscount.value || 0)
-  const preview = Number(promoPreviewDiscount.value || 0)
-  if (promoAppliedExists.value) return Math.min(applied, subtotalAfterTemplate.value)
-  if (promoPreviewExists.value) return Math.min(preview, subtotalAfterTemplate.value)
+  const applied = Math.round(Number(appliedPromoDiscount.value || 0))
+  const preview = Math.round(Number(promoPreviewDiscount.value || 0))
+  const cap = Math.round(Number(subtotalAfterTemplate.value || 0))
+
+  if (promoAppliedExists.value) return Math.min(applied, cap)
+  if (promoPreviewExists.value) return Math.min(preview, cap)
   return 0
 })
 
+
 const totalDiscount = computed(() => {
-  const tpl = Number(templateDiscountAmount.value || 0)
-  const promo = promoDiscountEffective.value || 0
-  return Math.min(tpl + promo, subtotalBeforeTemplate.value)
+  const tpl = Math.round(Number(templateDiscountAmount.value || 0))
+  const promo = Math.round(promoDiscountEffective.value || 0)
+  const before = Math.round(Number(subtotalBeforeTemplate.value || 0))
+  return Math.min(tpl + promo, before)
 })
 
 const finalTotal = computed(() => {
-  const t = subtotalAfterTemplate.value - promoDiscountEffective.value
-  return t > 0 ? Math.round(t) : 0
+  // считаем на целых рублях
+  const afterTpl = Math.round(Number(subtotalAfterTemplate.value || 0))
+  const promo = Math.round(promoDiscountEffective.value || 0)
+  const t = afterTpl - promo
+  if (t <= 0) return 0
+  // если остался дробный рубль (теоретически), но мы уже в целых — всё равно защита:
+  if (t > 0 && t < 1) return 1
+  return Math.round(t)
 })
 
 function formatCurrency (value) {
@@ -382,6 +393,7 @@ async function onApplyPromo () {
   const code = promoCodeTrimmed.value
   if (!code) { promoError.value = 'Введите код промокода'; return }
 
+  // Используем округлённую сумму после скидки шаблона
   const orderAmount = Math.round(Number(subtotalAfterTemplate.value || 0))
   if (orderAmount <= 0) {
     promoError.value = 'Сумма для промокода равна нулю. Добавьте домен или опции.'
@@ -394,6 +406,7 @@ async function onApplyPromo () {
     if (typeof codesStore.clearPreview === 'function') await codesStore.clearPreview()
     else codesStore.preview = null
 
+    // Передаём округлённую сумму
     const previewRes = await codesStore.previewPromocode(code, orderAmount, 'RUB')
     if (!previewRes || previewRes.success === false) {
       promoError.value = _friendlyPromoMessage(previewRes?.message)
@@ -407,6 +420,7 @@ async function onApplyPromo () {
     applyingPromo.value = false
   }
 }
+
 
 /* Перед заказом: если есть preview и пользователь залогинен — apply на сумму subtotalAfterTemplate */
 async function _ensurePromoAppliedBeforeOrder () {
@@ -458,6 +472,107 @@ watch(isAuthenticated, (v) => {
   }
 })
 
+let _promoReapplyTimer = null
+const PROMO_REAPPLY_DEBOUNCE_MS = 350
+
+// единственная вспомогательная функция, вызываемая из watcher'а
+async function _refreshPromoAfterPriceChange () {
+  // если нет кода/нет preview и нет applied — ничего не делаем
+  const hasPreview = promoPreviewExists.value
+  const hasApplied = promoAppliedExists.value
+  const code = (promoPreviewCode.value || promoCodeInput.value || appliedPromoCode.value || '').trim()
+  if (!code || (!hasPreview && !hasApplied)) {
+    // если промокод в сторе остался висеть, но кода нет — очистим preview
+    try { await _clearCodesPreviewIfAny() } catch (e) { /* ignore */ }
+    return
+  }
+
+  const orderAmount = Math.round(Number(subtotalAfterTemplate.value || 0))
+  if (orderAmount <= 0) {
+    // некорректная сумма — очищаем preview/applied аккуратно
+    try { await _clearCodesPreviewIfAny() } catch (e) { /* ignore */ }
+    return
+  }
+
+  applyingPromo.value = true
+  try {
+    // если промокод уже был применён — попробуем apply заново (для залогиненного пользователя)
+    if (hasApplied) {
+      const uid = _getUserUid()
+      if (!uid) {
+        // если пользователь вдруг разлогинился — очистим applied/preview
+        try { await _clearCodesPreviewIfAny() } catch (e) {}
+        return
+      }
+      // пробуем повторно применить на новую сумму
+      if (typeof codesStore.clearError === 'function') codesStore.clearError()
+      const res = await codesStore.applyPromocode({ code, uid, orderAmount, currency: 'RUB' })
+      // если apply вернул видимую ошибку, очищаем и покажем friendly (но не блокируем оформление)
+      if (!res || res.success === false) {
+        // очищаем applied-preview — чтобы не было рассинхрона
+        try { await _clearCodesPreviewIfAny() } catch (e) {}
+        const friendly = _friendlyPromoMessage(res?.message || (res && res.data && (res.data.message || res.data.error)))
+        // не показываем alert автоматически — оставляем сообщение в promoError, UI может показать
+        promoError.value = friendly
+      } else {
+        // успех — чистим ошибки
+        promoError.value = null
+      }
+      return
+    }
+
+    // иначе — у нас есть только preview, обновляем preview
+    if (hasPreview) {
+      if (typeof codesStore.clearError === 'function') codesStore.clearError()
+      const previewRes = await codesStore.previewPromocode(code, orderAmount, 'RUB')
+      if (!previewRes || previewRes.success === false) {
+        // ошибка превью — очищаем preview и ставим сообщение
+        try { await _clearCodesPreviewIfAny() } catch (e) {}
+        promoError.value = _friendlyPromoMessage(previewRes?.message)
+      } else {
+        promoError.value = null
+      }
+    }
+  } catch (e) {
+    console.error('_refreshPromoAfterPriceChange error', e)
+    promoError.value = _friendlyPromoMessage(e?.message || e)
+  } finally {
+    applyingPromo.value = false
+  }
+}
+
+// watcher: следим за subtotalAfterTemplate, дебаунсим
+watch(
+  () => Math.round(Number(subtotalAfterTemplate.value || 0)),
+  () => {
+    // очистим предыдущее таймерное срабатывание
+    if (_promoReapplyTimer) { clearTimeout(_promoReapplyTimer); _promoReapplyTimer = null }
+    _promoReapplyTimer = setTimeout(() => {
+      _refreshPromoAfterPriceChange().catch(e => { /* логируем в консоль, но не ломаем UI */ console.error(e) })
+      _promoReapplyTimer = null
+    }, PROMO_REAPPLY_DEBOUNCE_MS)
+  }
+)
+
+// также следим за изменением аутентификации — если пользователь залогинился и есть preview,
+// можно попытаться автоматически apply (поведение согласуется с вашим _ensurePromoAppliedBeforeOrder)
+watch(isAuthenticated, (val) => {
+  if (val && promoPreviewExists.value && promoCodeTrimmed.value) {
+    // если пользователь только что залогинился и был preview — попробуем apply автоматически
+    // (не ждем действия пользователя)
+    if (_promoReapplyTimer) { clearTimeout(_promoReapplyTimer); _promoReapplyTimer = null }
+    _promoReapplyTimer = setTimeout(() => {
+      _refreshPromoAfterPriceChange().catch(e => console.error(e))
+      _promoReapplyTimer = null
+    }, 120) // короткая задержка после логина
+  }
+})
+
+// очистка таймера при размонтировании компонента
+onBeforeUnmount(() => {
+  if (_promoReapplyTimer) { clearTimeout(_promoReapplyTimer); _promoReapplyTimer = null }
+})
+
 async function placeOrder () {
   if (!isAuthenticated.value) { router.push({ path: '/login' }); return }
   if (!selectedDomain.value) {
@@ -489,11 +604,12 @@ async function placeOrder () {
       const code = appliedPromoCode.value || promoPreviewCode.value || promoCodeInput.value.trim()
       payload.external = {
         promocode: code || null,
-        total_price: subtotalBeforeTemplate.value,
+        total_price: Math.round(Number(subtotalAfterTemplate.value || 0)),
         price: finalTotal.value,
         discount: totalDiscount.value,
         user_uid: _getUserUid()
       }
+
       if (codesStore.lastApplied && codesStore.lastApplied.redemptionId) payload.external.uid = codesStore.lastApplied.redemptionId
     }
 
