@@ -120,6 +120,7 @@
     "../node_modules/@pinia/nuxt/runtime/server",
     "../node_modules/@nuxt/fonts/runtime/server",
     "../node_modules/nuxt-svgo/runtime/server",
+    "../node_modules/yandex-metrika-module-nuxt3/runtime/server",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
     "./types/nitro.d.ts",
@@ -133,6 +134,7 @@
     "../node_modules/@pinia/nuxt/node_modules",
     "../node_modules/@nuxt/fonts/node_modules",
     "../node_modules/nuxt-svgo/node_modules",
+    "../node_modules/yandex-metrika-module-nuxt3/node_modules",
     "../node_modules/@nuxt/devtools/node_modules",
     "../node_modules/@nuxt/telemetry/node_modules",
     "../dist"

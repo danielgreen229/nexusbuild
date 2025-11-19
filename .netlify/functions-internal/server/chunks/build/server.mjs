@@ -524,7 +524,7 @@ const _routes = [
   {
     name: "services",
     path: "/services",
-    component: () => import('./services-DshSlPvE.mjs')
+    component: () => import('./services-Ki5Uyr1-.mjs')
   },
   {
     name: "acception",
@@ -539,12 +539,12 @@ const _routes = [
   {
     name: "buy-domain",
     path: "/buy-domain",
-    component: () => import('./buy-domain-BP7tw5ut.mjs')
+    component: () => import('./buy-domain-CPcX1s7Z.mjs')
   },
   {
     name: "profile",
     path: "/profile",
-    component: () => import('./index-Mln9Hlzr.mjs')
+    component: () => import('./index-DapKHjsA.mjs')
   },
   {
     name: "reset-password",
@@ -554,7 +554,7 @@ const _routes = [
   {
     name: "buy-template-id",
     path: "/buy-template/:id()",
-    component: () => import('./_id_-DZtv1EOn.mjs')
+    component: () => import('./_id_-BYsi30Ka.mjs')
   },
   {
     name: "buy-template",
@@ -564,7 +564,7 @@ const _routes = [
   {
     name: "profile-orders-id",
     path: "/profile/orders/:id()",
-    component: () => import('./_id_-Bu2PgYw4.mjs')
+    component: () => import('./_id_-B9EO1xxJ.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -1257,6 +1257,7 @@ const LazySvgoOpenNext = defineAsyncComponent(() => import('./open-next-Bh2lDVNL
 const LazySvgoOpen = defineAsyncComponent(() => import('./open-DusRF1eb.mjs').then((r) => r["default"] || r.default || r));
 const LazySvgoTg = defineAsyncComponent(() => Promise.resolve().then(() => tg).then((r) => r["default"] || r.default || r));
 const LazySvgoUser = defineAsyncComponent(() => import('./user-Tg2Xnev4.mjs').then((r) => r["default"] || r.default || r));
+const LazySvgoVectorRight = defineAsyncComponent(() => import('./vector-right-DRGQ20Mc.mjs').then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["SvgoBigEmail", LazySvgoBigEmail],
   ["SvgoIconClick", LazySvgoIconClick],
@@ -1273,7 +1274,8 @@ const lazyGlobalComponents = [
   ["SvgoOpenNext", LazySvgoOpenNext],
   ["SvgoOpen", LazySvgoOpen],
   ["SvgoTg", LazySvgoTg],
-  ["SvgoUser", LazySvgoUser]
+  ["SvgoUser", LazySvgoUser],
+  ["SvgoVectorRight", LazySvgoVectorRight]
 ];
 const components_plugin_z4hgvsiddfKkfXTP6M8M4zG5Cb7sGnDhcryKVM45Di4 = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:global-components",
@@ -1420,7 +1422,7 @@ _sfc_main$d.setup = (props, ctx) => {
 };
 const NuxtIcon = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["ssrRender", _sfc_ssrRender]]);
 const API = {
-  currentBuild: "dev",
+  currentBuild: "base",
   // 'dev' или 'base'
   base: {
     protocol: "https",
@@ -2348,7 +2350,7 @@ const _sfc_main$7 = {
     const primaryPages = [
       { path: "/templates", title: "шаблоны" },
       { path: "/services", title: "услуги" },
-      { path: "/services", title: "3D-модели" }
+      { path: "/services?3d=1", title: "3D-модели" }
       // исправленный путь
     ];
     const secondaryPages = [
@@ -2357,7 +2359,7 @@ const _sfc_main$7 = {
     ];
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_0$1;
-      _push(`<!--[--><header class="${ssrRenderClass([{ "main-header": !unref(isHome) }, "app-header"])}" data-v-87a78d2d><div class="${ssrRenderClass([{ "main-header__container": !unref(isHome) }, "app-header__container"])}" data-v-87a78d2d><div class="app-header__top" data-v-87a78d2d>`);
+      _push(`<!--[--><header class="${ssrRenderClass([{ "main-header": !unref(isHome) }, "app-header"])}" data-v-6fcf3851><div class="${ssrRenderClass([{ "main-header__container": !unref(isHome) }, "app-header__container"])}" data-v-6fcf3851><div class="app-header__top" data-v-6fcf3851>`);
       _push(ssrRenderComponent(_component_NuxtLink, {
         to: "/",
         class: ["app-header__logo", { "main-header__logo": !unref(isHome) }],
@@ -2380,9 +2382,9 @@ const _sfc_main$7 = {
         }),
         _: 1
       }, _parent));
-      _push(`<nav aria-label="Главное меню" class="${ssrRenderClass([{ "main-nav--primary": !unref(isHome) }, "app-nav app-nav--primary"])}" data-v-87a78d2d><ul class="${ssrRenderClass([{ "main-nav__list": !unref(isHome) }, "app-nav__list"])}" data-v-87a78d2d><!--[-->`);
+      _push(`<nav aria-label="Главное меню" class="${ssrRenderClass([{ "main-nav--primary": !unref(isHome) }, "app-nav app-nav--primary"])}" data-v-6fcf3851><ul class="${ssrRenderClass([{ "main-nav__list": !unref(isHome) }, "app-nav__list"])}" data-v-6fcf3851><!--[-->`);
       ssrRenderList(primaryPages, (page) => {
-        _push(`<li class="app-nav__item" data-v-87a78d2d>`);
+        _push(`<li class="app-nav__item" data-v-6fcf3851>`);
         _push(ssrRenderComponent(_component_NuxtLink, {
           to: page.path,
           class: ["app-nav__link", { "main-nav__link": !unref(isHome) }],
@@ -2403,9 +2405,9 @@ const _sfc_main$7 = {
         }, _parent));
         _push(`</li>`);
       });
-      _push(`<!--]--></ul></nav><div class="${ssrRenderClass([{ "main-header__actions": !unref(isHome) }, "app-header__actions"])}" data-v-87a78d2d>`);
+      _push(`<!--]--></ul></nav><div class="${ssrRenderClass([{ "main-header__actions": !unref(isHome) }, "app-header__actions"])}" data-v-6fcf3851>`);
       if (unref(isHome)) {
-        _push(`<a href="#" class="nuxt-link__a" aria-label="Перейти к форме заказа" data-v-87a78d2d><div class="goto__template" data-v-87a78d2d>заказать</div></a>`);
+        _push(`<a href="#" class="nuxt-link__a" aria-label="Перейти к форме заказа" data-v-6fcf3851><div class="goto__template" data-v-6fcf3851>заказать</div></a>`);
       } else {
         _push(`<!---->`);
       }
@@ -2414,7 +2416,7 @@ const _sfc_main$7 = {
       } else {
         _push(`<!---->`);
       }
-      _push(`<div class="${ssrRenderClass([{ "main-burger-mobile__container": !unref(isHome) }, "burger-mobile__container"])}" role="button" aria-label="Открыть меню" data-v-87a78d2d><div class="burger-stick" data-v-87a78d2d></div><div class="burger-stick" data-v-87a78d2d></div><div class="burger-stick" data-v-87a78d2d></div></div></div></div></div>`);
+      _push(`<div class="${ssrRenderClass([{ "main-burger-mobile__container": !unref(isHome) }, "burger-mobile__container"])}" role="button" aria-label="Открыть меню" data-v-6fcf3851><div class="burger-stick" data-v-6fcf3851></div><div class="burger-stick" data-v-6fcf3851></div><div class="burger-stick" data-v-6fcf3851></div></div></div></div></div>`);
       ssrRenderTeleport(_push, (_push2) => {
         _push2(ssrRenderComponent(LoginModal, {
           visible: isLoginModalOpen.value,
@@ -2440,7 +2442,7 @@ _sfc_main$7.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ui/Nav/LandingHeader.vue");
   return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
-const LandingHeader = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["__scopeId", "data-v-87a78d2d"]]);
+const LandingHeader = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["__scopeId", "data-v-6fcf3851"]]);
 const shapeSrc = "" + __buildAssetsURL("shape.BN2sWH-d.png");
 const _hoisted_1 = {
   xmlns: "http://www.w3.org/2000/svg",
@@ -2469,10 +2471,21 @@ const useAlertStore = defineStore("alert", {
      * @returns {string|number} id созданного алерта
      */
     showAlert(alert) {
+      var _a;
       const id = Date.now() + Math.random();
       const alertWithId = { ...alert, id };
       this.alerts.push(alertWithId);
-      if (process && false) ;
+      if ((_a = alertWithId.autoClose) == null ? void 0 : _a.enabled) {
+        const delay = alertWithId.autoClose.delay ?? 3e3;
+        const t = setTimeout(() => {
+          try {
+            this.removeAlert(id);
+          } catch (e) {
+            clearTimeout(t);
+          }
+        }, delay);
+        alertWithId._timeout = t;
+      }
       return id;
     },
     /**
@@ -2483,14 +2496,12 @@ const useAlertStore = defineStore("alert", {
       const idx = this.alerts.findIndex((a2) => a2.id === id);
       if (idx === -1) return;
       const a = this.alerts[idx];
-      if (a && a._timeout) {
-        clearTimeout(a._timeout);
-      }
+      if (a == null ? void 0 : a._timeout) clearTimeout(a._timeout);
       this.alerts.splice(idx, 1);
     },
     removeAll() {
       for (const a of this.alerts) {
-        if (a && a._timeout) clearTimeout(a._timeout);
+        if (a == null ? void 0 : a._timeout) clearTimeout(a._timeout);
       }
       this.alerts = [];
     }
@@ -3521,7 +3532,7 @@ _sfc_main$3.setup = (props, ctx) => {
 const AlertsContainer = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-e238137d"]]);
 const SITE_NAME = "sitebypro";
 const SITE_URL = "https://sitebypro.com";
-const DEFAULT_OG_IMAGE = SITE_URL + "/files/store/preview.png";
+const DEFAULT_OG_IMAGE = "https://sitebypro-server.ru/static/files/store/preview.png";
 const defaultHead = {
   title: "Главная",
   // оставляем titleTemplate — Nuxt / useHead применит его один раз

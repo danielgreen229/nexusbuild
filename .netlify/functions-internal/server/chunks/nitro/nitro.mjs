@@ -4001,7 +4001,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "9c313fbd-0a44-493e-947e-57e58d4633df",
+    "buildId": "989fe674-6e49-4569-9b61-7525f833983c",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -4033,7 +4033,26 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {},
+  "public": {
+    "yandexMetrika": {
+      "id": "105400670",
+      "metrikaUrl": "https://mc.yandex.ru/metrika/tag.js",
+      "accurateTrackBounce": true,
+      "childIframe": false,
+      "clickmap": true,
+      "defer": false,
+      "useRuntimeConfig": true,
+      "trackHash": false,
+      "trackLinks": true,
+      "type": 0,
+      "webvisor": true,
+      "triggerEvent": false,
+      "consoleLog": true,
+      "partytown": false,
+      "useCDN": false,
+      "isDev": false
+    }
+  },
   "ipx": {
     "baseURL": "/_ipx",
     "alias": {},

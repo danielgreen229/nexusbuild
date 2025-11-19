@@ -1,0 +1,1 @@
+import{_ as o,c as s,o as t,a as n}from"./D_JQTfwH.js";const a={},c={class:"container"};function r(l,e){return t(),s("div",c,e[0]||(e[0]=[n("h1",null,"Контакты",-1),n("p",null,"Свяжитесь с нами для заказа сайта",-1)]))}const f=o(a,[["render",r]]);export{f as default};

@@ -12,8 +12,24 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   css: ['~/assets/css/main.css'],
-  modules: ['@nuxt/image', '@pinia/nuxt', '@nuxt/fonts', 'nuxt-svgo'],
-
+  modules: [
+    '@nuxt/image', 
+    '@pinia/nuxt', 
+    '@nuxt/fonts', 
+    'nuxt-svgo', 
+    [
+      'yandex-metrika-module-nuxt3',
+      {
+        id: '105400670',
+        webvisor: true,
+        consoleLog: true,
+        clickmap: true,
+        useCDN: false,
+        trackLinks: true,
+        accurateTrackBounce: true,
+      }
+    ]
+  ],
   fonts: {
     families: [
       {
