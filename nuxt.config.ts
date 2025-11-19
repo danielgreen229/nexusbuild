@@ -22,7 +22,7 @@ export default defineNuxtConfig({
       {
         id: '105400670',
         webvisor: true,
-        consoleLog: true,
+        consoleLog: false,
         clickmap: true,
         useCDN: false,
         trackLinks: true,
